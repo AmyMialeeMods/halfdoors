@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/door_rh",
+  "textures": {
+    "bottom": "halfdoors:block/dark_oak_halfdoor"
+  }
+}
