@@ -1,0 +1,11 @@
+{
+  "block.halfdoors.oak_halfdoor" : "Oak Halfdoor",
+  "block.halfdoors.spruce_halfdoor" : "Spruce Halfdoor",
+  "block.halfdoors.birch_halfdoor" : "Birch Halfdoor",
+  "block.halfdoors.jungle_halfdoor" : "Jungle Halfdoor",
+  "block.halfdoors.acacia_halfdoor" : "Acacia Halfdoor",
+  "block.halfdoors.dark_oak_halfdoor" : "Dark Oak Halfdoor",
+  "block.halfdoors.crimson_halfdoor" : "Crimson Halfdoor",
+  "block.halfdoors.warped_halfdoor" : "Warped Halfdoor",
+  "block.halfdoors.iron_halfdoor" : "Iron Halfdoor"
+}
