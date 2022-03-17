@@ -154,20 +154,11 @@ public class HalfDoorBlock extends Block {
         boolean bl = world.isReceivingRedstonePower(pos);
         if (!this.getDefaultState().isOf(block) && bl != state.get(POWERED)) {
             if (bl != state.get(OPEN)) {
-                this.playOpenCloseSound(world, pos, bl);
+                world.syncWorldEvent(null, bl ? this.getOpenSoundEventId() : this.getCloseSoundEventId(), pos, 0);
                 world.emitGameEvent(bl ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
             }
             world.setBlockState(pos, state.with(POWERED, bl).with(OPEN, bl), Block.NOTIFY_LISTENERS);
         }
-    }
-
-    private void playOpenCloseSound(World world, BlockPos pos, boolean open) {
-        world.syncWorldEvent(null, open ? this.getOpenSoundEventId() : this.getCloseSoundEventId(), pos, 0);
-    }
-
-    @Override
-    public PistonBehavior getPistonBehavior(BlockState state) {
-        return PistonBehavior.DESTROY;
     }
 
     @Override
@@ -181,11 +172,6 @@ public class HalfDoorBlock extends Block {
             return state;
         }
         return state.rotate(mirror.getRotation(state.get(FACING))).cycle(HINGE);
-    }
-
-    @Override
-    public long getRenderingSeed(BlockState state, BlockPos pos) {
-        return MathHelper.hashCode(pos.getX(), pos.getY(), pos.getZ());
     }
 
     @Override
