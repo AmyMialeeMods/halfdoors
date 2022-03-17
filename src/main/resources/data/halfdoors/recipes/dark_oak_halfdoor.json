@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_door",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:dark_oak_door"
+    }
+  },
+  "result": {
+    "item": "halfdoors:dark_oak_halfdoor",
+    "count": 6
+  }
+}
