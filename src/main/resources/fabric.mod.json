@@ -3,9 +3,14 @@
   "id": "halfdoors",
   "version": "${version}",
   "name": "Half Doors",
-  "description": "",
-  "authors": [],
-  "contact": {},
+  "description": "Slabbed entryways!",
+  "authors": [
+    "AmyMialee"
+  ],
+  "contact": {
+    "homepage": "https://github.com/AmyMialeeMods/icy-incitement",
+    "issues": "https://github.com/AmyMialeeMods/icy-incitement/issues"
+  },
   "license": "All-Rights-Reserved",
   "icon": "assets/halfdoors/icon.png",
   "environment": "*",
@@ -17,12 +22,7 @@
       "amymialee.halfdoors.Halfdoors"
     ]
   },
-  "mixins": [
-    "halfdoors.mixins.json"
-  ],
   "depends": {
-    "fabricloader": ">=0.13.3",
-    "fabric": "*",
-    "minecraft": "1.18.2"
+    "fabric": "*"
   }
 }
