@@ -1,4 +1,4 @@
-# Half Doors
+# Halfdoors
 
 Halfdoors is a little mod which adds a new door variation to the game, Halfdoors!
 
