@@ -1,0 +1,8 @@
+{
+  "type": "halfdoors:doorcutting",
+  "ingredient": {
+    "item": "minecraft:warped_door"
+  },
+  "result": "halfdoors:warped_halfdoor",
+  "count": 2
+}

@@ -1,0 +1,8 @@
+{
+  "type": "halfdoors:doorcutting",
+  "ingredient": {
+    "item": "minecraft:crimson_door"
+  },
+  "result": "halfdoors:crimson_halfdoor",
+  "count": 2
+}

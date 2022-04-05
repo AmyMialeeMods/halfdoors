@@ -1,4 +1,6 @@
 {
+  "itemGroup.halfdoors.halfdoor_group" : "Halfdoors",
+
   "block.halfdoors.iron_fence_gate" : "Iron Fence Gate",
   "block.halfdoors.oak_halfdoor" : "Oak Halfdoor",
   "block.halfdoors.spruce_halfdoor" : "Spruce Halfdoor",
@@ -8,5 +10,8 @@
   "block.halfdoors.dark_oak_halfdoor" : "Dark Oak Halfdoor",
   "block.halfdoors.crimson_halfdoor" : "Crimson Halfdoor",
   "block.halfdoors.warped_halfdoor" : "Warped Halfdoor",
-  "block.halfdoors.iron_halfdoor" : "Iron Halfdoor"
+  "block.halfdoors.iron_halfdoor" : "Iron Halfdoor",
+
+  "container.doorcutter" : "Doorcutter",
+  "block.halfdoors.doorcutter" : "Doorcutter"
 }

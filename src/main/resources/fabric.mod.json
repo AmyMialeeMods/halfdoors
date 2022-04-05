@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "id": "halfdoors",
   "version": "${version}",
+  "accessWidener" : "halfdoors.accesswidener",
   "name": "Half Doors",
   "description": "Slabbed entryways!",
   "authors": [

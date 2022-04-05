@@ -1,0 +1,8 @@
+{
+  "type": "halfdoors:doorcutting",
+  "ingredient": {
+    "item": "minecraft:jungle_door"
+  },
+  "result": "halfdoors:jungle_halfdoor",
+  "count": 2
+}

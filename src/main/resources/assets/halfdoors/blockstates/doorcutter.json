@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "halfdoors:block/doorcutter",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "halfdoors:block/doorcutter"
+    },
+    "facing=south": {
+      "model": "halfdoors:block/doorcutter",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "halfdoors:block/doorcutter",
+      "y": 270
+    }
+  }
+}
