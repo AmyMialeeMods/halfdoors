@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "amymialee.halfdoors.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "CuttingRecipeInvoker"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
