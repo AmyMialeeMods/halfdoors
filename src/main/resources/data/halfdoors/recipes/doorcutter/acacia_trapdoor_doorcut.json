@@ -1,0 +1,8 @@
+{
+  "type": "halfdoors:doorcutting",
+  "ingredient": {
+    "item": "minecraft:acacia_door"
+  },
+  "result": "minecraft:acacia_trapdoor",
+  "count": 2
+}
