@@ -12,19 +12,20 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.*;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
@@ -61,18 +62,20 @@ public class Halfdoors implements ModInitializer, ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        BlockRenderLayerMap.INSTANCE.putBlock(IRON_FENCE_GATE, RenderLayer.getTranslucent());
-        BlockRenderLayerMap.INSTANCE.putBlock(IRON_HALFDOOR, RenderLayer.getTranslucent());
-        BlockRenderLayerMap.INSTANCE.putBlock(OAK_HALFDOOR, RenderLayer.getTranslucent());
-        BlockRenderLayerMap.INSTANCE.putBlock(SPRUCE_HALFDOOR, RenderLayer.getTranslucent());
-        BlockRenderLayerMap.INSTANCE.putBlock(BIRCH_HALFDOOR, RenderLayer.getTranslucent());
-        BlockRenderLayerMap.INSTANCE.putBlock(JUNGLE_HALFDOOR, RenderLayer.getTranslucent());
-        BlockRenderLayerMap.INSTANCE.putBlock(ACACIA_HALFDOOR, RenderLayer.getTranslucent());
-        BlockRenderLayerMap.INSTANCE.putBlock(DARK_OAK_HALFDOOR, RenderLayer.getTranslucent());
-        BlockRenderLayerMap.INSTANCE.putBlock(CRIMSON_HALFDOOR, RenderLayer.getTranslucent());
-        BlockRenderLayerMap.INSTANCE.putBlock(WARPED_HALFDOOR, RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(IRON_FENCE_GATE, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(IRON_HALFDOOR, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(OAK_HALFDOOR, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(SPRUCE_HALFDOOR, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(BIRCH_HALFDOOR, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(JUNGLE_HALFDOOR, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ACACIA_HALFDOOR, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(DARK_OAK_HALFDOOR, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(CRIMSON_HALFDOOR, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(WARPED_HALFDOOR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(DOORCUTTER, RenderLayer.getCutout());
         HandledScreens.register(DOOR_CUTTER_SCREEN_HANDLER, DoorcutterScreen::new);
+
+        FabricLoader.getInstance().getModContainer(MOD_ID).ifPresent(modContainer -> ResourceManagerHelper.registerBuiltinResourcePack(id("flatdoorcutters"), modContainer, ResourcePackActivationType.NORMAL));
     }
 
     private static Block registerBlock(String name, Block block) {
