@@ -2,3 +2,8 @@ accessWidener v1 named
 accessible class net/minecraft/screen/ScreenHandlerType$Factory
 accessible method net/minecraft/screen/ScreenHandlerType <init> (Lnet/minecraft/screen/ScreenHandlerType$Factory;)V
 accessible class net/minecraft/recipe/CuttingRecipe$Serializer$RecipeFactory
+accessible field net/minecraft/entity/projectile/PersistentProjectileEntity piercedEntities Lit/unimi/dsi/fastutil/ints/IntOpenHashSet;
+accessible field net/minecraft/entity/projectile/PersistentProjectileEntity piercingKilledEntities Ljava/util/List;
+accessible field net/minecraft/recipe/SmithingRecipe base Lnet/minecraft/recipe/Ingredient;
+accessible field net/minecraft/recipe/SmithingRecipe addition Lnet/minecraft/recipe/Ingredient;
+accessible field net/minecraft/recipe/SmithingRecipe result Lnet/minecraft/item/ItemStack;

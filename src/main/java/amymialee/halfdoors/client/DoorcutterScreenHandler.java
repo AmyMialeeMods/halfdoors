@@ -31,8 +31,7 @@ public class DoorcutterScreenHandler extends ScreenHandler {
     final Slot inputSlot;
     final Slot outputSlot;
     Runnable contentsChangedListener = () -> {};
-    public final Inventory input = new SimpleInventory(1){
-
+    public final Inventory input = new SimpleInventory(1) {
         @Override
         public void markDirty() {
             super.markDirty();

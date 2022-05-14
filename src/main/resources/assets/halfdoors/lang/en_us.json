@@ -13,5 +13,13 @@
   "block.halfdoors.iron_halfdoor" : "Iron Halfdoor",
 
   "container.doorcutter" : "Doorcutter",
-  "block.halfdoors.doorcutter" : "Doorcutter"
+  "block.halfdoors.doorcutter" : "Doorcutter",
+
+  "item.halfdoors.door_launcher" : "Door Launcher",
+  "modifier.halfdoors.shulker" : "Storage Upgrade",
+  "modifier.halfdoors.trident" : "Loyalty Upgrade",
+  "modifier.halfdoors.netherite" : "Netherite Upgrade",
+  "container.door_launcher" : "Door Launcher",
+  "subtitles.item.doorblade.hit_ground" : "Doorblade lands",
+  "subtitles.doorlauncher.fire" : "Door Launcher fires"
 }

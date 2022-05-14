@@ -17,12 +17,15 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "amymialee.halfdoors.Halfdoors"
+      "amymialee.halfdoors.HalfdoorsClient"
     ],
     "main": [
       "amymialee.halfdoors.Halfdoors"
     ]
   },
+  "mixins": [
+    "halfdoors.mixins.json"
+  ],
   "depends": {
     "fabric": "*"
   }
