@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:block/cube_column",
+	"textures": {
+		"end": "peculiarpieces:block/warp_block_top",
+		"side": "peculiarpieces:block/warp_block_side"
+	}
+}

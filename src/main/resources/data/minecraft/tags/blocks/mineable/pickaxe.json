@@ -3,6 +3,7 @@
   "values": [
     "halfdoors:iron_fence_gate",
     "halfdoors:iron_halfdoor",
-    "halfdoors:doorcutter"
+    "halfdoors:doorcutter",
+    "peculiarpieces:slippery_stone"
   ]
 }

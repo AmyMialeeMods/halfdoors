@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  L",
+    " S ",
+    "F  "
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:lead"
+    },
+    "S": {
+      "item": "minecraft:slime_ball"
+    },
+    "F": {
+      "item": "minecraft:fishing_rod"
+    }
+  },
+  "result": {
+    "item": "peculiarpieces:mounting_stick"
+  }
+}

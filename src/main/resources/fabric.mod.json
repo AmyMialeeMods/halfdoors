@@ -17,16 +17,20 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "amymialee.halfdoors.HalfdoorsClient"
+      "amymialee.halfdoors.HalfdoorsClient",
+      "amymialee.peculiarpieces.PeculiarPiecesClient"
     ],
     "main": [
-      "amymialee.halfdoors.Halfdoors"
+      "amymialee.halfdoors.Halfdoors",
+      "amymialee.peculiarpieces.PeculiarPieces"
     ]
   },
   "mixins": [
-    "halfdoors.mixins.json"
+    "halfdoors.mixins.json",
+    "peculiarpieces.mixins.json"
   ],
   "depends": {
-    "fabric": "*"
+    "fabric": "*",
+    "trinkets": ">=3.0.0"
   }
 }

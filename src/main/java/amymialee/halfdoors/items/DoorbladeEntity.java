@@ -167,7 +167,7 @@ public class DoorbladeEntity extends PersistentProjectileEntity {
                     this.piercingKilledEntities.add(livingEntity);
                 }
             }
-            this.playSound(this.getSound(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
+            this.playSound(this.getSound(), 0.6F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
         }
     }
 
