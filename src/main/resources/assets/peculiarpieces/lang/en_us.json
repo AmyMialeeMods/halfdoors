@@ -14,7 +14,7 @@
   "block.peculiarpieces.warp_block" : "Warp Block",
   "peculiarpieces.container.warp_block" : "Warp Block",
   "peculiarpieces.pearl.empty" : "Empty.",
-  "peculiarpieces.transport_pearl.empty" : "%d: Empty.",
+  "peculiarpieces.transport_pearl.empty" : "%s: Empty.",
   "peculiarpieces.pearl.bind" : "Shift click to bind to a location.",
   "peculiarpieces.pearl.bind_stone" : "Shift click on a lodestone to bind to it's location.",
 

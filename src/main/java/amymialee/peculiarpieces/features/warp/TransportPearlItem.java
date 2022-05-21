@@ -11,6 +11,8 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.stat.Stats;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -73,7 +75,10 @@ public class TransportPearlItem extends Item {
             NbtCompound nbtCompound = stack.getSubNbt("display");
             if (nbtCompound != null) {
                 if (nbtCompound.contains("Name")) {
-                    mainCompound.putString("pp:stone_name_%d".formatted(getSlot(stack)), nbtCompound.getString("Name"));
+                    MutableText text = Text.Serializer.fromJson(nbtCompound.getString("Name"));
+                    if (text != null ) {
+                        mainCompound.putString("pp:stone_name_%d".formatted(getSlot(stack)), text.getString());
+                    }
                 }
                 nbtCompound.remove("Name");
                 if (nbtCompound.isEmpty()) {
@@ -85,11 +90,10 @@ public class TransportPearlItem extends Item {
         stack.getOrCreateNbt().putInt("pp:selected", PeculiarHelper.clampLoop(0, 7, getSlot(stack) + 1));
 
         {
-            NbtCompound nbtCompound = stack.getOrCreateSubNbt("display");
             if (mainCompound.contains("pp:stone_name_%d".formatted(getSlot(stack)))) {
-                nbtCompound.putString("Name", Text.Serializer.toJson(Text.of(mainCompound.getString("pp:stone_name_%d".formatted(getSlot(stack))))));
+                stack.setCustomName(new LiteralText(mainCompound.getString("pp:stone_name_%d".formatted(getSlot(stack)))).fillStyle(Style.EMPTY.withItalic(false)));
             } else {
-                nbtCompound.remove("Name");
+                stack.removeCustomName();
             }
         }
     }
@@ -110,7 +114,11 @@ public class TransportPearlItem extends Item {
                     tooltip.add(new TranslatableText((i + 1) + ": x%d, y%d, z%d".formatted(pos.getX(), pos.getY(), pos.getZ())).setStyle(Style.EMPTY.withColor(MathHelper.hsvToRgb(((float)(i + 1) / 8), 1.0f, 1.0f))));
                 }
             } else {
-                tooltip.add(new TranslatableText("peculiarpieces.transport_pearl.empty", i + 1).setStyle(Style.EMPTY.withColor(MathHelper.hsvToRgb(((float)(i + 1) / 8), 1.0f, 1.0f))));
+                if (compound.contains("pp:stone_name_%d".formatted(i))) {
+                    tooltip.add(new TranslatableText("peculiarpieces.transport_pearl.empty", compound.getString("pp:stone_name_%d".formatted(i))).setStyle(Style.EMPTY.withColor(MathHelper.hsvToRgb(((float)(i + 1) / 8), 1.0f, 1.0f))));
+                } else {
+                    tooltip.add(new TranslatableText("peculiarpieces.transport_pearl.empty", i + 1).setStyle(Style.EMPTY.withColor(MathHelper.hsvToRgb(((float)(i + 1) / 8), 1.0f, 1.0f))));
+                }
             }
         }
         super.appendTooltip(stack, world, tooltip, context);

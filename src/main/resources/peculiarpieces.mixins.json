@@ -6,6 +6,7 @@
   "mixins": [
     "BoatEntityMixin",
     "EntityAccessor",
+    "ItemStackMixin",
     "LivingEntityMixin",
     "PlayerEntityMixin",
     "ServerPlayerInteractionManagerMixin"
