@@ -1,11 +1,13 @@
 package amymialee.peculiarpieces.features.warp.block;
 
 import amymialee.peculiarpieces.PeculiarPieces;
+import amymialee.peculiarpieces.features.checkpoint.CheckpointPlayerWrapper;
 import amymialee.peculiarpieces.features.warp.PositionPearlItem;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
@@ -13,9 +15,10 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.util.math.Vec3d;
 
 public class WarpBlockEntity extends LootableContainerBlockEntity {
     private DefaultedList<ItemStack> inventory;
@@ -25,18 +28,24 @@ public class WarpBlockEntity extends LootableContainerBlockEntity {
         this.inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
     }
 
-    public void onEntityCollided(World world, Entity entity) {
+    public void onEntityCollided(Entity entity) {
         ItemStack stack = inventory.get(0);
-        if (stack.isOf(PeculiarPieces.POS_PEARL)) {
+        if (stack.isOf(PeculiarPieces.POS_PEARL) || stack.isOf(PeculiarPieces.CONSUMABLE_POS_PEARL)) {
             NbtCompound compound = stack.getOrCreateNbt();
             if (compound.contains("pp:stone")) {
                 BlockPos pos = PositionPearlItem.readStone(stack);
-                if (world.getBlockState(pos.add(0, -1, 0)).isIn(PeculiarPieces.WARP_BINDABLE)) {
-                    if (entity instanceof LivingEntity livingEntity) {
-                        livingEntity.teleport(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, true);
-                    } else {
-                        entity.teleport(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-                    }
+                if (entity instanceof LivingEntity livingEntity) {
+                    livingEntity.teleport(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, true);
+                } else {
+                    entity.teleport(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+                }
+            }
+        } else if (stack.isOf(PeculiarPieces.CHECKPOINT_PEARL)) {
+            if (entity instanceof PlayerEntity player && player instanceof CheckpointPlayerWrapper checkPlayer) {
+                Vec3d checkpointPos = checkPlayer.getCheckpointPos();
+                if (checkpointPos != null) {
+                    player.teleport(checkpointPos.getX(), checkpointPos.getY(), checkpointPos.getZ(), true);
+                    player.sendMessage(new TranslatableText("%s.checkpoint_returned".formatted(PeculiarPieces.MOD_ID)).formatted(Formatting.GRAY), true);
                 }
             }
         }

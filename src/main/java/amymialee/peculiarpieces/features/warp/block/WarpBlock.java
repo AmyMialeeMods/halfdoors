@@ -73,7 +73,7 @@ public class WarpBlock extends BlockWithEntity {
                 if (player.isSneaking() && player.getAbilities().allowModifyWorld) {
                     player.openHandledScreen(warpBlockEntity);
                 } else {
-                    warpBlockEntity.onEntityCollided(world, player);
+                    warpBlockEntity.onEntityCollided(player);
                 }
             }
             return ActionResult.CONSUME;
@@ -124,9 +124,11 @@ public class WarpBlock extends BlockWithEntity {
 
     @Override
     public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof WarpBlockEntity warpBlockEntity) {
-            warpBlockEntity.onEntityCollided(world, entity);
+        if (!world.isClient()) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof WarpBlockEntity warpBlockEntity) {
+                warpBlockEntity.onEntityCollided(entity);
+            }
         }
         super.onSteppedOn(world, pos, state, entity);
     }

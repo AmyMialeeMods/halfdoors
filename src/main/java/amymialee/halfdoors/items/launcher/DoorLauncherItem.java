@@ -1,4 +1,4 @@
-package amymialee.halfdoors.items;
+package amymialee.halfdoors.items.launcher;
 
 import amymialee.halfdoors.Halfdoors;
 import amymialee.halfdoors.inventory.LauncherScreenHandler;

@@ -20,7 +20,7 @@ public abstract class ItemStackMixin {
     @Shadow public abstract NbtCompound getOrCreateNbt();
 
     @Inject(method = "setCustomName", at = @At("TAIL"))
-    public void setCustomName(Text name, CallbackInfoReturnable<ItemStack> cir) {
+    public void PeculiarPieces$TransPearlNameStorage(Text name, CallbackInfoReturnable<ItemStack> cir) {
         if (this.getItem() == PeculiarPieces.TRANS_PEARL && name != null) {
             NbtCompound compound = getOrCreateNbt();
             compound.putString("pp:stone_name_%d".formatted(TransportPearlItem.getSlot((ItemStack) ((Object) this))), name.getString());
@@ -28,7 +28,7 @@ public abstract class ItemStackMixin {
     }
 
     @Inject(method = "removeCustomName", at = @At("TAIL"))
-    public void removeCustomName(CallbackInfo ci) {
+    public void PeculiarPieces$TransPearlNameRemoval(CallbackInfo ci) {
         if (this.getItem() == PeculiarPieces.TRANS_PEARL) {
             NbtCompound compound = getOrCreateNbt();
             compound.remove("pp:stone_name_%d".formatted(TransportPearlItem.getSlot((ItemStack) ((Object) this))));

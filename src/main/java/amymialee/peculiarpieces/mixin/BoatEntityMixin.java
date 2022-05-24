@@ -22,12 +22,12 @@ public abstract class BoatEntityMixin extends Entity {
     }
 
     @Inject(method = "updateVelocity", at = @At("TAIL"))
-    private void updateVelocity(CallbackInfo ci) {
+    private void PeculiarPieces$SpinVelocityCap(CallbackInfo ci) {
         yawVelocity = MathHelper.clamp(yawVelocity, -90, 90);
     }
 
     @Redirect(method = "method_7548", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;getSlipperiness()F"))
-    public float getSlipperiness(Block instance) {
+    public float PeculiarPieces$BoatSlipperinessCap(Block instance) {
         return Math.min(instance.getSlipperiness(), 1);
     }
 }

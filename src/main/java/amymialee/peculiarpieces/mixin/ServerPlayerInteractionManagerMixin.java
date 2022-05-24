@@ -20,7 +20,7 @@ public class ServerPlayerInteractionManagerMixin {
     @Shadow @Final protected ServerPlayerEntity player;
 
     @Inject(method = "setGameMode", at = @At("TAIL"))
-    protected void setGameMode(GameMode gameMode, GameMode previousGameMode, CallbackInfo ci) {
+    protected void PeculiarPieces$FlightRingGameModeChange(GameMode gameMode, GameMode previousGameMode, CallbackInfo ci) {
         Optional<TrinketComponent> optionalComponent = TrinketsApi.getTrinketComponent(player);
         if (optionalComponent.isPresent() && optionalComponent.get().isEquipped(PeculiarPieces.FLIGHT_RING)) {
             player.getAbilities().allowFlying = true;

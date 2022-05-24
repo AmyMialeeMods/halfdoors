@@ -1,6 +1,5 @@
 package amymialee.peculiarpieces.features.checkpoint;
 
-import amymialee.peculiarpieces.blocks.InvisibleBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -9,7 +8,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 @SuppressWarnings("deprecation")
-public class CheckpointBlock extends InvisibleBlock {
+public class CheckpointBlock extends AbstractCheckpointBlock {
     public CheckpointBlock(Settings settings) {
         super(settings);
     }

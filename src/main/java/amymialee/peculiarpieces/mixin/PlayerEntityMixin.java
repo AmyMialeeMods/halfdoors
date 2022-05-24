@@ -30,14 +30,14 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Checkpoi
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
-    public void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
+    public void PeculiarPieces$WriteCheckpoint(NbtCompound nbt, CallbackInfo ci) {
         if (checkpointPos != null) {
             nbt.put("pp:checkpos", PeculiarHelper.fromVec3d(checkpointPos));
         }
     }
 
     @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
-    public void readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
+    public void PeculiarPieces$ReadCheckpoint(NbtCompound nbt, CallbackInfo ci) {
         checkpointPos = PeculiarHelper.toVec3d(nbt.getCompound("pp:checkpos"));
     }
 

@@ -1,6 +1,6 @@
 package amymialee.halfdoors.client;
 
-import amymialee.halfdoors.items.DoorbladeEntity;
+import amymialee.halfdoors.items.launcher.DoorbladeEntity;
 import net.minecraft.client.model.ModelData;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.ModelPartBuilder;
@@ -25,7 +25,7 @@ public class DoorSawEntityModel extends EntityModel<DoorbladeEntity> {
     public static TexturedModelData getTexturedModelData() {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
-        modelPartData.addChild("door", ModelPartBuilder.create().uv(0, 0).cuboid(-8.0F, 3.5F, -8.0F, 16.0F, 1.0F, 16.0F), ModelTransform.NONE);
+        modelPartData.addChild("door", ModelPartBuilder.create().uv(0, 0).cuboid(-8.0F, -0.5F, -8.0F, 16.0F, 1.0F, 16.0F), ModelTransform.NONE);
         return TexturedModelData.of(modelData, 64, 17);
     }
 

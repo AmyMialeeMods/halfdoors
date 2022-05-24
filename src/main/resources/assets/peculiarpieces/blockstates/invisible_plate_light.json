@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "peculiarpieces:block/invisible_plate_light"
+    },
+    "powered=true": {
+      "model": "peculiarpieces:block/invisible_plate_light_down"
+    }
+  }
+}

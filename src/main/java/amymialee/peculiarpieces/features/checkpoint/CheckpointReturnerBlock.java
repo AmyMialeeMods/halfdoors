@@ -1,7 +1,6 @@
 package amymialee.peculiarpieces.features.checkpoint;
 
 import amymialee.peculiarpieces.PeculiarPieces;
-import amymialee.peculiarpieces.blocks.InvisibleBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,7 +11,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 @SuppressWarnings("deprecation")
-public class CheckpointReturnerBlock extends InvisibleBlock {
+public class CheckpointReturnerBlock extends AbstractCheckpointBlock {
     public CheckpointReturnerBlock(Settings settings) {
         super(settings);
     }
@@ -20,7 +19,7 @@ public class CheckpointReturnerBlock extends InvisibleBlock {
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         super.onEntityCollision(state, world, pos, entity);
-        if (!world.isClient && entity instanceof PlayerEntity player && player instanceof CheckpointPlayerWrapper checkPlayer) {
+        if (!world.isClient() && entity instanceof PlayerEntity player && player instanceof CheckpointPlayerWrapper checkPlayer) {
             Vec3d checkpointPos = checkPlayer.getCheckpointPos();
             if (checkpointPos != null && checkpointPos.distanceTo(entity.getPos()) > 2) {
                 player.teleport(checkpointPos.getX(), checkpointPos.getY(), checkpointPos.getZ(), true);

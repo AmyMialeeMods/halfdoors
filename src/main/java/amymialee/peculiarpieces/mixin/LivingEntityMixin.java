@@ -20,7 +20,7 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @ModifyVariable(method = "travel", at = @At("STORE"))
-    public float travel(float p) {
+    public float PeculiarPieces$SlipperyShoesSlipping(float p) {
         if (((Entity) this) instanceof LivingEntity livingEntity) {
             Optional<TrinketComponent> optionalComponent = TrinketsApi.getTrinketComponent(livingEntity);
             if (optionalComponent.isPresent() && optionalComponent.get().isEquipped(PeculiarPieces.SLIPPERY_SHOES)) {

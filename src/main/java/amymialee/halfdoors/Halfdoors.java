@@ -5,8 +5,10 @@ import amymialee.halfdoors.blocks.HalfDoorBlock;
 import amymialee.halfdoors.blocks.IronFenceGateBlock;
 import amymialee.halfdoors.client.DoorcutterScreenHandler;
 import amymialee.halfdoors.inventory.LauncherScreenHandler;
-import amymialee.halfdoors.items.DoorLauncherItem;
-import amymialee.halfdoors.items.DoorbladeEntity;
+import amymialee.halfdoors.items.flipper.DoorFlipperItem;
+import amymialee.halfdoors.items.launcher.DoorLauncherItem;
+import amymialee.halfdoors.items.launcher.DoorbladeEntity;
+import amymialee.halfdoors.items.flipper.TinyDoorEntity;
 import amymialee.halfdoors.recipe.DoorSmithingRecipe;
 import amymialee.halfdoors.recipe.DoorcuttingRecipe;
 import net.fabricmc.api.ModInitializer;
@@ -66,6 +68,11 @@ public class Halfdoors implements ModInitializer {
     public static final ScreenHandlerType<LauncherScreenHandler> LAUNCHER_SCREEN_HANDLER = Registry.register(Registry.SCREEN_HANDLER, "single_slot", new ScreenHandlerType<>((a, b) -> new LauncherScreenHandler(a, b, DOOR_LAUNCHER.getDefaultStack().copy())));
     public static SoundEvent DOORBLADE_HIT_GROUND = Registry.register(Registry.SOUND_EVENT, id("item.doorblade.hit_ground"), new SoundEvent(id("item.doorblade.hit_ground")));
     public static SoundEvent DOOR_LAUNCHER_FIRE = Registry.register(Registry.SOUND_EVENT, id("item.doorlauncher.fire"), new SoundEvent(id("item.doorlauncher.fire")));
+
+    public static final Item DOOR_FLIPPER = registerItem("door_flipper", new DoorFlipperItem(new FabricItemSettings().maxCount(1).maxDamage(100).rarity(Rarity.RARE).group(DOOR_GROUP)));
+    public static final EntityType<TinyDoorEntity> TINY_DOOR_ENTITY = Registry.register(Registry.ENTITY_TYPE, id("tiny_door"), FabricEntityTypeBuilder.<TinyDoorEntity>create(SpawnGroup.MISC, TinyDoorEntity::new).dimensions(EntityDimensions.fixed(0.6F, 0.6F)).trackRangeChunks(4).trackedUpdateRate(20).build());
+    public static SoundEvent DOOR_FLIP = Registry.register(Registry.SOUND_EVENT, id("item.doorflipper.flip"), new SoundEvent(id("item.doorflipper.flip")));
+    public static final Item GOLD_DOOR_NUGGET = registerItem("gold_door_nugget", new Item(new FabricItemSettings().group(DOOR_GROUP)));
 
     @Override
     public void onInitialize() {}

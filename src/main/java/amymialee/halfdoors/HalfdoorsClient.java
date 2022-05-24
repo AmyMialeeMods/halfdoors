@@ -3,8 +3,10 @@ package amymialee.halfdoors;
 import amymialee.halfdoors.client.DoorSawEntityModel;
 import amymialee.halfdoors.client.DoorSawEntityRenderer;
 import amymialee.halfdoors.client.DoorcutterScreen;
+import amymialee.halfdoors.client.TinyDoorEntityModel;
+import amymialee.halfdoors.client.TinyDoorEntityRenderer;
 import amymialee.halfdoors.inventory.LauncherScreen;
-import amymialee.halfdoors.items.DoorLauncherItem;
+import amymialee.halfdoors.items.launcher.DoorLauncherItem;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
@@ -20,6 +22,7 @@ import net.minecraft.util.Identifier;
 
 public class HalfdoorsClient implements ClientModInitializer {
     public static final EntityModelLayer DOOR_SAW_LAYER = new EntityModelLayer(Halfdoors.id("door_saw_layer"), "main");
+    public static final EntityModelLayer TINY_DOOR_LAYER = new EntityModelLayer(Halfdoors.id("tiny_door_layer"), "main");
 
     @Override
     public void onInitializeClient() {
@@ -39,6 +42,9 @@ public class HalfdoorsClient implements ClientModInitializer {
 
         EntityModelLayerRegistry.registerModelLayer(DOOR_SAW_LAYER, DoorSawEntityModel::getTexturedModelData);
         EntityRendererRegistry.register(Halfdoors.DOORBLADE_ENTITY, DoorSawEntityRenderer::new);
+
+        EntityModelLayerRegistry.registerModelLayer(TINY_DOOR_LAYER, TinyDoorEntityModel::getTexturedModelData);
+        EntityRendererRegistry.register(Halfdoors.TINY_DOOR_ENTITY, TinyDoorEntityRenderer::new);
 
         FabricLoader.getInstance().getModContainer(Halfdoors.MOD_ID).ifPresent(modContainer -> ResourceManagerHelper.registerBuiltinResourcePack(Halfdoors.id("flatdoorcutters"), modContainer, ResourcePackActivationType.NORMAL));
     }

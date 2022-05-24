@@ -4,6 +4,7 @@
   "package": "amymialee.peculiarpieces.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "BeaconBlockMixin",
     "BoatEntityMixin",
     "EntityAccessor",
     "ItemStackMixin",

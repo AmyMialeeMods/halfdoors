@@ -21,5 +21,10 @@
   "modifier.halfdoors.netherite" : "Netherite Upgrade",
   "container.door_launcher" : "Door Launcher",
   "subtitles.item.doorblade.hit_ground" : "Doorblade lands",
-  "subtitles.doorlauncher.fire" : "Door Launcher fires"
+  "subtitles.doorlauncher.fire" : "Door Launcher fires",
+  "entity.halfdoors.door_saw" : "Door Saw",
+
+  "item.halfdoors.door_flipper" : "Door Flipper",
+  "item.halfdoors.gold_door_nugget" : "Golden Door Nugget",
+  "entity.halfdoors.tiny_door" : "Golden Door Nugget"
 }

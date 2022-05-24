@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " P ",
+    "GAG"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "A": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "P": {
+      "item": "minecraft:stone_pressure_plate"
+    }
+  },
+  "result": {
+    "item": "peculiarpieces:invisible_plate_heavy"
+  }
+}

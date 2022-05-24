@@ -22,6 +22,9 @@
   "item.peculiarpieces.slippery_shoes" : "Slippery Shoes",
   "item.peculiarpieces.blazing_gliders" : "Blazing Gliders",
 
+  "block.peculiarpieces.invisible_plate_heavy" : "Heavy Invisible Plate",
+  "block.peculiarpieces.invisible_plate_light" : "Light Invisible Plate",
+
   "item.peculiarpieces.mounting_stick" : "Mounting Stick",
   "item.peculiarpieces.flight_ring" : "Flight Ring",
   "trinkets.slot.ring.flight_ring" : "Flight Ring",

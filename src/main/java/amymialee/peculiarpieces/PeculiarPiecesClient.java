@@ -1,13 +1,14 @@
 package amymialee.peculiarpieces;
 
-import amymialee.peculiarpieces.blocks.InvisibleBlock;
 import amymialee.peculiarpieces.features.warp.TransportPearlItem;
 import amymialee.peculiarpieces.features.warp.block.WarpScreen;
+import amymialee.visiblebarriers.VisibleBarriers;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
@@ -23,6 +24,8 @@ public class PeculiarPiecesClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(PeculiarPieces.CHECKPOINT, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(PeculiarPieces.CHECKPOINT_REMOVER, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(PeculiarPieces.CHECKPOINT_RETURNER, RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(PeculiarPieces.INVISIBLE_PLATE_HEAVY, RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(PeculiarPieces.INVISIBLE_PLATE_LIGHT, RenderLayer.getTranslucent());
         HandledScreens.register(PeculiarPieces.WARP_SCREEN_HANDLER, WarpScreen::new);
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> MathHelper.hsvToRgb(((float)(TransportPearlItem.getSlot(stack) + 1) / 8), 1.0F, 1.0F), PeculiarPieces.TRANS_PEARL);
@@ -35,7 +38,10 @@ public class PeculiarPiecesClient implements ClientModInitializer {
         ));
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (keyBinding.wasPressed()) {
-                InvisibleBlock.visible = !InvisibleBlock.visible;
+                PeculiarPieces.visible = !PeculiarPieces.visible;
+                if (FabricLoader.getInstance().isModLoaded("visiblebarriers")) {
+                    VisibleBarriers.visible = PeculiarPieces.visible;
+                }
                 client.worldRenderer.reload();
             }
         });

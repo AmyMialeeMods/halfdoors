@@ -1,7 +1,7 @@
 package amymialee.halfdoors.inventory;
 
 import amymialee.halfdoors.Halfdoors;
-import amymialee.halfdoors.items.DoorLauncherItem;
+import amymialee.halfdoors.items.launcher.DoorLauncherItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;

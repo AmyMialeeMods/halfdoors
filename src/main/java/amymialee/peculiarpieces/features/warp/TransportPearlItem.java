@@ -1,6 +1,5 @@
 package amymialee.peculiarpieces.features.warp;
 
-import amymialee.peculiarpieces.PeculiarPieces;
 import amymialee.peculiarpieces.util.PeculiarHelper;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.item.TooltipContext;
@@ -47,11 +46,9 @@ public class TransportPearlItem extends Item {
         if (user.isSneaking()) {
             incrementSlot(stack);
             user.getItemCooldownManager().set(this, 1);
-        } else if (world.getBlockState(pos.add(0, -1, 0)).isIn(PeculiarPieces.WARP_BINDABLE)) {
+        } else {
             if (!world.isClient && !pos.equals(BlockPos.ORIGIN)) {
                 user.teleport(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, true);
-            } else {
-                writeStone(stack, BlockPos.ORIGIN);
             }
             user.incrementStat(Stats.USED.getOrCreateStat(this));
             user.getItemCooldownManager().set(this, 1);
