@@ -3,10 +3,10 @@ package amymialee.peculiarpieces.features.warp.block;
 import amymialee.peculiarpieces.PeculiarPieces;
 import amymialee.peculiarpieces.features.checkpoint.CheckpointPlayerWrapper;
 import amymialee.peculiarpieces.features.warp.PositionPearlItem;
+import amymialee.peculiarpieces.util.WarpManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
@@ -34,17 +34,13 @@ public class WarpBlockEntity extends LootableContainerBlockEntity {
             NbtCompound compound = stack.getOrCreateNbt();
             if (compound.contains("pp:stone")) {
                 BlockPos pos = PositionPearlItem.readStone(stack);
-                if (entity instanceof LivingEntity livingEntity) {
-                    livingEntity.teleport(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, true);
-                } else {
-                    entity.teleport(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-                }
+                WarpManager.queueTeleport(entity, Vec3d.ofBottomCenter(pos));
             }
         } else if (stack.isOf(PeculiarPieces.CHECKPOINT_PEARL)) {
             if (entity instanceof PlayerEntity player && player instanceof CheckpointPlayerWrapper checkPlayer) {
                 Vec3d checkpointPos = checkPlayer.getCheckpointPos();
                 if (checkpointPos != null) {
-                    player.teleport(checkpointPos.getX(), checkpointPos.getY(), checkpointPos.getZ(), true);
+                    WarpManager.queueTeleport(entity, checkpointPos);
                     player.sendMessage(new TranslatableText("%s.checkpoint_returned".formatted(PeculiarPieces.MOD_ID)).formatted(Formatting.GRAY), true);
                 }
             }

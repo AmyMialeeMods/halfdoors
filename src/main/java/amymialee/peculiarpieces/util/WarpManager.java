@@ -11,7 +11,8 @@ public class WarpManager {
     private static final ArrayList<Pair<Entity, Vec3d>> dueTeleports = new ArrayList<>();
 
     public static void tick() {
-        for (Pair<Entity, Vec3d> pair : dueTeleports) {
+        for (int i = 0; i < dueTeleports.size();) {
+            Pair<Entity, Vec3d> pair = dueTeleports.get(i);
             Entity entity = pair.getLeft();
             Vec3d pos = pair.getRight();
             if (entity instanceof LivingEntity livingEntity) {

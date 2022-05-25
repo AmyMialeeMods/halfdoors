@@ -7,7 +7,7 @@
     "HeldItemRendererMixin",
     "PersistentProjectileEntityMixin",
     "PlayerEntityRendererMixin",
-    "ProjectileEntityEntityMixin"
+    "ProjectileEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

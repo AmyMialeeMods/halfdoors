@@ -1,5 +1,6 @@
 package amymialee.peculiarpieces.features.warp;
 
+import amymialee.peculiarpieces.util.WarpManager;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -15,6 +16,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -30,7 +32,7 @@ public class ConsumablePositionPearlItem extends Item {
         BlockPos pos = NbtHelper.toBlockPos(context.getStack().getOrCreateNbt().getCompound("pp:stone"));
         if (player != null && (pos.equals(BlockPos.ORIGIN) || player.isCreative()) && player.isSneaking()) {
             writeStone(context.getStack(), context.getBlockPos().add(0, 1, 0));
-            player.getItemCooldownManager().set(this, 40);
+            player.getItemCooldownManager().set(this, 20);
         }
         return super.useOnBlock(context);
     }
@@ -40,10 +42,10 @@ public class ConsumablePositionPearlItem extends Item {
         ItemStack stack = user.getStackInHand(hand);
         BlockPos pos = readStone(stack);
         if (!world.isClient && !pos.equals(BlockPos.ORIGIN)) {
-            user.teleport(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, true);
+            WarpManager.queueTeleport(user, Vec3d.ofBottomCenter(pos));
         }
         user.incrementStat(Stats.USED.getOrCreateStat(this));
-        user.getItemCooldownManager().set(this, 80);
+        user.getItemCooldownManager().set(this, 40);
         stack.decrement(1);
         return TypedActionResult.consume(stack);
     }

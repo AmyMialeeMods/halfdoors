@@ -1,6 +1,7 @@
 package amymialee.peculiarpieces.features.warp;
 
 import amymialee.peculiarpieces.util.PeculiarHelper;
+import amymialee.peculiarpieces.util.WarpManager;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,6 +21,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -48,7 +50,7 @@ public class TransportPearlItem extends Item {
             user.getItemCooldownManager().set(this, 1);
         } else {
             if (!world.isClient && !pos.equals(BlockPos.ORIGIN)) {
-                user.teleport(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, true);
+                WarpManager.queueTeleport(user, Vec3d.ofBottomCenter(pos));
             }
             user.incrementStat(Stats.USED.getOrCreateStat(this));
             user.getItemCooldownManager().set(this, 1);

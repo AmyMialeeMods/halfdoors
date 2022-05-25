@@ -1,6 +1,7 @@
 package amymialee.peculiarpieces.features.checkpoint;
 
 import amymialee.peculiarpieces.PeculiarPieces;
+import amymialee.peculiarpieces.util.WarpManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -21,8 +22,8 @@ public class CheckpointPearlItem extends Item {
         if (user instanceof CheckpointPlayerWrapper checkPlayer) {
             Vec3d checkpointPos = checkPlayer.getCheckpointPos();
             if (checkpointPos != null) {
-                user.teleport(checkpointPos.getX(), checkpointPos.getY(), checkpointPos.getZ(), true);
-                user.getItemCooldownManager().set(this, 1);
+                WarpManager.queueTeleport(user, checkpointPos);
+                user.getItemCooldownManager().set(this, 4);
                 user.sendMessage(new TranslatableText("%s.checkpoint_returned".formatted(PeculiarPieces.MOD_ID)).formatted(Formatting.GRAY), true);
                 return TypedActionResult.success(user.getStackInHand(hand));
             }
