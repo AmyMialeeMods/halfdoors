@@ -1,7 +1,7 @@
 package amymialee.peculiarpieces;
 
-import amymialee.peculiarpieces.features.warp.TransportPearlItem;
-import amymialee.peculiarpieces.features.warp.block.WarpScreen;
+import amymialee.peculiarpieces.items.TransportPearlItem;
+import amymialee.peculiarpieces.screens.WarpScreen;
 import amymialee.visiblebarriers.VisibleBarriers;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;

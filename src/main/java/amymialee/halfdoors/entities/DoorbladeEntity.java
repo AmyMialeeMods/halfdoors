@@ -1,7 +1,8 @@
-package amymialee.halfdoors.items.launcher;
+package amymialee.halfdoors.entities;
 
 import amymialee.halfdoors.Halfdoors;
 import amymialee.halfdoors.inventory.LauncherScreenHandler;
+import amymialee.halfdoors.items.DoorLauncherItem;
 import com.google.common.collect.Lists;
 import com.simibubi.create.content.contraptions.components.structureMovement.glue.SuperGlueEntity;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;

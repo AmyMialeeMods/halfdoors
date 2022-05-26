@@ -1,7 +1,7 @@
 package amymialee.peculiarpieces.mixin;
 
 import amymialee.peculiarpieces.PeculiarPieces;
-import amymialee.peculiarpieces.features.warp.TransportPearlItem;
+import amymialee.peculiarpieces.items.TransportPearlItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;

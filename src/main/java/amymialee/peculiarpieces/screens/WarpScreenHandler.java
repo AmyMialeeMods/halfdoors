@@ -1,4 +1,4 @@
-package amymialee.peculiarpieces.features.warp.block;
+package amymialee.peculiarpieces.screens;
 
 import amymialee.peculiarpieces.PeculiarPieces;
 import net.minecraft.entity.player.PlayerEntity;

@@ -1,4 +1,4 @@
-package amymialee.halfdoors.items.flipper;
+package amymialee.halfdoors.util;
 
 import net.minecraft.entity.Entity;
 

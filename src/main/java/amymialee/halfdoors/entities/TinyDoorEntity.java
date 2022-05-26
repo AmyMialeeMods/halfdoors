@@ -1,6 +1,7 @@
-package amymialee.halfdoors.items.flipper;
+package amymialee.halfdoors.entities;
 
 import amymialee.halfdoors.Halfdoors;
+import amymialee.halfdoors.util.HomingArrowAccessor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;

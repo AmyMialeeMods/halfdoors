@@ -1,6 +1,7 @@
-package amymialee.peculiarpieces.features.checkpoint;
+package amymialee.peculiarpieces.items;
 
 import amymialee.peculiarpieces.PeculiarPieces;
+import amymialee.peculiarpieces.util.CheckpointPlayerWrapper;
 import amymialee.peculiarpieces.util.WarpManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;

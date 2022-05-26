@@ -1,4 +1,4 @@
-package amymialee.peculiarpieces.features.warp;
+package amymialee.peculiarpieces.items;
 
 import amymialee.peculiarpieces.util.WarpManager;
 import net.minecraft.client.item.TooltipContext;

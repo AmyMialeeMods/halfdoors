@@ -1,7 +1,7 @@
 package amymialee.halfdoors.util;
 
 import amymialee.halfdoors.Halfdoors;
-import amymialee.halfdoors.items.flipper.DoorFlipperItem;
+import amymialee.halfdoors.items.DoorFlipperItem;
 import amymialee.halfdoors.mixin.KeyBindingAccessor;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;

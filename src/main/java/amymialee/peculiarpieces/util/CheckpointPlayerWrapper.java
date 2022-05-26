@@ -1,4 +1,4 @@
-package amymialee.peculiarpieces.features.checkpoint;
+package amymialee.peculiarpieces.util;
 
 import net.minecraft.util.math.Vec3d;
 

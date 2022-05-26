@@ -1,7 +1,7 @@
 package amymialee.halfdoors.mixin;
 
 import amymialee.halfdoors.Halfdoors;
-import amymialee.halfdoors.items.launcher.DoorLauncherItem;
+import amymialee.halfdoors.items.DoorLauncherItem;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;

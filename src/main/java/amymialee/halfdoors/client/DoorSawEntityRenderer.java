@@ -2,7 +2,7 @@ package amymialee.halfdoors.client;
 
 import amymialee.halfdoors.Halfdoors;
 import amymialee.halfdoors.HalfdoorsClient;
-import amymialee.halfdoors.items.launcher.DoorbladeEntity;
+import amymialee.halfdoors.entities.DoorbladeEntity;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;

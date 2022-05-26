@@ -1,5 +1,6 @@
-package amymialee.peculiarpieces.features.warp.block;
+package amymialee.peculiarpieces.blocks;
 
+import amymialee.peculiarpieces.blockentities.WarpBlockEntity;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;

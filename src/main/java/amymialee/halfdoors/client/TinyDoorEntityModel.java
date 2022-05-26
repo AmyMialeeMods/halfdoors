@@ -1,6 +1,6 @@
 package amymialee.halfdoors.client;
 
-import amymialee.halfdoors.items.flipper.TinyDoorEntity;
+import amymialee.halfdoors.entities.TinyDoorEntity;
 import net.minecraft.client.model.ModelData;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.ModelPartBuilder;

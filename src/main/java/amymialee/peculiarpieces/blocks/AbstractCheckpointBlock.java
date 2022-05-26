@@ -1,4 +1,4 @@
-package amymialee.peculiarpieces.features.checkpoint;
+package amymialee.peculiarpieces.blocks;
 
 import amymialee.peculiarpieces.PeculiarPieces;
 import net.minecraft.block.Block;

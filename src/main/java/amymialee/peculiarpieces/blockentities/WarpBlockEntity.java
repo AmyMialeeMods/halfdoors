@@ -1,8 +1,9 @@
-package amymialee.peculiarpieces.features.warp.block;
+package amymialee.peculiarpieces.blockentities;
 
 import amymialee.peculiarpieces.PeculiarPieces;
-import amymialee.peculiarpieces.features.checkpoint.CheckpointPlayerWrapper;
-import amymialee.peculiarpieces.features.warp.PositionPearlItem;
+import amymialee.peculiarpieces.util.CheckpointPlayerWrapper;
+import amymialee.peculiarpieces.screens.WarpScreenHandler;
+import amymialee.peculiarpieces.items.PositionPearlItem;
 import amymialee.peculiarpieces.util.WarpManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.LootableContainerBlockEntity;

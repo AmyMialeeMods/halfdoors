@@ -1,7 +1,7 @@
 package amymialee.halfdoors.mixin;
 
 import amymialee.halfdoors.Halfdoors;
-import amymialee.halfdoors.items.flipper.DoorFlipperItem;
+import amymialee.halfdoors.items.DoorFlipperItem;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;

@@ -1,4 +1,4 @@
-package amymialee.peculiarpieces.features.warp;
+package amymialee.peculiarpieces.items;
 
 import amymialee.peculiarpieces.util.PeculiarHelper;
 import amymialee.peculiarpieces.util.WarpManager;

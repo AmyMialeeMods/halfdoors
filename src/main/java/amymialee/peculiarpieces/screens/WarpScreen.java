@@ -1,4 +1,4 @@
-package amymialee.peculiarpieces.features.warp.block;
+package amymialee.peculiarpieces.screens;
 
 import amymialee.peculiarpieces.PeculiarPieces;
 import com.mojang.blaze3d.systems.RenderSystem;

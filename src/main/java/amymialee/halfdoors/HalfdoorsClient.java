@@ -6,7 +6,7 @@ import amymialee.halfdoors.client.DoorcutterScreen;
 import amymialee.halfdoors.client.TinyDoorEntityModel;
 import amymialee.halfdoors.client.TinyDoorEntityRenderer;
 import amymialee.halfdoors.inventory.LauncherScreen;
-import amymialee.halfdoors.items.launcher.DoorLauncherItem;
+import amymialee.halfdoors.items.DoorLauncherItem;
 import amymialee.halfdoors.util.DoorControls;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;

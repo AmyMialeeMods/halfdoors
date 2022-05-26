@@ -1,7 +1,7 @@
 package amymialee.halfdoors.mixin;
 
 import amymialee.halfdoors.Halfdoors;
-import amymialee.halfdoors.items.launcher.DoorLauncherItem;
+import amymialee.halfdoors.items.DoorLauncherItem;
 import net.minecraft.client.render.item.HeldItemRenderer;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;

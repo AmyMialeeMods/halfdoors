@@ -1,16 +1,16 @@
 package amymialee.peculiarpieces;
 
 import amymialee.peculiarpieces.blocks.InvisiblePressurePlate;
-import amymialee.peculiarpieces.features.checkpoint.CheckpointBlock;
-import amymialee.peculiarpieces.features.checkpoint.CheckpointPearlItem;
-import amymialee.peculiarpieces.features.checkpoint.CheckpointRemoverBlock;
-import amymialee.peculiarpieces.features.checkpoint.CheckpointReturnerBlock;
-import amymialee.peculiarpieces.features.warp.ConsumablePositionPearlItem;
-import amymialee.peculiarpieces.features.warp.PositionPearlItem;
-import amymialee.peculiarpieces.features.warp.TransportPearlItem;
-import amymialee.peculiarpieces.features.warp.block.WarpBlock;
-import amymialee.peculiarpieces.features.warp.block.WarpBlockEntity;
-import amymialee.peculiarpieces.features.warp.block.WarpScreenHandler;
+import amymialee.peculiarpieces.blocks.CheckpointBlock;
+import amymialee.peculiarpieces.items.CheckpointPearlItem;
+import amymialee.peculiarpieces.blocks.CheckpointRemoverBlock;
+import amymialee.peculiarpieces.blocks.CheckpointReturnerBlock;
+import amymialee.peculiarpieces.items.ConsumablePositionPearlItem;
+import amymialee.peculiarpieces.items.PositionPearlItem;
+import amymialee.peculiarpieces.items.TransportPearlItem;
+import amymialee.peculiarpieces.blocks.WarpBlock;
+import amymialee.peculiarpieces.blockentities.WarpBlockEntity;
+import amymialee.peculiarpieces.screens.WarpScreenHandler;
 import amymialee.peculiarpieces.items.BlazingGlidersItem;
 import amymialee.peculiarpieces.items.FlightRingItem;
 import amymialee.peculiarpieces.items.MountingStickItem;

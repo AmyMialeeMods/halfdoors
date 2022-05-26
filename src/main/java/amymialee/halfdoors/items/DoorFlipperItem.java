@@ -1,6 +1,7 @@
-package amymialee.halfdoors.items.flipper;
+package amymialee.halfdoors.items;
 
 import amymialee.halfdoors.Halfdoors;
+import amymialee.halfdoors.entities.TinyDoorEntity;
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketComponent;
 import dev.emi.trinkets.api.TrinketItem;

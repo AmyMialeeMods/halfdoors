@@ -1,5 +1,6 @@
-package amymialee.peculiarpieces.features.checkpoint;
+package amymialee.peculiarpieces.blocks;
 
+import amymialee.peculiarpieces.util.CheckpointPlayerWrapper;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;

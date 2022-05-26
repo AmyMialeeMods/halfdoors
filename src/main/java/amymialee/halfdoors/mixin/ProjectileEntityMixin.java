@@ -1,6 +1,6 @@
 package amymialee.halfdoors.mixin;
 
-import amymialee.halfdoors.items.flipper.HomingArrowAccessor;
+import amymialee.halfdoors.util.HomingArrowAccessor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
