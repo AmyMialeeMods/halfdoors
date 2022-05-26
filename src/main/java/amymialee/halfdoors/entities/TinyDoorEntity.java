@@ -66,7 +66,7 @@ public class TinyDoorEntity extends ThrownItemEntity {
                     }
                 }
                 if (projectileEntity instanceof HomingArrowAccessor homingArrowAccessor) {
-                    world.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.6F,  1 + 1f / homingArrowAccessor.getBounces());
+                    world.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.6F, 1 + 2f / homingArrowAccessor.getBounces());
                 } else {
                     world.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.6F, 1f + (world.getRandom().nextFloat()));
                 }

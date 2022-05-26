@@ -77,7 +77,7 @@ public class Halfdoors implements ModInitializer {
     public static SoundEvent DOOR_LAUNCHER_FIRE = Registry.register(Registry.SOUND_EVENT, id("item.doorlauncher.fire"), new SoundEvent(id("item.doorlauncher.fire")));
 
     public static final Item DOOR_FLIPPER = registerItem("door_flipper", new DoorFlipperItem(new FabricItemSettings().maxCount(1).maxDamage(100).rarity(Rarity.RARE).group(DOOR_GROUP)));
-    public static final EntityType<TinyDoorEntity> TINY_DOOR_ENTITY = Registry.register(Registry.ENTITY_TYPE, id("tiny_door"), FabricEntityTypeBuilder.<TinyDoorEntity>create(SpawnGroup.MISC, TinyDoorEntity::new).dimensions(EntityDimensions.fixed(0.4F, 0.4F)).trackRangeChunks(4).trackedUpdateRate(20).build());
+    public static final EntityType<TinyDoorEntity> TINY_DOOR_ENTITY = Registry.register(Registry.ENTITY_TYPE, id("tiny_door"), FabricEntityTypeBuilder.<TinyDoorEntity>create(SpawnGroup.MISC, TinyDoorEntity::new).dimensions(EntityDimensions.fixed(0.1F, 0.1F)).trackRangeChunks(4).trackedUpdateRate(20).build());
     public static SoundEvent DOOR_FLIP = Registry.register(Registry.SOUND_EVENT, id("item.doorflipper.flip"), new SoundEvent(id("item.doorflipper.flip")));
     public static final Item GOLD_DOOR_NUGGET = registerItem("gold_door_nugget", new Item(new FabricItemSettings().group(DOOR_GROUP)));
 

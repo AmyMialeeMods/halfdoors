@@ -8,6 +8,8 @@
     "BoatEntityMixin",
     "EntityAccessor",
     "ItemStackMixin",
+    "KeyBindingAccessor",
+    "KeyboardMixin",
     "LivingEntityMixin",
     "PlayerEntityMixin",
     "ServerPlayerInteractionManagerMixin"

@@ -16,7 +16,7 @@ import org.lwjgl.glfw.GLFW;
 @SuppressWarnings("SameParameterValue")
 public class DoorControls {
     public static final Identifier FLIP = Halfdoors.id("flip_packet");
-    public static final KeyBinding DOOR_FLIP = createSafeKeyMapping("key." + Halfdoors.MOD_ID + ".door_flip", GLFW.GLFW_MOUSE_BUTTON_MIDDLE);
+    public static final KeyBinding DOOR_FLIP = createSafeKeyMapping("key.%s.door_flip".formatted(Halfdoors.MOD_ID), GLFW.GLFW_KEY_R);
 
     public static void keyInput(int key, int scancode) {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
@@ -39,7 +39,7 @@ public class DoorControls {
     private static KeyBinding createSafeKeyMapping(String description, int keycode) {
         InputUtil.Key key = InputUtil.Type.KEYSYM.createFromCode(keycode);
         KeyBinding oldMapping = KeyBindingAccessor.getKeyToBindings().get(key);
-        KeyBinding keyMapping = new KeyBinding(description, keycode, "key.categories." + Halfdoors.MOD_ID);
+        KeyBinding keyMapping = new KeyBinding(description, keycode, "category.%s".formatted(Halfdoors.MOD_ID));
         KeyBindingAccessor.getKeyToBindings().put(key, oldMapping);
         KeyBindingAccessor.getKeysByID().remove(description);
         return keyMapping;
