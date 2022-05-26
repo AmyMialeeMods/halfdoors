@@ -65,10 +65,15 @@ public class TinyDoorEntity extends ThrownItemEntity {
                         target = world.getClosestEntity(LivingEntity.class, TargetPredicate.createAttackable(), null, getX(), getY(), getZ(), new Box(getX() - radius, getY() - radius, getZ() - radius, getX() + radius, getY() + radius, getZ() + radius));
                     }
                 }
-                world.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.6F, 90.0F + (world.getRandom().nextFloat() * 44.4f));
+                if (projectileEntity instanceof HomingArrowAccessor homingArrowAccessor) {
+                    world.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.6F,  1 + 1f / homingArrowAccessor.getBounces());
+                } else {
+                    world.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.6F, 1f + (world.getRandom().nextFloat()));
+                }
                 if (target != null) {
                     if (projectileEntity instanceof HomingArrowAccessor homingArrowAccessor) {
                         homingArrowAccessor.setHomingTarget(target);
+                        homingArrowAccessor.setBounces(homingArrowAccessor.getBounces() + 1);
                     } else {
                         double d = target.distanceTo(this);
                         double e = target.getX() - getX() + (target.getVelocity().getX() * d);
@@ -86,11 +91,11 @@ public class TinyDoorEntity extends ThrownItemEntity {
                     }
                 } else {
                     Vec3d targetVel = new Vec3d(random.nextFloat() - 0.5f, random.nextFloat() - 0.5f, random.nextFloat() - 0.5f);
-                    targetVel.normalize();
-                    targetVel.multiply(3);
+                    targetVel.multiply(50);
                     projectileEntity.setPosition(this.getPos());
                     projectileEntity.setVelocity(targetVel);
                 }
+                projectileEntity.refreshPositionAndAngles(projectileEntity.getX(), projectileEntity.getY(), projectileEntity.getZ(), projectileEntity.getYaw(), projectileEntity.getPitch());
                 if (projectileEntity instanceof PersistentProjectileEntity persistentProjectile) {
                     persistentProjectile.setDamage(persistentProjectile.getDamage() * 1.75f);
                     persistentProjectile.setCritical(true);

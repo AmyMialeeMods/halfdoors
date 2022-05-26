@@ -63,10 +63,11 @@ public class DoorFlipperItem extends TrinketItem implements Wearable {
                 tiny.setVelocity(vel.getX() + tiny.getVelocity().getX() * 0.3, Math.max(0, vel.getY()) + tiny.getVelocity().getY() * 0.4, vel.getZ() + tiny.getVelocity().getZ() * 0.3);
                 world.spawnEntity(tiny);
             }
-            world.playSound(null, user.getX(), user.getY(), user.getZ(), Halfdoors.DOOR_FLIP, SoundCategory.PLAYERS, 0.6F, 0.4f + (world.getRandom().nextFloat()));
+            world.playSound(null, user.getX(), user.getY(), user.getZ(), Halfdoors.DOOR_FLIP, SoundCategory.PLAYERS, 0.3F, 0.4f + (world.getRandom().nextFloat()));
             user.incrementStat(Stats.USED.getOrCreateStat(this));
             user.getItemCooldownManager().set(Halfdoors.GOLD_DOOR_NUGGET, 8);
             user.getItemCooldownManager().set(this, 8);
+            user.swingHand(Hand.OFF_HAND);
             writeAmmo(stack, stack.getOrCreateNbt().getInt("ammo") - 1);
         }
     }

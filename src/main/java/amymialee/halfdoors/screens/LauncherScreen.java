@@ -1,4 +1,4 @@
-package amymialee.halfdoors.inventory;
+package amymialee.halfdoors.screens;
 
 import amymialee.halfdoors.Halfdoors;
 import com.mojang.blaze3d.systems.RenderSystem;

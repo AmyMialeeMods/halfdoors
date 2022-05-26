@@ -2,10 +2,10 @@ package amymialee.halfdoors;
 
 import amymialee.halfdoors.client.DoorSawEntityModel;
 import amymialee.halfdoors.client.DoorSawEntityRenderer;
-import amymialee.halfdoors.client.DoorcutterScreen;
+import amymialee.halfdoors.screens.DoorcutterScreen;
 import amymialee.halfdoors.client.TinyDoorEntityModel;
 import amymialee.halfdoors.client.TinyDoorEntityRenderer;
-import amymialee.halfdoors.inventory.LauncherScreen;
+import amymialee.halfdoors.screens.LauncherScreen;
 import amymialee.halfdoors.items.DoorLauncherItem;
 import amymialee.halfdoors.util.DoorControls;
 import net.fabricmc.api.ClientModInitializer;

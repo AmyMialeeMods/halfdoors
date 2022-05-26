@@ -1,7 +1,7 @@
 package amymialee.halfdoors.items;
 
 import amymialee.halfdoors.Halfdoors;
-import amymialee.halfdoors.inventory.LauncherScreenHandler;
+import amymialee.halfdoors.screens.LauncherScreenHandler;
 import amymialee.halfdoors.entities.DoorbladeEntity;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;

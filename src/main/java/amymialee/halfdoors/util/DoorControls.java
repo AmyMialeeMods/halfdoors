@@ -26,7 +26,6 @@ public class DoorControls {
                     return;
                 }
                 if (!(MinecraftClient.getInstance().currentScreen == null)) {
-                    System.out.println(MinecraftClient.getInstance().currentScreen);
                     return;
                 }
                 ItemStack flipper = DoorFlipperItem.getFlipper(player);

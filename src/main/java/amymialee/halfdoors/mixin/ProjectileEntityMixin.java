@@ -38,6 +38,19 @@ public abstract class ProjectileEntityMixin extends Entity implements HomingArro
         this.target = target;
     }
 
+    @Unique
+    public int bounces;
+
+    @Override
+    public int getBounces() {
+        return bounces;
+    }
+
+    @Override
+    public void setBounces(int bounces) {
+        this.bounces = bounces;
+    }
+
     @SuppressWarnings("ConstantConditions")
     @Inject(method = "tick", at = @At("HEAD"))
     public void HalfDoors$Homing(CallbackInfo ci) {
