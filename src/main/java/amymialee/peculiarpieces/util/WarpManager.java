@@ -2,6 +2,7 @@ package amymialee.peculiarpieces.util;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.Vec3d;
 
@@ -15,16 +16,28 @@ public class WarpManager {
             Pair<Entity, Vec3d> pair = dueTeleports.get(i);
             Entity entity = pair.getLeft();
             Vec3d pos = pair.getRight();
-            if (entity instanceof LivingEntity livingEntity) {
-                livingEntity.teleport(pos.x, pos.y, pos.z, true);
-            } else {
-                entity.teleport(pos.x, pos.y, pos.z);
-            }
+                if (entity instanceof LivingEntity livingEntity) {
+                    teleport(livingEntity, pos.x, pos.y, pos.z, true);
+                } else {
+                    entity.teleport(pos.x, pos.y, pos.z);
+                }
+
             dueTeleports.remove(pair);
         }
     }
 
     public static void queueTeleport(Entity entity, Vec3d pos) {
         dueTeleports.add(new Pair<>(entity, pos));
+    }
+
+    public static void teleport(Entity entity, double x, double y, double z, boolean particleEffects) {
+        System.out.println(x + " " + y + " " + z);
+        entity.requestTeleport(x, y, z);
+        if (particleEffects) {
+            entity.world.sendEntityStatus(entity, (byte)46);
+        }
+        if (entity instanceof PathAwareEntity) {
+            ((PathAwareEntity)entity).getNavigation().stop();
+        }
     }
 }

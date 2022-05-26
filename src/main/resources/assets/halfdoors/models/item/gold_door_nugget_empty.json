@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:item/generated",
 	"textures": {
-		"layer0": "halfdoors:item/gold_door_nugget"
+		"layer0": "halfdoors:item/gold_door_nugget_empty"
 	},
 	"display": {
 		"thirdperson_righthand": {
@@ -38,13 +38,5 @@
 			"rotation": [0, 180, 0],
 			"scale": [0.5, 0.5, 0.5]
 		}
-	},
-    "overrides": [
-        {
-            "predicate": {
-                "empty": 1
-            },
-            "model": "halfdoors:item/gold_door_nugget_empty"
-        }
-	]
+	}
 }

@@ -23,9 +23,6 @@
     "main": [
       "amymialee.halfdoors.Halfdoors",
       "amymialee.peculiarpieces.PeculiarPieces"
-    ],
-    "preLaunch": [
-      "amymialee.halfdoors.HalfdoorsPreLaunch"
     ]
   },
   "mixins": [

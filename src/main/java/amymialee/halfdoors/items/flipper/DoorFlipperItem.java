@@ -1,48 +1,94 @@
 package amymialee.halfdoors.items.flipper;
 
 import amymialee.halfdoors.Halfdoors;
-import net.minecraft.entity.Entity;
+import dev.emi.trinkets.api.SlotReference;
+import dev.emi.trinkets.api.TrinketComponent;
+import dev.emi.trinkets.api.TrinketItem;
+import dev.emi.trinkets.api.TrinketsApi;
+import net.minecraft.block.DispenserBlock;
+import net.minecraft.block.dispenser.DispenserBehavior;
+import net.minecraft.block.dispenser.ItemDispenserBehavior;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Wearable;
+import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Pair;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.math.BlockPointer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class DoorFlipperItem extends Item {
+import java.util.List;
+import java.util.Optional;
+
+public class DoorFlipperItem extends TrinketItem implements Wearable {
+    public static final DispenserBehavior DISPENSER_BEHAVIOR = new ItemDispenserBehavior(){
+        @Override
+        protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
+            return dispenseTrinket(pointer, stack) ? stack : super.dispenseSilently(pointer, stack);
+        }
+    };
+
     public DoorFlipperItem(Settings settings) {
         super(settings);
+        DispenserBlock.registerBehavior(this, DISPENSER_BEHAVIOR);
     }
 
+    @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
+        if (equipItem(user, stack)) {
+            return TypedActionResult.success(stack, world.isClient());
+        }
+        return super.use(world, user, hand);
+    }
+
+    public void toss(ServerPlayerEntity user, ItemStack stack) {
+        World world = user.world;
         if (readAmmo(stack) > 0) {
             if (!world.isClient) {
                 TinyDoorEntity tiny = new TinyDoorEntity(world, user);
-                tiny.setVelocity(user, Math.max(user.getPitch() + -30, -90), user.getYaw(), 0.0F, 1F, 0.0F);
-                tiny.setVelocity(user.getVelocity().getX() + tiny.getVelocity().getX() * 0.3, user.getVelocity().getY() + tiny.getVelocity().getY() * 0.4, user.getVelocity().getZ() + tiny.getVelocity().getZ() * 0.3);
+                tiny.setVelocity(user, Math.max(user.getPitch() - 30, -90), user.getYaw(), 0.0F, 1F, 0.0F);
+                Vec3d vel = user.getVelocity();
+                vel.multiply(0, 0.6f, 0);
+                tiny.setVelocity(vel.getX() + tiny.getVelocity().getX() * 0.3, Math.max(0, vel.getY()) + tiny.getVelocity().getY() * 0.4, vel.getZ() + tiny.getVelocity().getZ() * 0.3);
                 world.spawnEntity(tiny);
             }
             world.playSound(null, user.getX(), user.getY(), user.getZ(), Halfdoors.DOOR_FLIP, SoundCategory.PLAYERS, 0.6F, 0.4f + (world.getRandom().nextFloat()));
             user.incrementStat(Stats.USED.getOrCreateStat(this));
+            user.getItemCooldownManager().set(Halfdoors.GOLD_DOOR_NUGGET, 8);
             user.getItemCooldownManager().set(this, 8);
-            writeAmmo(stack, readAmmo(stack) - 1);
+            writeAmmo(stack, stack.getOrCreateNbt().getInt("ammo") - 1);
         }
-        return TypedActionResult.consume(stack);
+    }
+
+    public static ItemStack getFlipper(PlayerEntity player) {
+        Optional<TrinketComponent> optional = TrinketsApi.getTrinketComponent(player);
+        if (optional.isPresent() && optional.get().isEquipped(Halfdoors.DOOR_FLIPPER)) {
+            for (Pair<SlotReference, ItemStack> pair : optional.get().getEquipped(Halfdoors.DOOR_FLIPPER)) {
+                return pair.getRight();
+            }
+        }
+        return null;
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+    public void tick(ItemStack stack, SlotReference slot, LivingEntity entity) {
         if (stack.getDamage() > 0) {
             stack.setDamage(stack.getDamage() - 1);
-        } else if (readAmmo(stack) < 3) {
-            writeAmmo(stack, readAmmo(stack) + 1);
+        } else if (readAmmo(stack) < 4) {
+            writeAmmo(stack, readAmmo(stack));
             stack.setDamage(100);
         }
-        super.inventoryTick(stack, world, entity, slot, selected);
+        super.tick(stack, slot, entity);
     }
 
     @Override
@@ -57,10 +103,20 @@ public class DoorFlipperItem extends Item {
     }
 
     public static int readAmmo(ItemStack stack) {
-        return stack.getOrCreateNbt().getInt("ammo");
+        return stack.getOrCreateNbt().getInt("ammo") + (stack.getDamage() == 0 ? 1 : 0);
     }
 
     public static void writeAmmo(ItemStack stack, int ammo) {
         stack.getOrCreateNbt().putInt("ammo", ammo);
+    }
+
+    public static boolean dispenseTrinket(BlockPointer pointer, ItemStack stack) {
+        BlockPos blockPos = pointer.getPos().offset(pointer.getBlockState().get(DispenserBlock.FACING));
+        List<PlayerEntity> list = pointer.getWorld().getEntitiesByClass(PlayerEntity.class, new Box(blockPos), EntityPredicates.EXCEPT_SPECTATOR.and(new EntityPredicates.Equipable(stack)));
+        if (list.isEmpty()) {
+            return false;
+        }
+        PlayerEntity user = list.get(0);
+        return equipItem(user, stack);
     }
 }

@@ -41,7 +41,7 @@ import net.minecraft.util.registry.Registry;
 import java.util.ArrayList;
 import java.util.Random;
 
-@SuppressWarnings({"UnusedReturnValue", "SameParameterValue"})
+@SuppressWarnings({"UnusedReturnValue", "SameParameterValue", "unused"})
 public class PeculiarPieces implements ModInitializer {
     public static final String MOD_ID = "peculiarpieces";
     public static final Random RANDOM = new Random();

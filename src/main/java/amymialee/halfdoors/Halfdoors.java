@@ -6,14 +6,19 @@ import amymialee.halfdoors.blocks.IronFenceGateBlock;
 import amymialee.halfdoors.client.DoorcutterScreenHandler;
 import amymialee.halfdoors.inventory.LauncherScreenHandler;
 import amymialee.halfdoors.items.flipper.DoorFlipperItem;
+import amymialee.halfdoors.items.flipper.TinyDoorEntity;
 import amymialee.halfdoors.items.launcher.DoorLauncherItem;
 import amymialee.halfdoors.items.launcher.DoorbladeEntity;
-import amymialee.halfdoors.items.flipper.TinyDoorEntity;
 import amymialee.halfdoors.recipe.DoorSmithingRecipe;
 import amymialee.halfdoors.recipe.DoorcuttingRecipe;
+import amymialee.halfdoors.util.DoorControls;
+import dev.emi.trinkets.api.SlotReference;
+import dev.emi.trinkets.api.TrinketComponent;
+import dev.emi.trinkets.api.TrinketsApi;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.block.Block;
@@ -33,10 +38,12 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Random;
 
 @SuppressWarnings("unused")
@@ -70,12 +77,27 @@ public class Halfdoors implements ModInitializer {
     public static SoundEvent DOOR_LAUNCHER_FIRE = Registry.register(Registry.SOUND_EVENT, id("item.doorlauncher.fire"), new SoundEvent(id("item.doorlauncher.fire")));
 
     public static final Item DOOR_FLIPPER = registerItem("door_flipper", new DoorFlipperItem(new FabricItemSettings().maxCount(1).maxDamage(100).rarity(Rarity.RARE).group(DOOR_GROUP)));
-    public static final EntityType<TinyDoorEntity> TINY_DOOR_ENTITY = Registry.register(Registry.ENTITY_TYPE, id("tiny_door"), FabricEntityTypeBuilder.<TinyDoorEntity>create(SpawnGroup.MISC, TinyDoorEntity::new).dimensions(EntityDimensions.fixed(0.6F, 0.6F)).trackRangeChunks(4).trackedUpdateRate(20).build());
+    public static final EntityType<TinyDoorEntity> TINY_DOOR_ENTITY = Registry.register(Registry.ENTITY_TYPE, id("tiny_door"), FabricEntityTypeBuilder.<TinyDoorEntity>create(SpawnGroup.MISC, TinyDoorEntity::new).dimensions(EntityDimensions.fixed(0.4F, 0.4F)).trackRangeChunks(4).trackedUpdateRate(20).build());
     public static SoundEvent DOOR_FLIP = Registry.register(Registry.SOUND_EVENT, id("item.doorflipper.flip"), new SoundEvent(id("item.doorflipper.flip")));
     public static final Item GOLD_DOOR_NUGGET = registerItem("gold_door_nugget", new Item(new FabricItemSettings().group(DOOR_GROUP)));
 
     @Override
-    public void onInitialize() {}
+    public void onInitialize() {
+        ServerPlayNetworking.registerGlobalReceiver(DoorControls.FLIP, (server, playerEntity, playNetworkHandler, packetByteBuf, packetSender) -> {
+            if (playerEntity.getItemCooldownManager().isCoolingDown(DOOR_FLIPPER)) {
+                return;
+            }
+            Optional<TrinketComponent> optional = TrinketsApi.getTrinketComponent(playerEntity);
+            if (optional.isPresent() && optional.get().isEquipped(Halfdoors.DOOR_FLIPPER)) {
+                for (Pair<SlotReference, ItemStack> pair : optional.get().getEquipped(Halfdoors.DOOR_FLIPPER)) {
+                    if (DoorFlipperItem.readAmmo(pair.getRight()) > 0) {
+                        ((DoorFlipperItem) DOOR_FLIPPER).toss(playerEntity, pair.getRight());
+                        return;
+                    }
+                }
+            }
+        });
+    }
 
     private static Block registerBlock(String name, Block block) {
         Registry.register(Registry.BLOCK, id(name), block);
