@@ -132,6 +132,9 @@ public class DoorFlipperItem extends TrinketItem implements Wearable {
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         super.appendTooltip(stack, world, tooltip, context);
-        tooltip.add(new TranslatableText("item.halfdoors.door_launcher.description", DoorControls.DOOR_FLIP.getBoundKeyLocalizedText().getWithStyle(Style.EMPTY.withColor(Formatting.BLUE)).get(0)).formatted(Formatting.GRAY));
+        List<Text> text = DoorControls.DOOR_FLIP.getBoundKeyLocalizedText().getWithStyle(Style.EMPTY.withColor(Formatting.BLUE));
+        if (!text.isEmpty()) {
+            tooltip.add(new TranslatableText("item.halfdoors.door_launcher.description", text.get(0)).formatted(Formatting.GRAY));
+        }
     }
 }
