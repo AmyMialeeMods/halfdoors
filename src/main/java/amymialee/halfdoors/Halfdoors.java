@@ -3,15 +3,14 @@ package amymialee.halfdoors;
 import amymialee.halfdoors.blocks.DoorcutterBlock;
 import amymialee.halfdoors.blocks.HalfDoorBlock;
 import amymialee.halfdoors.blocks.IronFenceGateBlock;
-import amymialee.halfdoors.screens.DoorcutterScreenHandler;
-import amymialee.halfdoors.screens.LauncherScreenHandler;
-import amymialee.halfdoors.items.DoorFlipperItem;
-import amymialee.halfdoors.entities.TinyDoorEntity;
-import amymialee.halfdoors.items.DoorLauncherItem;
 import amymialee.halfdoors.entities.DoorbladeEntity;
+import amymialee.halfdoors.entities.TinyDoorEntity;
+import amymialee.halfdoors.items.DoorFlipperItem;
+import amymialee.halfdoors.items.DoorLauncherItem;
 import amymialee.halfdoors.recipe.DoorSmithingRecipe;
 import amymialee.halfdoors.recipe.DoorcuttingRecipe;
-import amymialee.halfdoors.util.DoorControls;
+import amymialee.halfdoors.screens.DoorcutterScreenHandler;
+import amymialee.halfdoors.screens.LauncherScreenHandler;
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketComponent;
 import dev.emi.trinkets.api.TrinketsApi;
@@ -80,10 +79,11 @@ public class Halfdoors implements ModInitializer {
     public static final EntityType<TinyDoorEntity> TINY_DOOR_ENTITY = Registry.register(Registry.ENTITY_TYPE, id("tiny_door"), FabricEntityTypeBuilder.<TinyDoorEntity>create(SpawnGroup.MISC, TinyDoorEntity::new).dimensions(EntityDimensions.fixed(0.1F, 0.1F)).trackRangeChunks(4).trackedUpdateRate(20).build());
     public static SoundEvent DOOR_FLIP = Registry.register(Registry.SOUND_EVENT, id("item.doorflipper.flip"), new SoundEvent(id("item.doorflipper.flip")));
     public static final Item GOLD_DOOR_NUGGET = registerItem("gold_door_nugget", new Item(new FabricItemSettings().group(DOOR_GROUP)));
+    public static final Identifier FLIP = Halfdoors.id("flip_packet");
 
     @Override
     public void onInitialize() {
-        ServerPlayNetworking.registerGlobalReceiver(DoorControls.FLIP, (server, playerEntity, playNetworkHandler, packetByteBuf, packetSender) -> {
+        ServerPlayNetworking.registerGlobalReceiver(FLIP, (server, playerEntity, playNetworkHandler, packetByteBuf, packetSender) -> {
             if (playerEntity.getItemCooldownManager().isCoolingDown(DOOR_FLIPPER)) {
                 return;
             }

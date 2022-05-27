@@ -14,6 +14,7 @@
 
   "container.doorcutter" : "Doorcutter",
   "block.halfdoors.doorcutter" : "Doorcutter",
+  "category.halfdoors.doorcutting" : "Doorcutting",
 
   "item.halfdoors.door_launcher" : "Door Launcher",
   "modifier.halfdoors.shulker" : "Storage Upgrade",
@@ -30,5 +31,6 @@
   "trinkets.slot.offhand.gadget" : "Gadget",
 
   "category.halfdoors" : "Halfdoors",
-  "key.halfdoors.door_flip" : "Door Toss"
+  "key.halfdoors.door_flip" : "Door Flip",
+  "item.halfdoors.door_launcher.description" : "Press §9[%s§9]§r to flip a door."
 }

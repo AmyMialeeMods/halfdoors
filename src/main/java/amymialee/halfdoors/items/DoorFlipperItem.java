@@ -2,6 +2,7 @@ package amymialee.halfdoors.items;
 
 import amymialee.halfdoors.Halfdoors;
 import amymialee.halfdoors.entities.TinyDoorEntity;
+import amymialee.halfdoors.util.DoorControls;
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketComponent;
 import dev.emi.trinkets.api.TrinketItem;
@@ -9,6 +10,7 @@ import dev.emi.trinkets.api.TrinketsApi;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.DispenserBehavior;
 import net.minecraft.block.dispenser.ItemDispenserBehavior;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -17,6 +19,10 @@ import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.stat.Stats;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Pair;
 import net.minecraft.util.TypedActionResult;
@@ -26,6 +32,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
@@ -120,5 +127,11 @@ public class DoorFlipperItem extends TrinketItem implements Wearable {
         }
         PlayerEntity user = list.get(0);
         return equipItem(user, stack);
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        super.appendTooltip(stack, world, tooltip, context);
+        tooltip.add(new TranslatableText("item.halfdoors.door_launcher.description", DoorControls.DOOR_FLIP.getBoundKeyLocalizedText().getWithStyle(Style.EMPTY.withColor(Formatting.BLUE)).get(0)).formatted(Formatting.GRAY));
     }
 }

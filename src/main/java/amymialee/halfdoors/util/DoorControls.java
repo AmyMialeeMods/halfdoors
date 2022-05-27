@@ -10,12 +10,10 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
 @SuppressWarnings("SameParameterValue")
 public class DoorControls {
-    public static final Identifier FLIP = Halfdoors.id("flip_packet");
     public static final KeyBinding DOOR_FLIP = createSafeKeyMapping("key.%s.door_flip".formatted(Halfdoors.MOD_ID), GLFW.GLFW_KEY_R);
 
     public static void keyInput(int key, int scancode) {
@@ -30,7 +28,7 @@ public class DoorControls {
                 }
                 ItemStack flipper = DoorFlipperItem.getFlipper(player);
                 if (flipper != null && DoorFlipperItem.readAmmo(flipper) > 0) {
-                    ClientPlayNetworking.send(FLIP, PacketByteBufs.empty());
+                    ClientPlayNetworking.send(Halfdoors.FLIP, PacketByteBufs.empty());
                 }
             }
         }

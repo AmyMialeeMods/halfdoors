@@ -3,7 +3,6 @@ package amymialee.halfdoors.mixin;
 import amymialee.halfdoors.util.HomingArrowAccessor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.hit.EntityHitResult;
@@ -51,7 +50,6 @@ public abstract class ProjectileEntityMixin extends Entity implements HomingArro
         this.bounces = bounces;
     }
 
-    @SuppressWarnings("ConstantConditions")
     @Inject(method = "tick", at = @At("HEAD"))
     public void HalfDoors$Homing(CallbackInfo ci) {
         if (target != null && target.isAlive()) {
@@ -62,14 +60,12 @@ public abstract class ProjectileEntityMixin extends Entity implements HomingArro
             Vec3d velocity = new Vec3d(x, y, z);
             velocity.normalize();
             setVelocity(velocity.x, velocity.y, velocity.z, 2f, 0);
-            if (!(((Object) this) instanceof PersistentProjectileEntity)) {
-                Vec3d vec3d = this.getVelocity();
-                double e = vec3d.x;
-                double f = vec3d.y;
-                double g = vec3d.z;
-                for (int i = 0; i < 4; ++i) {
-                    this.world.addParticle(ParticleTypes.ENCHANTED_HIT, this.getX() + e * (double) i / 4.0D, this.getY() + f * (double) i / 4.0D, this.getZ() + g * (double) i / 4.0D, -e, -f + 0.2D, -g);
-                }
+            Vec3d vec3d = this.getVelocity();
+            double e = vec3d.x;
+            double f = vec3d.y;
+            double g = vec3d.z;
+            for (int i = 0; i < 4; ++i) {
+                this.world.addParticle(ParticleTypes.ENCHANTED_HIT, this.getX() + e * (double) i / 4.0D, this.getY() + f * (double) i / 4.0D, this.getZ() + g * (double) i / 4.0D, -e, -f + 0.2D, -g);
             }
         } else {
             target = null;
