@@ -1,5 +1,6 @@
 package amymialee.peculiarpieces.items;
 
+import amymialee.peculiarpieces.PeculiarPieces;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,7 +18,7 @@ public class MountingStickItem extends Item {
 
     @Override
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity livingEntity, Hand hand) {
-        if (!(livingEntity instanceof PlayerEntity) && !user.getItemCooldownManager().isCoolingDown(this)) {
+        if (!livingEntity.getType().isIn(PeculiarPieces.MOUNT_BLACKLIST) && !user.getItemCooldownManager().isCoolingDown(this)) {
             if (user.getFirstPassenger() != null) {
                 if (!livingEntity.hasPassengers()) {
                     user.getFirstPassenger().startRiding(livingEntity, true);

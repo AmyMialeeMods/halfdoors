@@ -1,20 +1,20 @@
 package amymialee.peculiarpieces;
 
-import amymialee.peculiarpieces.blocks.InvisiblePressurePlate;
+import amymialee.peculiarpieces.blockentities.WarpBlockEntity;
 import amymialee.peculiarpieces.blocks.CheckpointBlock;
-import amymialee.peculiarpieces.items.CheckpointPearlItem;
 import amymialee.peculiarpieces.blocks.CheckpointRemoverBlock;
 import amymialee.peculiarpieces.blocks.CheckpointReturnerBlock;
-import amymialee.peculiarpieces.items.ConsumablePositionPearlItem;
-import amymialee.peculiarpieces.items.PositionPearlItem;
-import amymialee.peculiarpieces.items.TransportPearlItem;
+import amymialee.peculiarpieces.blocks.InvisiblePressurePlate;
 import amymialee.peculiarpieces.blocks.WarpBlock;
-import amymialee.peculiarpieces.blockentities.WarpBlockEntity;
-import amymialee.peculiarpieces.screens.WarpScreenHandler;
 import amymialee.peculiarpieces.items.BlazingGlidersItem;
+import amymialee.peculiarpieces.items.CheckpointPearlItem;
+import amymialee.peculiarpieces.items.ConsumablePositionPearlItem;
 import amymialee.peculiarpieces.items.FlightRingItem;
 import amymialee.peculiarpieces.items.MountingStickItem;
+import amymialee.peculiarpieces.items.PositionPearlItem;
 import amymialee.peculiarpieces.items.SlipperyShoesItem;
+import amymialee.peculiarpieces.items.TransportPearlItem;
+import amymialee.peculiarpieces.screens.WarpScreenHandler;
 import amymialee.peculiarpieces.util.WarpManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
@@ -27,6 +27,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
 import net.minecraft.block.PressurePlateBlock;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -62,6 +63,7 @@ public class PeculiarPieces implements ModInitializer {
     public static final Item POS_PEARL = registerItem("position_pearl", new PositionPearlItem(new FabricItemSettings().maxCount(1).rarity(Rarity.RARE).group(PIECES_GROUP)));
     public static final Item CONSUMABLE_POS_PEARL = registerItem("consumable_position_pearl", new ConsumablePositionPearlItem(new FabricItemSettings().rarity(Rarity.UNCOMMON).group(PIECES_GROUP)));
     public static final Item MOUNTING_STICK = registerItem("mounting_stick", new MountingStickItem(new FabricItemSettings().maxCount(1).rarity(Rarity.RARE).group(PIECES_GROUP)));
+    public static final TagKey<EntityType<?>> MOUNT_BLACKLIST = TagKey.of(Registry.ENTITY_TYPE_KEY, id("mount_blacklist"));
     public static final Item FLIGHT_RING = registerItem("flight_ring", new FlightRingItem(new FabricItemSettings().maxCount(1).rarity(Rarity.RARE).group(PIECES_GROUP)));
 
     public static final Block INVISIBLE_PLATE_LIGHT = registerBlock("invisible_plate_light", new InvisiblePressurePlate(PressurePlateBlock.ActivationRule.EVERYTHING, FabricBlockSettings.of(Material.WOOD, Blocks.TINTED_GLASS.getDefaultMapColor()).noCollision().strength(0.5F).sounds(BlockSoundGroup.GLASS)));
