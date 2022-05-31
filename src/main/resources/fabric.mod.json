@@ -34,6 +34,14 @@
   ],
   "depends": {
     "fabric": "*",
-    "trinkets": ">=3.0.0"
+    "trinkets": ">=3.0.0",
+    "visiblebarriers": ">=1.5.0"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "https://discord.gg/P4dUsxv6An"
+      }
+    }
   }
 }

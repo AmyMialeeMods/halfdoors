@@ -4,7 +4,7 @@ import amymialee.peculiarpieces.blockentities.WarpBlockEntity;
 import amymialee.peculiarpieces.blocks.CheckpointBlock;
 import amymialee.peculiarpieces.blocks.CheckpointRemoverBlock;
 import amymialee.peculiarpieces.blocks.CheckpointReturnerBlock;
-import amymialee.peculiarpieces.blocks.InvisiblePressurePlate;
+import amymialee.peculiarpieces.blocks.OpenPressurePlate;
 import amymialee.peculiarpieces.blocks.WarpBlock;
 import amymialee.peculiarpieces.items.BlazingGlidersItem;
 import amymialee.peculiarpieces.items.CheckpointPearlItem;
@@ -25,7 +25,6 @@ import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityT
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
-import net.minecraft.block.PressurePlateBlock;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
@@ -48,7 +47,6 @@ public class PeculiarPieces implements ModInitializer {
     public static final Random RANDOM = new Random();
     public static final ArrayList<Item> MOD_ITEMS = new ArrayList<>();
     public static final ItemGroup PIECES_GROUP = FabricItemGroupBuilder.create(id("peculiarpieces_group")).icon(PeculiarPieces::getRecipeKindIcon).build();
-    public static boolean visible = false;
 
     public static final Block CHECKPOINT = registerBlock("checkpoint", new BlockItem(new CheckpointBlock(FabricBlockSettings.of(Material.STRUCTURE_VOID).noCollision()), new FabricItemSettings().rarity(Rarity.EPIC).group(PIECES_GROUP)));
     public static final Block CHECKPOINT_REMOVER = registerBlock("checkpoint_remover", new BlockItem(new CheckpointRemoverBlock(FabricBlockSettings.of(Material.STRUCTURE_VOID).noCollision()), new FabricItemSettings().rarity(Rarity.EPIC).group(PIECES_GROUP)));
@@ -66,8 +64,10 @@ public class PeculiarPieces implements ModInitializer {
     public static final TagKey<EntityType<?>> MOUNT_BLACKLIST = TagKey.of(Registry.ENTITY_TYPE_KEY, id("mount_blacklist"));
     public static final Item FLIGHT_RING = registerItem("flight_ring", new FlightRingItem(new FabricItemSettings().maxCount(1).rarity(Rarity.RARE).group(PIECES_GROUP)));
 
-    public static final Block INVISIBLE_PLATE_LIGHT = registerBlock("invisible_plate_light", new InvisiblePressurePlate(PressurePlateBlock.ActivationRule.EVERYTHING, FabricBlockSettings.of(Material.WOOD, Blocks.TINTED_GLASS.getDefaultMapColor()).noCollision().strength(0.5F).sounds(BlockSoundGroup.GLASS)));
-    public static final Block INVISIBLE_PLATE_HEAVY = registerBlock("invisible_plate_heavy", new InvisiblePressurePlate(PressurePlateBlock.ActivationRule.MOBS, FabricBlockSettings.of(Material.STONE, Blocks.TINTED_GLASS.getDefaultMapColor()).noCollision().strength(0.5F).sounds(BlockSoundGroup.GLASS)));
+    public static final Block INVISIBLE_PLATE_LIGHT = registerBlock("invisible_plate_light", new OpenPressurePlate(true, 0, FabricBlockSettings.of(Material.WOOD, Blocks.TINTED_GLASS.getDefaultMapColor()).noCollision().strength(0.5F).sounds(BlockSoundGroup.GLASS)));
+    public static final Block INVISIBLE_PLATE_HEAVY = registerBlock("invisible_plate_heavy", new OpenPressurePlate(true, 1, FabricBlockSettings.of(Material.STONE, Blocks.TINTED_GLASS.getDefaultMapColor()).noCollision().strength(0.5F).sounds(BlockSoundGroup.GLASS)));
+    public static final Block INVISIBLE_PLAYER_PLATE = registerBlock("invisible_player_plate", new OpenPressurePlate(true, 2, FabricBlockSettings.of(Material.STONE, Blocks.TINTED_GLASS.getDefaultMapColor()).noCollision().strength(0.5F).sounds(BlockSoundGroup.GLASS)));
+    public static final Block PLAYER_PLATE = registerBlock("player_plate", new OpenPressurePlate(false, 2, FabricBlockSettings.of(Material.STONE, Blocks.TINTED_GLASS.getDefaultMapColor()).noCollision().strength(0.5F).sounds(BlockSoundGroup.GLASS)));
 
     public static final Block SLIPPERY_STONE = registerBlock("slippery_stone", new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.25F, 4.0F).slipperiness(1f / 0.91f)));
     public static final Item SLIPPERY_SHOES = registerItem("slippery_shoes", new SlipperyShoesItem(new FabricItemSettings().maxCount(1).rarity(Rarity.RARE).group(PIECES_GROUP)));

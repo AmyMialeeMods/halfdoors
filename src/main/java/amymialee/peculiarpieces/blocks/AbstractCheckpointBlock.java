@@ -1,6 +1,6 @@
 package amymialee.peculiarpieces.blocks;
 
-import amymialee.peculiarpieces.PeculiarPieces;
+import amymialee.visiblebarriers.VisibleBarriers;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -20,13 +20,13 @@ public class AbstractCheckpointBlock extends Block {
 
     @Override
     public BlockRenderType getRenderType(BlockState state) {
-        if (PeculiarPieces.visible) return BlockRenderType.MODEL;
+        if (VisibleBarriers.isVisible()) return BlockRenderType.MODEL;
         return BlockRenderType.INVISIBLE;
     }
 
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        if (PeculiarPieces.visible) return SHAPE;
+        if (VisibleBarriers.isVisible()) return SHAPE;
         return EMPTY;
     }
 }

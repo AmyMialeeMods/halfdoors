@@ -2,22 +2,22 @@ package amymialee.halfdoors;
 
 import amymialee.halfdoors.client.DoorSawEntityModel;
 import amymialee.halfdoors.client.DoorSawEntityRenderer;
-import amymialee.halfdoors.screens.DoorcutterScreen;
 import amymialee.halfdoors.client.TinyDoorEntityModel;
 import amymialee.halfdoors.client.TinyDoorEntityRenderer;
-import amymialee.halfdoors.screens.LauncherScreen;
 import amymialee.halfdoors.items.DoorLauncherItem;
+import amymialee.halfdoors.screens.DoorcutterScreen;
+import amymialee.halfdoors.screens.LauncherScreen;
 import amymialee.halfdoors.util.DoorControls;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
+import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.gui.screen.ingame.HandledScreens;
-import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
@@ -39,8 +39,8 @@ public class HalfdoorsClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(Halfdoors.CRIMSON_HALFDOOR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(Halfdoors.WARPED_HALFDOOR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(Halfdoors.DOORCUTTER, RenderLayer.getCutout());
-        HandledScreens.register(Halfdoors.DOOR_CUTTER_SCREEN_HANDLER, DoorcutterScreen::new);
-        HandledScreens.register(Halfdoors.LAUNCHER_SCREEN_HANDLER, LauncherScreen::new);
+        ScreenRegistry.register(Halfdoors.DOOR_CUTTER_SCREEN_HANDLER, DoorcutterScreen::new);
+        ScreenRegistry.register(Halfdoors.LAUNCHER_SCREEN_HANDLER, LauncherScreen::new);
 
         EntityModelLayerRegistry.registerModelLayer(DOOR_SAW_LAYER, DoorSawEntityModel::getTexturedModelData);
         EntityRendererRegistry.register(Halfdoors.DOORBLADE_ENTITY, DoorSawEntityRenderer::new);
@@ -54,7 +54,7 @@ public class HalfdoorsClient implements ClientModInitializer {
     }
 
     static {
-        ModelPredicateProviderRegistry.register(Halfdoors.DOOR_LAUNCHER, new Identifier("open"), (stack, world, entity, number) -> DoorLauncherItem.isOpen(stack) ? 1 : 0);
-        ModelPredicateProviderRegistry.register(Halfdoors.GOLD_DOOR_NUGGET, new Identifier("empty"), (stack, world, entity, number) -> stack.getOrCreateNbt().getBoolean("hd:empty") ? 1 : 0);
+        FabricModelPredicateProviderRegistry.register(Halfdoors.DOOR_LAUNCHER, new Identifier("open"), (stack, world, entity, number) -> DoorLauncherItem.isOpen(stack) ? 1 : 0);
+        FabricModelPredicateProviderRegistry.register(Halfdoors.GOLD_DOOR_NUGGET, new Identifier("empty"), (stack, world, entity, number) -> stack.getOrCreateNbt().getBoolean("hd:empty") ? 1 : 0);
     }
 }

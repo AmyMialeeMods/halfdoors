@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "peculiarpieces:block/invisible_player_plate"
+    },
+    "powered=true": {
+      "model": "peculiarpieces:block/invisible_player_plate_down"
+    }
+  }
+}

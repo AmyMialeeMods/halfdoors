@@ -24,6 +24,8 @@
 
   "block.peculiarpieces.invisible_plate_heavy" : "Heavy Invisible Plate",
   "block.peculiarpieces.invisible_plate_light" : "Light Invisible Plate",
+  "block.peculiarpieces.invisible_player_plate" : "Invisible Player Plate",
+  "block.peculiarpieces.player_plate" : "Player Plate",
 
   "item.peculiarpieces.mounting_stick" : "Mounting Stick",
   "item.peculiarpieces.flight_ring" : "Flight Ring",
