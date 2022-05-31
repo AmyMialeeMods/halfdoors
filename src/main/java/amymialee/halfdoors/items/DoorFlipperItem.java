@@ -72,8 +72,8 @@ public class DoorFlipperItem extends TrinketItem implements Wearable {
             }
             world.playSound(null, user.getX(), user.getY(), user.getZ(), Halfdoors.DOOR_FLIP, SoundCategory.PLAYERS, 0.3F, 0.4f + (world.getRandom().nextFloat()));
             user.incrementStat(Stats.USED.getOrCreateStat(this));
-            user.getItemCooldownManager().set(Halfdoors.GOLD_DOOR_NUGGET, 8);
-            user.getItemCooldownManager().set(this, 8);
+            user.getItemCooldownManager().set(Halfdoors.GOLD_DOOR_NUGGET, 6);
+            user.getItemCooldownManager().set(this, 6);
             user.swingHand(Hand.OFF_HAND);
             writeAmmo(stack, stack.getOrCreateNbt().getInt("ammo") - 1);
         }
@@ -91,11 +91,18 @@ public class DoorFlipperItem extends TrinketItem implements Wearable {
 
     @Override
     public void tick(ItemStack stack, SlotReference slot, LivingEntity entity) {
-        if (stack.getDamage() > 0) {
-            stack.setDamage(stack.getDamage() - 1);
-        } else if (readAmmo(stack) < 4) {
-            writeAmmo(stack, readAmmo(stack));
-            stack.setDamage(100);
+        if (!(entity instanceof PlayerEntity player) || !player.world.isClient()) {
+            int damage = stack.getDamage();
+            if (damage > 0) {
+                damage--;
+                int ammo = readAmmo(stack);
+                if (damage <= 0 && ammo < 4) {
+                    writeAmmo(stack, ammo);
+                    stack.setDamage(100);
+                } else {
+                    stack.setDamage(damage);
+                }
+            }
         }
         super.tick(stack, slot, entity);
     }

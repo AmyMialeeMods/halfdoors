@@ -1,9 +1,0 @@
-{
-  "entities": [
-    "player"
-  ],
-  "slots": [
-    "feet/shoes",
-    "ring/flight_ring"
-  ]
-}

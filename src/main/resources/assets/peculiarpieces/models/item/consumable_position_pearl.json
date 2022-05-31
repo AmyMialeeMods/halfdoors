@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "peculiarpieces:item/consumable_position_pearl"
-  }
-}
