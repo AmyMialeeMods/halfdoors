@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(HeldItemRenderer.class)
 public class HeldItemRendererMixin {
     @Inject(method = "isChargedCrossbow", at = @At("HEAD"), cancellable = true)
-    private static void isChargedCrossbow(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+    private static void HalfDoors$ChargedDoorLauncherHeld(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (stack.isOf(Halfdoors.DOOR_LAUNCHER)) {
             cir.setReturnValue(!DoorLauncherItem.isOpen(stack));
         }

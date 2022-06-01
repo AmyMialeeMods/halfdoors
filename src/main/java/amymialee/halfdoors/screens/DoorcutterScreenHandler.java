@@ -1,4 +1,4 @@
-package amymialee.halfdoors.client;
+package amymialee.halfdoors.screens;
 
 import amymialee.halfdoors.Halfdoors;
 import amymialee.halfdoors.recipe.DoorcuttingRecipe;

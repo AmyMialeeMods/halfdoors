@@ -60,5 +60,14 @@
       }
     ],
     "subtitle": "subtitles.doorlauncher.fire"
+  },
+  "item.doorflipper.flip": {
+    "sounds": [
+      {
+        "name": "halfdoors:doorflip",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.doorflipper.flip"
   }
 }

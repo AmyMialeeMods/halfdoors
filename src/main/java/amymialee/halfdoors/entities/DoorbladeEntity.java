@@ -1,7 +1,8 @@
-package amymialee.halfdoors.items;
+package amymialee.halfdoors.entities;
 
 import amymialee.halfdoors.Halfdoors;
-import amymialee.halfdoors.inventory.LauncherScreenHandler;
+import amymialee.halfdoors.screens.LauncherScreenHandler;
+import amymialee.halfdoors.items.DoorLauncherItem;
 import com.google.common.collect.Lists;
 import com.simibubi.create.content.contraptions.components.structureMovement.glue.SuperGlueEntity;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
@@ -167,7 +168,7 @@ public class DoorbladeEntity extends PersistentProjectileEntity {
                     this.piercingKilledEntities.add(livingEntity);
                 }
             }
-            this.playSound(this.getSound(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
+            this.playSound(this.getSound(), 0.6F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
         }
     }
 

@@ -1,6 +1,6 @@
 package amymialee.halfdoors.client;
 
-import amymialee.halfdoors.entities.DoorbladeEntity;
+import amymialee.halfdoors.entities.TinyDoorEntity;
 import net.minecraft.client.model.ModelData;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.ModelPartBuilder;
@@ -12,11 +12,11 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 
-public class DoorSawEntityModel extends EntityModel<DoorbladeEntity> {
+public class TinyDoorEntityModel extends EntityModel<TinyDoorEntity> {
     private final ModelPart root;
     public final ModelPart saw;
 
-    public DoorSawEntityModel(ModelPart root) {
+    public TinyDoorEntityModel(ModelPart root) {
         super(RenderLayer::getEntityCutout);
         this.root = root;
         this.saw = root.getChild("door");
@@ -25,7 +25,7 @@ public class DoorSawEntityModel extends EntityModel<DoorbladeEntity> {
     public static TexturedModelData getTexturedModelData() {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
-        modelPartData.addChild("door", ModelPartBuilder.create().uv(0, 0).cuboid(-8.0F, -0.5F, -8.0F, 16.0F, 1.0F, 16.0F), ModelTransform.NONE);
+        modelPartData.addChild("door", ModelPartBuilder.create().uv(0, 0).cuboid(-8.0F, -2F, -8.0F, 16.0F, 4F, 16.0F), ModelTransform.NONE);
         return TexturedModelData.of(modelData, 64, 17);
     }
 
@@ -35,5 +35,5 @@ public class DoorSawEntityModel extends EntityModel<DoorbladeEntity> {
     }
 
     @Override
-    public void setAngles(DoorbladeEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {}
+    public void setAngles(TinyDoorEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {}
 }

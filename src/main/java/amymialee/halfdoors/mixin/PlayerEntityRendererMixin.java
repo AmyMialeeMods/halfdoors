@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PlayerEntityRenderer.class)
 public class PlayerEntityRendererMixin {
     @Inject(method = "getArmPose", at = @At("HEAD"), cancellable = true)
-    private static void getArmPose(AbstractClientPlayerEntity player, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> cir) {
+    private static void HalfDoors$DoorLauncherPose(AbstractClientPlayerEntity player, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> cir) {
         ItemStack itemStack = player.getStackInHand(hand);
         if (itemStack.isOf(Halfdoors.DOOR_LAUNCHER)) {
             if (!DoorLauncherItem.isOpen(itemStack) && !player.handSwinging) {

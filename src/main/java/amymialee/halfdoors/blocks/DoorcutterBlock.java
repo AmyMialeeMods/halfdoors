@@ -1,6 +1,6 @@
 package amymialee.halfdoors.blocks;
 
-import amymialee.halfdoors.client.DoorcutterScreenHandler;
+import amymialee.halfdoors.screens.DoorcutterScreenHandler;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.StonecutterBlock;

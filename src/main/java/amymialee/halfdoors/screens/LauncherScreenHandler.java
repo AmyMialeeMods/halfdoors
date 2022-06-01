@@ -1,4 +1,4 @@
-package amymialee.halfdoors.inventory;
+package amymialee.halfdoors.screens;
 
 import amymialee.halfdoors.Halfdoors;
 import amymialee.halfdoors.items.DoorLauncherItem;

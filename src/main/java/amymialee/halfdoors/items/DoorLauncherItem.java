@@ -1,12 +1,14 @@
 package amymialee.halfdoors.items;
 
 import amymialee.halfdoors.Halfdoors;
-import amymialee.halfdoors.inventory.LauncherScreenHandler;
+import amymialee.halfdoors.screens.LauncherScreenHandler;
+import amymialee.halfdoors.entities.DoorbladeEntity;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.item.Vanishable;
@@ -22,6 +24,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -54,7 +57,7 @@ public class DoorLauncherItem extends RangedWeaponItem implements Vanishable {
                         }
                         world.spawnEntity(doorSaw);
                     }
-                    world.playSound(null, user.getX(), user.getY(), user.getZ(), Halfdoors.DOOR_LAUNCHER_FIRE, SoundCategory.PLAYERS, 12.0F, 10.0F + (world.getRandom().nextFloat() * 4.4F));
+                    world.playSound(null, user.getX(), user.getY(), user.getZ(), Halfdoors.DOOR_LAUNCHER_FIRE, SoundCategory.PLAYERS, 0.6F, 10.0F + (world.getRandom().nextFloat() * 4.4F));
                     if (!user.getAbilities().creativeMode) {
                         if (hasStoredAmmo(stack)) {
                             ItemStack newAmmo = readInventory(stack);
@@ -182,5 +185,18 @@ public class DoorLauncherItem extends RangedWeaponItem implements Vanishable {
 
     public int getRange() {
         return 32;
+    }
+
+    @Override
+    public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
+        super.appendStacks(group, stacks);
+        if (this.isIn(group)) {
+            ItemStack stack = new ItemStack(this);
+            NbtCompound compound = stack.getOrCreateNbt();
+            compound.putBoolean("hd:shulker", true);
+            compound.putBoolean("hd:trident", true);
+            compound.putBoolean("hd:netherite", true);
+            stacks.add(stack);
+        }
     }
 }

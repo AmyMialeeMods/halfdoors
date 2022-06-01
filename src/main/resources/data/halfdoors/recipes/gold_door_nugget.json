@@ -1,0 +1,8 @@
+{
+  "type": "halfdoors:doorcutting",
+  "ingredient": {
+    "item": "minecraft:gold_nugget"
+  },
+  "result": "halfdoors:gold_door_nugget",
+  "count": 1
+}

@@ -1,4 +1,4 @@
-package amymialee.halfdoors.client;
+package amymialee.halfdoors.screens;
 
 import amymialee.halfdoors.recipe.DoorcuttingRecipe;
 import com.mojang.blaze3d.systems.RenderSystem;

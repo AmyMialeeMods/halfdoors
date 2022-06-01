@@ -21,12 +21,23 @@
     ],
     "main": [
       "amymialee.halfdoors.Halfdoors"
+    ],
+    "rei": [
+      "amymialee.halfdoors.compat.HalfDoorsREIPlugin"
     ]
   },
   "mixins": [
     "halfdoors.mixins.json"
   ],
   "depends": {
-    "fabric": "*"
+    "fabric": "*",
+    "trinkets": ">=3.0.0"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "https://discord.gg/P4dUsxv6An"
+      }
+    }
   }
 }
