@@ -44,7 +44,7 @@ public abstract class ItemRendererMixin {
 
     private static int getGoldBarStep(ItemStack stack) {
         if (stack.isOf(Halfdoors.GOLD_DOOR_NUGGET)) {
-            return Math.round(13.0F - (float)stack.getOrCreateNbt().getInt("hd:recharge") * 13.0F / 100f);
+            return Math.round(13.0F - (float)stack.getOrCreateNbt().getInt("hd:recharge") * 13.0F / 80f);
         }
         return 0;
     }

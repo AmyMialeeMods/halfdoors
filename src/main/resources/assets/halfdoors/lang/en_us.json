@@ -29,8 +29,8 @@
   "item.halfdoors.gold_door_nugget" : "Golden Door Nugget",
   "entity.halfdoors.tiny_door" : "Golden Door Nugget",
   "trinkets.slot.offhand.gadget" : "Gadget",
-
-  "category.halfdoors" : "Halfdoors",
   "key.halfdoors.door_flip" : "Door Flip",
-  "item.halfdoors.door_launcher.description" : "Press §9[%s§9]§r to flip a door."
+  "subtitles.doorflipper.flip" : "Door Tossed",
+  "category.halfdoors" : "Halfdoors",
+  "item.halfdoors.door_flipper.description" : "Press §9[%s§9]§r to flip a door."
 }

@@ -13,6 +13,7 @@ import net.minecraft.block.dispenser.ItemDispenserBehavior;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Wearable;
 import net.minecraft.predicate.entity.EntityPredicates;
@@ -26,6 +27,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Pair;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -51,8 +53,28 @@ public class DoorFlipperItem extends TrinketItem implements Wearable {
     }
 
     @Override
+    public void onCraft(ItemStack stack, World world, PlayerEntity player) {
+        writeAmmo(stack, 3);
+        stack.setDamage(80);
+        super.onCraft(stack, world, player);
+    }
+
+    @Override
+    public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
+        ItemStack stack = new ItemStack(this);
+        writeAmmo(stack, 3);
+        stack.setDamage(80);
+        if (this.isIn(group)) {
+            stacks.add(stack);
+        }
+    }
+
+    @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
+        if (readAmmo(stack) < 4 && stack.getDamage() <= 0) {
+            stack.setDamage(80);
+        }
         if (equipItem(user, stack)) {
             return TypedActionResult.success(stack, world.isClient());
         }
@@ -61,7 +83,8 @@ public class DoorFlipperItem extends TrinketItem implements Wearable {
 
     public void toss(ServerPlayerEntity user, ItemStack stack) {
         World world = user.world;
-        if (readAmmo(stack) > 0) {
+        int ammo = readAmmo(stack);
+        if (ammo > 0) {
             if (!world.isClient) {
                 TinyDoorEntity tiny = new TinyDoorEntity(world, user);
                 tiny.setVelocity(user, Math.max(user.getPitch() - 30, -90), user.getYaw(), 0.0F, 1F, 0.0F);
@@ -75,7 +98,12 @@ public class DoorFlipperItem extends TrinketItem implements Wearable {
             user.getItemCooldownManager().set(Halfdoors.GOLD_DOOR_NUGGET, 6);
             user.getItemCooldownManager().set(this, 6);
             user.swingHand(Hand.OFF_HAND);
-            writeAmmo(stack, stack.getOrCreateNbt().getInt("ammo") - 1);
+            if (ammo != 128) {
+                writeAmmo(stack, stack.getOrCreateNbt().getInt("ammo") - 1);
+                if (stack.getDamage() == 0) {
+                    stack.setDamage(80);
+                }
+            }
         }
     }
 
@@ -96,9 +124,13 @@ public class DoorFlipperItem extends TrinketItem implements Wearable {
             if (damage > 0) {
                 damage--;
                 int ammo = readAmmo(stack);
-                if (damage <= 0 && ammo < 4) {
-                    writeAmmo(stack, ammo);
-                    stack.setDamage(100);
+                if (damage <= 0) {
+                    writeAmmo(stack, ammo + 1);
+                    if (ammo + 1 <= 3) {
+                        stack.setDamage(80);
+                    } else {
+                        stack.setDamage(0);
+                    }
                 } else {
                     stack.setDamage(damage);
                 }
@@ -118,8 +150,13 @@ public class DoorFlipperItem extends TrinketItem implements Wearable {
         return MathHelper.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
     }
 
+    @Override
+    public int getItemBarStep(ItemStack stack) {
+        return Math.round(13.0F - (float)stack.getDamage() * 13.0F / (float)this.getMaxDamage());
+    }
+
     public static int readAmmo(ItemStack stack) {
-        return stack.getOrCreateNbt().getInt("ammo") + (stack.getDamage() == 0 ? 1 : 0);
+        return stack.getOrCreateNbt().getInt("ammo");
     }
 
     public static void writeAmmo(ItemStack stack, int ammo) {
@@ -141,7 +178,7 @@ public class DoorFlipperItem extends TrinketItem implements Wearable {
         super.appendTooltip(stack, world, tooltip, context);
         List<Text> text = DoorControls.DOOR_FLIP.getBoundKeyLocalizedText().getWithStyle(Style.EMPTY.withColor(Formatting.BLUE));
         if (!text.isEmpty()) {
-            tooltip.add(new TranslatableText("item.halfdoors.door_launcher.description", text.get(0)).formatted(Formatting.GRAY));
+            tooltip.add(new TranslatableText("item.halfdoors.door_flipper.description", text.get(0)).formatted(Formatting.GRAY));
         }
     }
 }
