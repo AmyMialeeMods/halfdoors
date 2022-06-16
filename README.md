@@ -30,3 +30,8 @@ They act just as normal doors but with a single block in height.
         </th>
     </tr>
 </table>
+
+### License
+This mod is available under the BSD 3 Clause license.
+- Do not redistribute in binary form, only open source files may be redistributed.
+- Do not copy this mod to another minecraft modding framework without my permission.
