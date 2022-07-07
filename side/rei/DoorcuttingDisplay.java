@@ -1,4 +1,4 @@
-package amymialee.halfdoors.compat;
+package amymialee.halfdoors.compat.rei;
 
 import amymialee.halfdoors.recipe.DoorcuttingRecipe;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;

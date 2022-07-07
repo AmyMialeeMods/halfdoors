@@ -15,6 +15,7 @@
   "container.doorcutter" : "Doorcutter",
   "block.halfdoors.doorcutter" : "Doorcutter",
   "category.halfdoors.doorcutting" : "Doorcutting",
+  "emi.category.halfdoors.doorcutting" : "Doorcutting",
 
   "item.halfdoors.door_launcher" : "Door Launcher",
   "modifier.halfdoors.shulker" : "Storage Upgrade",
@@ -29,6 +30,7 @@
   "item.halfdoors.gold_door_nugget" : "Golden Door Nugget",
   "entity.halfdoors.tiny_door" : "Golden Door Nugget",
   "trinkets.slot.offhand.gadget" : "Gadget",
+  "tag.trinkets.offhand.gadget": "Gadget",
   "key.halfdoors.door_flip" : "Door Flip",
   "subtitles.doorflipper.flip" : "Door Tossed",
   "category.halfdoors" : "Halfdoors",

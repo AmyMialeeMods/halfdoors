@@ -165,4 +165,3 @@ public class DoorcutterScreen extends HandledScreen<DoorcutterScreenHandler> {
         }
     }
 }
-

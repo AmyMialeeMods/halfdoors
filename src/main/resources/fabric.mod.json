@@ -22,8 +22,8 @@
     "main": [
       "amymialee.halfdoors.Halfdoors"
     ],
-    "rei": [
-      "amymialee.halfdoors.compat.HalfDoorsREIPlugin"
+    "emi": [
+      "amymialee.halfdoors.compat.emi.HalfDoorsEmiPlugin"
     ]
   },
   "mixins": [

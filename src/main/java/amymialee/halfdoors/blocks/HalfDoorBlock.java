@@ -141,7 +141,7 @@ public class HalfDoorBlock extends Block {
         if (!this.getDefaultState().isOf(block) && bl != state.get(POWERED)) {
             if (bl != state.get(OPEN)) {
                 world.syncWorldEvent(null, bl ? this.getOpenSoundEventId() : this.getCloseSoundEventId(), pos, 0);
-                world.emitGameEvent(bl ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
+                world.emitGameEvent(null, bl ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
             }
             world.setBlockState(pos, state.with(POWERED, bl).with(OPEN, bl), Block.NOTIFY_LISTENERS);
         }

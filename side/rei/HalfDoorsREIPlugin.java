@@ -1,4 +1,4 @@
-package amymialee.halfdoors.compat;
+package amymialee.halfdoors.compat.rei;
 
 import amymialee.halfdoors.Halfdoors;
 import amymialee.halfdoors.recipe.DoorcuttingRecipe;
@@ -7,7 +7,6 @@ import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryStacks;
-import me.shedaniel.rei.plugin.client.categories.cooking.DefaultCookingCategory;
 
 public class HalfDoorsREIPlugin implements REIClientPlugin {
     public static final CategoryIdentifier<DoorcuttingDisplay> DOORCUTTING = CategoryIdentifier.of(Halfdoors.MOD_ID, "doorcutting");

@@ -1,6 +1,8 @@
 package amymialee.halfdoors.mixin;
 
 import amymialee.halfdoors.util.HomingArrowAccessor;
+import ladysnake.blast.common.entity.BombEntity;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.projectile.ProjectileEntity;
@@ -59,13 +61,21 @@ public abstract class ProjectileEntityMixin extends Entity implements HomingArro
             double z = (targetPos.z - getZ());
             Vec3d velocity = new Vec3d(x, y, z);
             velocity.normalize();
-            setVelocity(velocity.x, velocity.y, velocity.z, 2f, 0);
+            setVelocity(velocity.x, velocity.y, velocity.z, 1 + ((float) getBounces() / 2), 0);
             Vec3d vec3d = this.getVelocity();
             double e = vec3d.x;
             double f = vec3d.y;
             double g = vec3d.z;
             for (int i = 0; i < 4; ++i) {
                 this.world.addParticle(ParticleTypes.ENCHANTED_HIT, this.getX() + e * (double) i / 4.0D, this.getY() + f * (double) i / 4.0D, this.getZ() + g * (double) i / 4.0D, -e, -f + 0.2D, -g);
+            }
+            if (FabricLoader.getInstance().isModLoaded("blast")) {
+                if (this.distanceTo(target) < 1) {
+                    if (target instanceof BombEntity bomb) {
+                        bomb.setExplosionRadius(bomb.getExplosionRadius() * 1.8f);
+                        bomb.explode();
+                    }
+                }
             }
         } else {
             target = null;

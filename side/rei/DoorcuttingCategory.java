@@ -1,4 +1,4 @@
-package amymialee.halfdoors.compat;
+package amymialee.halfdoors.compat.rei;
 
 import amymialee.halfdoors.Halfdoors;
 import com.google.common.collect.Lists;
@@ -11,7 +11,6 @@ import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 
 import java.util.List;
 
@@ -28,9 +27,10 @@ public class DoorcuttingCategory implements DisplayCategory<DoorcuttingDisplay> 
 
     @Override
     public Text getTitle() {
-        return new TranslatableText("category.halfdoors.doorcutting");
+        return Text.translatable("category.halfdoors.doorcutting");
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     @Override
     public List<Widget> setupDisplay(DoorcuttingDisplay display, Rectangle bounds) {
         Point startPoint = new Point(bounds.getCenterX() - 41, bounds.getCenterY() - 13);
@@ -51,5 +51,4 @@ public class DoorcuttingCategory implements DisplayCategory<DoorcuttingDisplay> 
     public int getDisplayHeight() {
         return 36;
     }
-
 }

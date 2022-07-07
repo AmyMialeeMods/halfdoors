@@ -22,7 +22,6 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Pair;
@@ -176,9 +175,11 @@ public class DoorFlipperItem extends TrinketItem implements Wearable {
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         super.appendTooltip(stack, world, tooltip, context);
-        List<Text> text = DoorControls.DOOR_FLIP.getBoundKeyLocalizedText().getWithStyle(Style.EMPTY.withColor(Formatting.BLUE));
-        if (!text.isEmpty()) {
-            tooltip.add(new TranslatableText("item.halfdoors.door_flipper.description", text.get(0)).formatted(Formatting.GRAY));
+        if (!DoorControls.DOOR_FLIP.isUnbound()) {
+            List<Text> text = DoorControls.DOOR_FLIP.getBoundKeyLocalizedText().getWithStyle(Style.EMPTY.withColor(Formatting.BLUE));
+            if (!text.isEmpty()) {
+                tooltip.add(Text.translatable("item.halfdoors.door_flipper.description", text.get(0)).formatted(Formatting.GRAY));
+            }
         }
     }
 }

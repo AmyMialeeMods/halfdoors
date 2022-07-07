@@ -1,11 +1,11 @@
 package amymialee.halfdoors.entities;
 
 import amymialee.halfdoors.Halfdoors;
-import amymialee.halfdoors.screens.LauncherScreenHandler;
 import amymialee.halfdoors.items.DoorLauncherItem;
+import amymialee.halfdoors.screens.LauncherScreenHandler;
 import com.google.common.collect.Lists;
-import com.simibubi.create.content.contraptions.components.structureMovement.glue.SuperGlueEntity;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import ladysnake.blast.common.entity.BombEntity;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -94,6 +94,16 @@ public class DoorbladeEntity extends PersistentProjectileEntity {
             }
         }
         super.tick();
+        if (!landed) {
+            if (FabricLoader.getInstance().isModLoaded("blast")) {
+                for (Entity bombEntity : world.getOtherEntities(this, this.getBoundingBox().stretch(this.getVelocity()).expand(1.0D), (a) -> a instanceof BombEntity)) {
+                    if (bombEntity instanceof BombEntity bomb) {
+                        bomb.setExplosionRadius(bomb.getExplosionRadius() * 1.6f);
+                        bomb.explode();
+                    }
+                }
+            }
+        }
     }
 
     private boolean isOwnerAlive() {
@@ -127,12 +137,6 @@ public class DoorbladeEntity extends PersistentProjectileEntity {
             return;
         }
         this.piercedEntities.add(entity.getId());
-
-        if (FabricLoader.getInstance().isModLoaded("create")) {
-            if (entity instanceof SuperGlueEntity) {
-                return;
-            }
-        }
 
         Entity owner = this.getOwner();
         DamageSource damageSource;

@@ -1,8 +1,8 @@
 package amymialee.halfdoors.items;
 
 import amymialee.halfdoors.Halfdoors;
-import amymialee.halfdoors.screens.LauncherScreenHandler;
 import amymialee.halfdoors.entities.DoorbladeEntity;
+import amymialee.halfdoors.screens.LauncherScreenHandler;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -19,7 +19,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -165,13 +164,13 @@ public class DoorLauncherItem extends RangedWeaponItem implements Vanishable {
     @Override
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
         if(hasShulkerUpgrade(stack)) {
-            tooltip.add(new TranslatableText("modifier.%s.shulker".formatted(Halfdoors.MOD_ID)).formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("modifier.%s.shulker".formatted(Halfdoors.MOD_ID)).formatted(Formatting.GRAY));
         }
         if(hasNetheriteUpgrade(stack)) {
-            tooltip.add(new TranslatableText("modifier.%s.netherite".formatted(Halfdoors.MOD_ID)).formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("modifier.%s.netherite".formatted(Halfdoors.MOD_ID)).formatted(Formatting.GRAY));
         }
         if(hasTridentUpgrade(stack)) {
-            tooltip.add(new TranslatableText("modifier.%s.trident".formatted(Halfdoors.MOD_ID)).formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("modifier.%s.trident".formatted(Halfdoors.MOD_ID)).formatted(Formatting.GRAY));
         }
     }
 

@@ -8,13 +8,12 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class DoorcutterBlock extends StonecutterBlock {
-    private static final Text TITLE = new TranslatableText("container.doorcutter");
+    private static final Text TITLE = Text.translatable("container.doorcutter");
 
     public DoorcutterBlock(AbstractBlock.Settings settings) {
         super(settings);

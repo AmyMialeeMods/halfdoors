@@ -2,21 +2,19 @@ package amymialee.halfdoors.entities;
 
 import amymialee.halfdoors.Halfdoors;
 import amymialee.halfdoors.util.HomingArrowAccessor;
+import ladysnake.blast.common.entity.BombEntity;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.TargetPredicate;
-import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
-import net.minecraft.scoreboard.AbstractTeam;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.EntityHitResult;
@@ -44,26 +42,15 @@ public class TinyDoorEntity extends ThrownItemEntity {
         if (entity instanceof ProjectileEntity projectileEntity) {
             if (projectileEntity.getOwner() != null) {
                 Entity target;
-                int radius = 12;
-                if (projectileEntity.getOwner() instanceof PlayerEntity player) {
-                    target = getClosestEntity(world.getEntitiesByClass(TinyDoorEntity.class, new Box(getX() - radius, getY() - radius, getZ() - radius, getX() + radius, getY() + radius, getZ() + radius), (a) -> true), this, getX(), getY(), getZ());
-                    if (player.getScoreboardTeam() != null) {
-                        AbstractTeam abstractTeam = player.getScoreboardTeam();
-                        target = getClosestEntity(world.getEntitiesByClass(PlayerEntity.class, new Box(getX() - radius, getY() - radius, getZ() - radius, getX() + radius, getY() + radius, getZ() + radius), (a) -> a.getScoreboardTeam() == null || !a.getScoreboardTeam().isEqual(abstractTeam)), this, getX(), getY(), getZ());
+                int radius = 24;
+                target = getClosestEntity(world.getEntitiesByClass(TinyDoorEntity.class, new Box(getX() - radius, getY() - radius, getZ() - radius, getX() + radius, getY() + radius, getZ() + radius), (a) -> a != projectileEntity), this, getX(), getY(), getZ());
+                if (target == null) {
+                    if (FabricLoader.getInstance().isModLoaded("blast")) {
+                        target = getClosestEntity(world.getEntitiesByClass(BombEntity.class, new Box(getX() - radius, getY() - radius, getZ() - radius, getX() + radius, getY() + radius, getZ() + radius), (a) -> a != projectileEntity), this, getX(), getY(), getZ());
                     }
-                    if (target == null) {
-                        target = world.getClosestEntity(HostileEntity.class, TargetPredicate.createAttackable(), player, getX(), getY(), getZ(), new Box(getX() - radius, getY() - radius, getZ() - radius, getX() + radius, getY() + radius, getZ() + radius));
-                    }
-                } else if (projectileEntity.getOwner() instanceof LivingEntity living) {
-                    target = getClosestEntity(world.getEntitiesByClass(TinyDoorEntity.class, new Box(getX() - radius, getY() - radius, getZ() - radius, getX() + radius, getY() + radius, getZ() + radius), (a) -> true), this, getX(), getY(), getZ());
-                    if (target == null) {
-                        target = world.getClosestEntity(MobEntity.class, TargetPredicate.createAttackable(), living, getX(), getY(), getZ(), new Box(getX() - radius, getY() - radius, getZ() - radius, getX() + radius, getY() + radius, getZ() + radius));
-                    }
-                } else {
-                    target = getClosestEntity(world.getEntitiesByClass(TinyDoorEntity.class, new Box(getX() - radius, getY() - radius, getZ() - radius, getX() + radius, getY() + radius, getZ() + radius), (a) -> true), this, getX(), getY(), getZ());
-                    if (target == null) {
-                        target = world.getClosestEntity(LivingEntity.class, TargetPredicate.createAttackable(), null, getX(), getY(), getZ(), new Box(getX() - radius, getY() - radius, getZ() - radius, getX() + radius, getY() + radius, getZ() + radius));
-                    }
+                }
+                if (target == null && projectileEntity.getOwner() instanceof LivingEntity living) {
+                    target = getClosestEntity(world.getEntitiesByClass(LivingEntity.class, new Box(getX() - radius, getY() - radius, getZ() - radius, getX() + radius, getY() + radius, getZ() + radius), (a) -> !living.isTeammate(a) && a != living), this, getX(), getY(), getZ());
                 }
                 if (projectileEntity instanceof HomingArrowAccessor homingArrowAccessor) {
                     world.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.6F, 1 + 2f / homingArrowAccessor.getBounces());
@@ -108,6 +95,9 @@ public class TinyDoorEntity extends ThrownItemEntity {
     private static Entity getClosestEntity(List<? extends Entity> entityList, @Nullable Entity entity, double x, double y, double z) {
         Entity entity2 = null;
         for (Entity entity3 : entityList) {
+            if (entity instanceof MobEntity mobEntity && mobEntity.getTarget() == entity3) {
+                return mobEntity;
+            }
             if (entity3 == entity) {
                 continue;
             }
