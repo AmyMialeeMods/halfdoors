@@ -74,6 +74,10 @@ public abstract class ProjectileEntityMixin extends Entity implements HomingArro
                     if (target instanceof BombEntity bomb) {
                         bomb.setExplosionRadius(bomb.getExplosionRadius() * 1.8f);
                         bomb.explode();
+                        if (((ProjectileEntity) ((Object) this)) instanceof BombEntity bomb2) {
+                            bomb2.setExplosionRadius(bomb2.getExplosionRadius() * 1.8f);
+                            bomb2.explode();
+                        }
                     }
                 }
             }
