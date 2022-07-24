@@ -41,6 +41,14 @@ public class TinyDoorEntity extends ThrownItemEntity {
         Entity entity = entityHitResult.getEntity();
         if (entity instanceof ProjectileEntity projectileEntity) {
             if (projectileEntity.getOwner() != null) {
+                if (projectileEntity instanceof PersistentProjectileEntity persistentProjectile) {
+                    if (persistentProjectile.piercingKilledEntities != null) {
+                        persistentProjectile.piercingKilledEntities.clear();
+                    }
+                    if (persistentProjectile.piercedEntities != null) {
+                        persistentProjectile.piercedEntities.clear();
+                    }
+                }
                 Entity target;
                 int radius = 24;
                 target = getClosestEntity(world.getEntitiesByClass(TinyDoorEntity.class, new Box(getX() - radius, getY() - radius, getZ() - radius, getX() + radius, getY() + radius, getZ() + radius), (a) -> a != projectileEntity), this, getX(), getY(), getZ());
@@ -58,6 +66,9 @@ public class TinyDoorEntity extends ThrownItemEntity {
                     world.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.6F, 1f + (world.getRandom().nextFloat()));
                 }
                 if (target != null) {
+                    if (projectileEntity instanceof PersistentProjectileEntity persistentProjectile && target instanceof TinyDoorEntity) {
+                        persistentProjectile.setPierceLevel((byte) (persistentProjectile.getPierceLevel() + 2));
+                    }
                     if (projectileEntity instanceof HomingArrowAccessor homingArrowAccessor) {
                         homingArrowAccessor.setHomingTarget(target);
                         homingArrowAccessor.setBounces(homingArrowAccessor.getBounces() + 1);
@@ -150,6 +161,9 @@ public class TinyDoorEntity extends ThrownItemEntity {
         HitResult.Type type = hitResult.getType();
         if (type == HitResult.Type.BLOCK) {
             this.discard();
+        }
+        if (hitResult instanceof EntityHitResult entityHitResult) {
+            entityHitResult.getEntity().timeUntilRegen = 0;
         }
         super.onCollision(hitResult);
     }

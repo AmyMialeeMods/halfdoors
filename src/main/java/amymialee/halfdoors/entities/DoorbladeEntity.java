@@ -59,14 +59,18 @@ public class DoorbladeEntity extends PersistentProjectileEntity {
             if (groundAge > 5) {
                 this.dealtDamage = true;
             }
-            if (groundAge > 200) {
+            if (groundAge > 400) {
                 if (!this.world.isClient && this.pickupType == PersistentProjectileEntity.PickupPermission.ALLOWED) {
                     this.dropStack(this.asItemStack(), 0.1F);
                 }
                 this.discard();
             }
         } else {
-            this.groundAge = 0;
+            if (this.landed || this.dealtDamage) {
+                this.landed = false;
+                this.groundAge = 0;
+                this.dealtDamage = false;
+            }
         }
         Entity entity = this.getOwner();
         boolean i = this.dataTracker.get(LOYALTY);

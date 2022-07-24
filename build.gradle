@@ -43,7 +43,7 @@ dependencies {
     modImplementation ("dev.emi:emi:${emi_version}") {
         transitive(false)
     }
-    modImplementation 'local:BLAST:1.10'
+    //modImplementation 'local:BLAST:1.10'
 }
 
 processResources {

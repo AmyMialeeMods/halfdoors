@@ -55,31 +55,33 @@ public abstract class ProjectileEntityMixin extends Entity implements HomingArro
     @Inject(method = "tick", at = @At("HEAD"))
     public void HalfDoors$Homing(CallbackInfo ci) {
         if (target != null && target.isAlive()) {
+            float bonusMult = 1;
+            if (FabricLoader.getInstance().isModLoaded("blast")) {
+                if (target instanceof BombEntity bomb) {
+                    bonusMult += 1;
+                    if (this.distanceTo(target) < 1) {
+                        bomb.setExplosionRadius(bomb.getExplosionRadius() * 2.15f);
+                        bomb.explode();
+                        if (((ProjectileEntity) ((Object) this)) instanceof BombEntity bomb2) {
+                            bomb2.setExplosionRadius(bomb2.getExplosionRadius() * 2f);
+                            bomb2.explode();
+                        }
+                    }
+                }
+            }
             Vec3d targetPos = target.getPos();
             double x = (targetPos.x - getX());
             double y = (target.getBodyY(0.5f) - getY());
             double z = (targetPos.z - getZ());
             Vec3d velocity = new Vec3d(x, y, z);
             velocity.normalize();
-            setVelocity(velocity.x, velocity.y, velocity.z, 1 + ((float) getBounces() / 2), 0);
+            setVelocity(velocity.x, velocity.y, velocity.z, 1 + ((float) getBounces() / 2) * bonusMult, 0);
             Vec3d vec3d = this.getVelocity();
             double e = vec3d.x;
             double f = vec3d.y;
             double g = vec3d.z;
             for (int i = 0; i < 4; ++i) {
                 this.world.addParticle(ParticleTypes.ENCHANTED_HIT, this.getX() + e * (double) i / 4.0D, this.getY() + f * (double) i / 4.0D, this.getZ() + g * (double) i / 4.0D, -e, -f + 0.2D, -g);
-            }
-            if (FabricLoader.getInstance().isModLoaded("blast")) {
-                if (this.distanceTo(target) < 1) {
-                    if (target instanceof BombEntity bomb) {
-                        bomb.setExplosionRadius(bomb.getExplosionRadius() * 1.8f);
-                        bomb.explode();
-                        if (((ProjectileEntity) ((Object) this)) instanceof BombEntity bomb2) {
-                            bomb2.setExplosionRadius(bomb2.getExplosionRadius() * 1.8f);
-                            bomb2.explode();
-                        }
-                    }
-                }
             }
         } else {
             target = null;
@@ -89,8 +91,16 @@ public abstract class ProjectileEntityMixin extends Entity implements HomingArro
     @Inject(method = "onCollision", at = @At("HEAD"))
     protected void HalfDoors$HomingEnd(HitResult hitResult, CallbackInfo ci) {
         if (hitResult.getType() == HitResult.Type.ENTITY) {
-            setHomingTarget(null);
-            ((EntityHitResult) hitResult).getEntity().timeUntilRegen = 0;
+            if (getHomingTarget() != null) {
+                setHomingTarget(null);
+                if (FabricLoader.getInstance().isModLoaded("blast")) {
+                    if (((ProjectileEntity) ((Object) this)) instanceof BombEntity bomb2) {
+                        bomb2.setExplosionRadius(bomb2.getExplosionRadius() * 2f);
+                        bomb2.explode();
+                    }
+                }
+                ((EntityHitResult) hitResult).getEntity().timeUntilRegen = 0;
+            }
         }
     }
 }
