@@ -58,7 +58,7 @@ public abstract class ProjectileEntityMixin extends Entity implements HomingArro
             float bonusMult = 1;
             if (FabricLoader.getInstance().isModLoaded("blast")) {
                 if (target instanceof BombEntity bomb) {
-                    bonusMult += 1;
+                    bonusMult += 3;
                     if (this.distanceTo(target) < 1) {
                         bomb.setExplosionRadius(bomb.getExplosionRadius() * 2.15f);
                         bomb.explode();
