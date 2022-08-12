@@ -1,8 +1,8 @@
 package amymialee.halfdoors.entities;
 
 import amymialee.halfdoors.Halfdoors;
+import amymialee.halfdoors.compat.blast.BlastCompatHandler;
 import amymialee.halfdoors.util.HomingArrowAccessor;
-import ladysnake.blast.common.entity.BombEntity;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -54,7 +54,7 @@ public class TinyDoorEntity extends ThrownItemEntity {
                 target = getClosestEntity(world.getEntitiesByClass(TinyDoorEntity.class, new Box(getX() - radius, getY() - radius, getZ() - radius, getX() + radius, getY() + radius, getZ() + radius), (a) -> a != projectileEntity), this, getX(), getY(), getZ());
                 if (target == null) {
                     if (FabricLoader.getInstance().isModLoaded("blast")) {
-                        target = getClosestEntity(world.getEntitiesByClass(BombEntity.class, new Box(getX() - radius, getY() - radius, getZ() - radius, getX() + radius, getY() + radius, getZ() + radius), (a) -> a != projectileEntity), this, getX(), getY(), getZ());
+                        target = BlastCompatHandler.getNearestBomb(this, radius, projectileEntity);
                     }
                 }
                 if (target == null && projectileEntity.getOwner() instanceof LivingEntity living) {
@@ -103,7 +103,7 @@ public class TinyDoorEntity extends ThrownItemEntity {
         }
     }
 
-    private static Entity getClosestEntity(List<? extends Entity> entityList, @Nullable Entity entity, double x, double y, double z) {
+    public static Entity getClosestEntity(List<? extends Entity> entityList, @Nullable Entity entity, double x, double y, double z) {
         Entity entity2 = null;
         for (Entity entity3 : entityList) {
             if (entity instanceof MobEntity mobEntity && mobEntity.getTarget() == entity3) {

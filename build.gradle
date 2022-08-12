@@ -40,9 +40,7 @@ dependencies {
     modImplementation ("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
     modCompileOnly ("com.simibubi:Create:mc1.18.2_v0.4.1+635")
     modImplementation ("dev.emi:trinkets:${project.trinkets_version}")
-    modImplementation ("dev.emi:emi:${emi_version}") {
-        transitive(false)
-    }
+    modImplementation ("dev.emi:emi:${emi_version}")
     modImplementation 'io.github.ladysnake:BLAST:1.10'
 }
 
@@ -61,5 +59,14 @@ publishing {
             from components.java
         }
     }
-    repositories {}
+    repositories {
+        maven {
+            name = "willBlRepositoryReleases"
+            url = "https://maven.willbl.dev/releases"
+            credentials(PasswordCredentials)
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+    }
 }

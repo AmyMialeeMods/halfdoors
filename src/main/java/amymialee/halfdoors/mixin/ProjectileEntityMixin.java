@@ -1,7 +1,7 @@
 package amymialee.halfdoors.mixin;
 
+import amymialee.halfdoors.compat.blast.BlastCompatHandler;
 import amymialee.halfdoors.util.HomingArrowAccessor;
-import ladysnake.blast.common.entity.BombEntity;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -57,16 +57,8 @@ public abstract class ProjectileEntityMixin extends Entity implements HomingArro
         if (target != null && target.isAlive()) {
             float bonusMult = 1;
             if (FabricLoader.getInstance().isModLoaded("blast")) {
-                if (target instanceof BombEntity bomb) {
+                if (BlastCompatHandler.projectileBombing(((ProjectileEntity) ((Object) this)), target)) {
                     bonusMult += 3;
-                    if (this.distanceTo(target) < 1) {
-                        bomb.setExplosionRadius(bomb.getExplosionRadius() * 2.15f);
-                        bomb.explode();
-                        if (((ProjectileEntity) ((Object) this)) instanceof BombEntity bomb2) {
-                            bomb2.setExplosionRadius(bomb2.getExplosionRadius() * 2f);
-                            bomb2.explode();
-                        }
-                    }
                 }
             }
             Vec3d targetPos = target.getPos();
@@ -94,10 +86,7 @@ public abstract class ProjectileEntityMixin extends Entity implements HomingArro
             if (getHomingTarget() != null) {
                 setHomingTarget(null);
                 if (FabricLoader.getInstance().isModLoaded("blast")) {
-                    if (((ProjectileEntity) ((Object) this)) instanceof BombEntity bomb2) {
-                        bomb2.setExplosionRadius(bomb2.getExplosionRadius() * 2f);
-                        bomb2.explode();
-                    }
+                    BlastCompatHandler.explodeIfBomb(this, 2f);
                 }
                 ((EntityHitResult) hitResult).getEntity().timeUntilRegen = 0;
             }
