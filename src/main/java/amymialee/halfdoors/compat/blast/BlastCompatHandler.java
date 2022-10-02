@@ -19,7 +19,7 @@ public class BlastCompatHandler {
 
     public static boolean explodeIfBomb(Entity target, float bonus) {
         if (target instanceof BombEntity bomb) {
-            bomb.setExplosionRadius(bomb.getExplosionRadius() * bonus);
+//            bomb.setExplosionRadius(bomb.getExplosionRadius() * bonus); //no longer exists in BombEntity
             bomb.explode();
             return true;
         }

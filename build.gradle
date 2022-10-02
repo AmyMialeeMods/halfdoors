@@ -38,8 +38,8 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation ("net.fabricmc:fabric-loader:${project.loader_version}")
     modImplementation ("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
-    modCompileOnly ("com.simibubi:Create:mc1.18.2_v0.4.1+635")
-    modImplementation ("dev.emi:trinkets:${project.trinkets_version}")
+//    modCompileOnly ("com.simibubi:Create:mc1.18.2_v0.4.1+635") //doesn't work on 1.19
+    modImplementation ("dev.emi:trinkets:${project.trinkets_version}") { exclude group: "com.terraformersmc" }
     modImplementation ("dev.emi:emi:${emi_version}")
     modImplementation 'io.github.ladysnake:BLAST:1.10'
 }
