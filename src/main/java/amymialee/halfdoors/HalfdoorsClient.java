@@ -50,7 +50,10 @@ public class HalfdoorsClient implements ClientModInitializer {
 
         KeyBindingHelper.registerKeyBinding(DoorControls.DOOR_FLIP);
 
-        FabricLoader.getInstance().getModContainer(Halfdoors.MOD_ID).ifPresent(modContainer -> ResourceManagerHelper.registerBuiltinResourcePack(Halfdoors.id("flatdoorcutters"), modContainer, ResourcePackActivationType.NORMAL));
+        FabricLoader.getInstance().getModContainer(Halfdoors.MOD_ID).ifPresent(modContainer -> {
+            ResourceManagerHelper.registerBuiltinResourcePack(Halfdoors.id("flatdoorcutters"), modContainer, ResourcePackActivationType.NORMAL);
+            ResourceManagerHelper.registerBuiltinResourcePack(Halfdoors.id("slowerdoorcutters"), modContainer, ResourcePackActivationType.NORMAL);
+        });
     }
 
     static {
