@@ -41,7 +41,7 @@ dependencies {
 //    modCompileOnly ("com.simibubi:Create:mc1.18.2_v0.4.1+635") //doesn't work on 1.19
     modImplementation ("dev.emi:trinkets:${project.trinkets_version}") { exclude group: "com.terraformersmc" }
     modImplementation ("dev.emi:emi:${emi_version}")
-    modImplementation 'io.github.ladysnake:BLAST:1.10' //requires blast in mavenLocal, can't be downloaded from cursemaven
+    modImplementation 'io.github.ladysnake:BLAST:1.10'
 }
 
 processResources {
