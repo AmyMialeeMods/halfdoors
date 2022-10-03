@@ -21,6 +21,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldEvents;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
@@ -118,8 +119,8 @@ public class HalfDoorBlock extends Block {
         int j = direction.getOffsetX();
         int k = direction.getOffsetZ();
         Vec3d vec3d = ctx.getHitPos();
-        double d = vec3d.x - (double)blockPos.getX();
-        double e = vec3d.z - (double)blockPos.getZ();
+        double d = vec3d.x - (double) blockPos.getX();
+        double e = vec3d.z - (double) blockPos.getZ();
         return j < 0 && e < 0.5 || j > 0 && e > 0.5 || k < 0 && d > 0.5 || k > 0 && d < 0.5 ? DoorHinge.RIGHT : DoorHinge.LEFT;
     }
 
@@ -164,4 +165,12 @@ public class HalfDoorBlock extends Block {
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING, OPEN, HINGE, POWERED);
     }
+
+    @Override
+    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+        if (direction.equals(Direction.DOWN) && (neighborState.getBlock() instanceof DoorBlock || neighborState.getBlock() instanceof HalfDoorBlock && neighborState.get(HINGE).equals(state.get(HINGE))))
+        world.setBlockState(pos, state.with(POWERED, state.get(POWERED)).with(OPEN, neighborState.get(OPEN)), Block.NOTIFY_LISTENERS);
+        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+    }
+
 }
