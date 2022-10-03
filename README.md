@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-	modImplementation "amymialee:half-doors:1.3.9+1.19.x"
+	modImplementation "amymialee:half-doors:1.3.10+1.19.x"
 }
 ```
 
