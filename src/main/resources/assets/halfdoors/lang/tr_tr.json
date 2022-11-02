@@ -1,0 +1,38 @@
+{
+ "itemGroup.halfdoors.halfdoor_group" : "Halfdoors",
+
+ "block.halfdoors.iron_fence_gate" : "Demir Çit Kapısı",
+ "block.halfdoors.oak_halfdoor" : "Meşe Yarımkapı",
+ "block.halfdoors.spruce_halfdoor" : "Ladin Yarımkapı",
+ "block.halfdoors.birch_halfdoor" : "Huş Yarımkapı",
+ "block.halfdoors.jungle_halfdoor" : "Orman Ağacı Yarımkapı",
+ "block.halfdoors.acacia_halfdoor" : "Akasya Yarımkapı",
+ "block.halfdoors.dark_oak_halfdoor" : "Koyu Meşe Yarımkapı",
+ "block.halfdoors.crimson_halfdoor" : "Kızıl Yarımkapı",
+ "block.halfdoors.warped_halfdoor" : "Çarpık Yarımkapı",
+ "block.halfdoors.iron_halfdoor" : "Demir Yarımkapı",
+
+ "container.doorcutter" : "Kapı Kesici",
+ "block.halfdoors.doorcutter" : "Kapı Kesici",
+ "category.halfdoors.doorcutting" : "Kapı Kesici",
+ "emi.category.halfdoors.doorcutting" : "Kapı Kesici",
+
+ "item.halfdoors.door_launcher" : "Kapı Fırlatıcısı",
+ "modifier.halfdoors.shulker" : "Depo Yükseltmesi",
+ "modifier.halfdoors.trident" : "Sadakat Yükseltmesi",
+ "modifier.halfdoors.netherite" : "Netherite Yükseltmesi",
+ "container.door_launcher" : "Kapı Fırlatıcısı ",
+ "subtitles.item.doorblade.hit_ground" : "Kapı yere saplandı",
+ "subtitles.doorlauncher.fire" : "Kapı Fırlatıcısı ateş eder",
+ "entity.halfdoors.door_saw" : "Kapı Testeresi",
+
+ "item.halfdoors.door_flipper" : "Kapı At",
+ "item.halfdoors.gold_door_nugget" : "Altın Kapı Parçası",
+ "entity.halfdoors.tiny_door" : "Altın Kapı Parçası",
+ "trinkets.slot.offhand.gadget" : "Alet",
+ "tag.trinkets.offhand.gadget": "Alet",
+ "key.halfdoors.door_flip" : "Kapı At",
+ "subtitles.doorflipper.flip" : "Kapı At",
+ "category.halfdoors" : "Halfdoors",
+ "item.halfdoors.door_flipper.description" : "Kapı atmak(çeviri notu: yazı tura gibi) için §9[%s§9]§r tuşuna bas."
+}
