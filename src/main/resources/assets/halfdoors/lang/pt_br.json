@@ -1,0 +1,38 @@
+{
+  "itemGroup.halfdoors.halfdoor_group" : "Meias-portas",
+
+  "block.halfdoors.iron_fence_gate" : "Portão de ferro",
+  "block.halfdoors.oak_halfdoor" : "Meia-porta de carvalho",
+  "block.halfdoors.spruce_halfdoor" : "Meia-porta de pinheiro",
+  "block.halfdoors.birch_halfdoor" : "Meia-porta de bétula",
+  "block.halfdoors.jungle_halfdoor" : "Meia-porta da selva",
+  "block.halfdoors.acacia_halfdoor" : "Meia-porta de acácia",
+  "block.halfdoors.dark_oak_halfdoor" : "Meia-porta de carvalho escuro",
+  "block.halfdoors.crimson_halfdoor" : "Meia-porta carmesim",
+  "block.halfdoors.warped_halfdoor" : "Meia-porta distorcida",
+  "block.halfdoors.iron_halfdoor" : "Meia-porta de ferro",
+
+  "container.doorcutter" : "Cortador de portas",
+  "block.halfdoors.doorcutter" : "Cortador de portas",
+  "category.halfdoors.doorcutting" : "Cortes de porta",
+  "emi.category.halfdoors.doorcutting" : "Cortes de porta",
+
+  "item.halfdoors.door_launcher" : "Lança-portas",
+  "modifier.halfdoors.shulker" : "Aprimoramento de espaço",
+  "modifier.halfdoors.trident" : "Aprimoramento de lealdade",
+  "modifier.halfdoors.netherite" : "Aprimoramento de netherita",
+  "container.door_launcher" : "Lança-portas",
+  "subtitles.item.doorblade.hit_ground" : "Lâmina de porta",
+  "subtitles.doorlauncher.fire" : "Lança-portas atira",
+  "entity.halfdoors.door_saw" : "Serra de porta",
+
+  "item.halfdoors.door_flipper" : "Girador de porta",
+  "item.halfdoors.gold_door_nugget" : "Pepita de porta dourada",
+  "entity.halfdoors.tiny_door" : "Pepita de porta dourada",
+  "trinkets.slot.offhand.gadget" : "Dispositivo",
+  "tag.trinkets.offhand.gadget": "Dispositivo",
+  "key.halfdoors.door_flip" : "Porta gira",
+  "subtitles.doorflipper.flip" : "Porta arremessada",
+  "category.halfdoors" : "Meias-portas",
+  "item.halfdoors.door_flipper.description" : "Aperte §9[%s§9]§r para girar a porta"
+}
