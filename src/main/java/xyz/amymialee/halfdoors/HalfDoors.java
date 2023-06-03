@@ -32,6 +32,16 @@ public class HalfDoors implements ModInitializer {
     public static final Block IRON_HALFDOOR = registerBlock("iron_halfdoor", new HalfDoorBlock(FabricBlockSettings.copyOf(Blocks.IRON_DOOR), BlockSetType.IRON));
     public static final Block IRON_FENCE_GATE = registerBlock("iron_fence_gate", new IronFenceGateBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS)));
 
+    /*
+
+        Halfdoors
+            Other stuff
+                Iron Fence?, maybe
+                Golden Door? if it can have some unique feature, if not nah
+                Golden Halfdoor, if golden door then yea but otherwise nah
+     */
+
+
     @Override
     public void onInitialize() {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register(content -> {
