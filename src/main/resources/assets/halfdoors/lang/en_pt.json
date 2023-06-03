@@ -1,6 +1,4 @@
 {
-  "itemGroup.halfdoors.halfdoor_group" : "'alfdoors",
-
   "block.halfdoors.iron_fence_gate" : "Picket Gate o' Steel",
   "block.halfdoors.oak_halfdoor" : "'alfdoor o' Oak",
   "block.halfdoors.spruce_halfdoor" : "'alfdoor o' Spruce",
@@ -10,29 +8,5 @@
   "block.halfdoors.dark_oak_halfdoor" : "'alfdoor o' Dusky Oak",
   "block.halfdoors.crimson_halfdoor" : "'alfdoor o' Ichor",
   "block.halfdoors.warped_halfdoor" : "'alfdoor o' Hyphae",
-  "block.halfdoors.iron_halfdoor" : "'alfdoor o' Steel",
-
-  "container.doorcutter" : "Door Chopp'r",
-  "block.halfdoors.doorcutter" : "Door Chopp'r",
-  "category.halfdoors.doorcutting" : "Door Chopp'n",
-  "emi.category.halfdoors.doorcutting" : "Door Chopp'n",
-
-  "item.halfdoors.door_launcher" : "Door Cannon",
-  "modifier.halfdoors.shulker" : "Me Storage Upgrade",
-  "modifier.halfdoors.trident" : "Me Loyalty Upgrade",
-  "modifier.halfdoors.netherite" : "Blackbeard's Upgrade",
-  "container.door_launcher" : "Door Cannon",
-  "subtitles.item.doorblade.hit_ground" : "Doorblade landed",
-  "subtitles.doorlauncher.fire" : "Door Cannon fires",
-  "entity.halfdoors.door_saw" : "Door Chopp'n Blade",
-
-  "item.halfdoors.door_flipper" : "Door Flipp'r",
-  "item.halfdoors.gold_door_nugget" : "Piece o' Golden Door",
-  "entity.halfdoors.tiny_door" : "Piece o' Golden Door",
-  "trinkets.slot.offhand.gadget" : "Device",
-  "tag.trinkets.offhand.gadget": "Device",
-  "key.halfdoors.door_flip" : "Door Flip",
-  "subtitles.doorflipper.flip" : "Door Tossed",
-  "category.halfdoors" : "'alfdoors",
-  "item.halfdoors.door_flipper.description" : "Press §9[%s§9]§r to flip yer door."
+  "block.halfdoors.iron_halfdoor" : "'alfdoor o' Steel"
 }

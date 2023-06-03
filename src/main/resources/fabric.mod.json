@@ -2,42 +2,32 @@
   "schemaVersion": 1,
   "id": "halfdoors",
   "version": "${version}",
-  "accessWidener" : "halfdoors.accesswidener",
-  "name": "Half Doors",
-  "description": "Slabbed entryways!",
+  "name": "HalfDoors",
+  "description": "Half Size Hatches",
   "authors": [
     "AmyMialee"
   ],
   "contact": {
-    "homepage": "https://github.com/AmyMialeeMods/half-doors",
-    "issues": "https://github.com/AmyMialeeMods/half-doors/issues"
+    "repo": "https://github.com/AmyMialeeMods/halfdoors"
   },
-  "license": "BSD-3",
+  "license": "All-Rights-Reserved",
   "icon": "assets/halfdoors/icon.png",
   "environment": "*",
   "entrypoints": {
+    "fabric-datagen": [
+      "xyz.amymialee.halfdoors.HalfDoorsDataGen"
+    ],
     "client": [
-      "amymialee.halfdoors.HalfdoorsClient"
+      "xyz.amymialee.halfdoors.HalfDoorsClient"
     ],
     "main": [
-      "amymialee.halfdoors.Halfdoors"
-    ],
-    "emi": [
-      "amymialee.halfdoors.compat.emi.HalfDoorsEmiPlugin"
+      "xyz.amymialee.halfdoors.HalfDoors"
     ]
   },
   "mixins": [
     "halfdoors.mixins.json"
   ],
   "depends": {
-    "fabric": "*",
-    "trinkets": ">=3.0.0"
-  },
-  "custom": {
-    "modmenu": {
-      "links": {
-        "modmenu.discord": "https://discord.gg/P4dUsxv6An"
-      }
-    }
+    "fabric": "*"
   }
 }

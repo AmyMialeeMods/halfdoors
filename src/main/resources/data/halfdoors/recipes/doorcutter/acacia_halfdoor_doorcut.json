@@ -1,8 +1,0 @@
-{
-  "type": "halfdoors:doorcutting",
-  "ingredient": {
-    "item": "minecraft:acacia_door"
-  },
-  "result": "halfdoors:acacia_halfdoor",
-  "count": 2
-}

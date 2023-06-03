@@ -1,19 +1,15 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "amymialee.halfdoors.mixin",
+  "package": "xyz.amymialee.halfdoors.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "PersistentProjectileEntityMixin",
-    "ProjectileEntityMixin"
+    "DoorBlockMixin",
+    "FenceGateBlockMixin",
+    "TrapdoorBlockAccessor",
+    "TrapdoorBlockMixin"
   ],
   "client": [
-    "HeldItemRendererMixin",
-    "InGameHudMixin",
-    "ItemRendererMixin",
-    "KeyBindingAccessor",
-    "KeyboardMixin",
-    "PlayerEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,6 +1,0 @@
-{
-  "parent": "halfdoors:block/door_rh",
-  "textures": {
-    "bottom": "halfdoors:block/crimson_halfdoor"
-  }
-}

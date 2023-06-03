@@ -1,8 +1,0 @@
-{
-  "type": "halfdoors:doorcutting",
-  "ingredient": {
-    "item": "minecraft:spruce_door"
-  },
-  "result": "halfdoors:spruce_halfdoor",
-  "count": 2
-}

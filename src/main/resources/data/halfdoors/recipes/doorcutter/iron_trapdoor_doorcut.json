@@ -1,8 +1,0 @@
-{
-  "type": "halfdoors:doorcutting",
-  "ingredient": {
-    "item": "minecraft:iron_door"
-  },
-  "result": "minecraft:iron_trapdoor",
-  "count": 2
-}
