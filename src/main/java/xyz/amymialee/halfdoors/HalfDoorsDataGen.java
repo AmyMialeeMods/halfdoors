@@ -7,6 +7,8 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.BlockTagProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.enums.DoorHinge;
 import net.minecraft.data.client.BlockStateModelGenerator;
@@ -24,12 +26,15 @@ import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import xyz.amymialee.halfdoors.blocks.HalfDoorBlock;
 
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 public class HalfDoorsDataGen implements DataGeneratorEntrypoint {
@@ -49,6 +54,7 @@ public class HalfDoorsDataGen implements DataGeneratorEntrypoint {
 
         @Override
         public void generateTranslations(TranslationBuilder builder) {
+            builder.add("itemGroup.%s.%s_group".formatted(HalfDoors.MOD_ID, HalfDoors.MOD_ID), "Halfdoors");
             builder.add(HalfDoors.OAK_HALFDOOR, "Oak Halfdoor");
             builder.add(HalfDoors.SPRUCE_HALFDOOR, "Spruce Halfdoor");
             builder.add(HalfDoors.BIRCH_HALFDOOR, "Birch Halfdoor");
@@ -184,11 +190,57 @@ public class HalfDoorsDataGen implements DataGeneratorEntrypoint {
         }
 
         private void generateHalfDoor(Consumer<RecipeJsonProvider> exporter, ItemConvertible door, ItemConvertible halfDoor) {
-            ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, halfDoor, 3).input('d', door).pattern("ddd").criterion("has_door", conditionsFromItem(door)).offerTo(exporter);
+            ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, halfDoor, 6).input('d', door).pattern("ddd").criterion("has_door", conditionsFromItem(door)).offerTo(exporter);
         }
 
         private void generateFenceGate(Consumer<RecipeJsonProvider> exporter, ItemConvertible sides, ItemConvertible gate, ItemConvertible fenceGate) {
             ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, fenceGate, 1).input('s', sides).input('g', gate).pattern("sgs").pattern("sgs").criterion("has_sides", conditionsFromItem(sides)).criterion("has_gate", conditionsFromItem(gate)).offerTo(exporter);
+        }
+    }
+
+    private static class HalfDoorsBlockTags extends FabricTagProvider.BlockTagProvider {
+        public HalfDoorsBlockTags(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+            super(output, registriesFuture);
+        }
+
+        @Override
+        protected void configure(RegistryWrapper.WrapperLookup arg) {
+            this.getOrCreateTagBuilder(BlockTags.WOODEN_DOORS).add(
+                    HalfDoors.OAK_HALFDOOR,
+                    HalfDoors.SPRUCE_HALFDOOR,
+                    HalfDoors.BIRCH_HALFDOOR,
+                    HalfDoors.JUNGLE_HALFDOOR,
+                    HalfDoors.ACACIA_HALFDOOR,
+                    HalfDoors.DARK_OAK_HALFDOOR,
+                    HalfDoors.MANGROVE_HALFDOOR,
+                    HalfDoors.CHERRY_HALFDOOR,
+                    HalfDoors.BAMBOO_HALFDOOR,
+                    HalfDoors.CRIMSON_HALFDOOR,
+                    HalfDoors.WARPED_HALFDOOR
+            );
+            this.getOrCreateTagBuilder(BlockTags.DOORS).add(
+                    HalfDoors.IRON_HALFDOOR
+            );
+            this.getOrCreateTagBuilder(BlockTags.FENCE_GATES).add(
+                    HalfDoors.IRON_FENCE_GATE
+            );
+            this.getOrCreateTagBuilder(BlockTags.AXE_MINEABLE).add(
+                    HalfDoors.OAK_HALFDOOR,
+                    HalfDoors.SPRUCE_HALFDOOR,
+                    HalfDoors.BIRCH_HALFDOOR,
+                    HalfDoors.JUNGLE_HALFDOOR,
+                    HalfDoors.ACACIA_HALFDOOR,
+                    HalfDoors.DARK_OAK_HALFDOOR,
+                    HalfDoors.MANGROVE_HALFDOOR,
+                    HalfDoors.CHERRY_HALFDOOR,
+                    HalfDoors.BAMBOO_HALFDOOR,
+                    HalfDoors.CRIMSON_HALFDOOR,
+                    HalfDoors.WARPED_HALFDOOR
+            );
+            this.getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE).add(
+                    HalfDoors.IRON_HALFDOOR,
+                    HalfDoors.IRON_FENCE_GATE
+            );
         }
     }
 }

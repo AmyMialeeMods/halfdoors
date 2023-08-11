@@ -2,22 +2,28 @@ package xyz.amymialee.halfdoors;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemGroups;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import xyz.amymialee.halfdoors.blocks.HalfDoorBlock;
 import xyz.amymialee.halfdoors.blocks.IronFenceGateBlock;
 
 public class HalfDoors implements ModInitializer {
     public static final String MOD_ID = "halfdoors";
+    public static final ItemGroup HALFDOORS_GROUP = FabricItemGroup.builder().displayName(Text.translatable("itemGroup.%s.%s_group".formatted(MOD_ID, MOD_ID))).icon(HalfDoors::getRecipeKindIcon).build();
     public static final Block OAK_HALFDOOR = registerBlock("oak_halfdoor", new HalfDoorBlock(FabricBlockSettings.copyOf(Blocks.OAK_DOOR), BlockSetType.OAK));
     public static final Block SPRUCE_HALFDOOR = registerBlock("spruce_halfdoor", new HalfDoorBlock(FabricBlockSettings.copyOf(Blocks.SPRUCE_DOOR), BlockSetType.SPRUCE));
     public static final Block BIRCH_HALFDOOR = registerBlock("birch_halfdoor", new HalfDoorBlock(FabricBlockSettings.copyOf(Blocks.BIRCH_DOOR), BlockSetType.BIRCH));
@@ -30,20 +36,11 @@ public class HalfDoors implements ModInitializer {
     public static final Block CRIMSON_HALFDOOR = registerBlock("crimson_halfdoor", new HalfDoorBlock(FabricBlockSettings.copyOf(Blocks.CRIMSON_DOOR), BlockSetType.CRIMSON));
     public static final Block WARPED_HALFDOOR = registerBlock("warped_halfdoor", new HalfDoorBlock(FabricBlockSettings.copyOf(Blocks.WARPED_DOOR), BlockSetType.WARPED));
     public static final Block IRON_HALFDOOR = registerBlock("iron_halfdoor", new HalfDoorBlock(FabricBlockSettings.copyOf(Blocks.IRON_DOOR), BlockSetType.IRON));
-    public static final Block IRON_FENCE_GATE = registerBlock("iron_fence_gate", new IronFenceGateBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS)));
-
-    /*
-
-        Halfdoors
-            Other stuff
-                Iron Fence?, maybe
-                Golden Door? if it can have some unique feature, if not nah
-                Golden Halfdoor, if golden door then yea but otherwise nah
-     */
-
+    public static final Block IRON_FENCE_GATE = registerBlock("iron_fence_gate", new IronFenceGateBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS).sounds(BlockSoundGroup.METAL)));
 
     @Override
     public void onInitialize() {
+        Registry.register(Registries.ITEM_GROUP, id(MOD_ID), HALFDOORS_GROUP);
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register(content -> {
             content.addAfter(Items.OAK_DOOR, OAK_HALFDOOR);
             content.addAfter(Items.SPRUCE_DOOR, SPRUCE_HALFDOOR);
@@ -64,12 +61,31 @@ public class HalfDoors implements ModInitializer {
             content.addAfter(OAK_HALFDOOR, IRON_HALFDOOR);
             content.addAfter(Items.OAK_FENCE_GATE, IRON_FENCE_GATE);
         });
+        Registries.ITEM_GROUP.getKey(HALFDOORS_GROUP).ifPresent(key -> ItemGroupEvents.modifyEntriesEvent(key).register(content -> {
+            content.add(OAK_HALFDOOR);
+            content.add(SPRUCE_HALFDOOR);
+            content.add(BIRCH_HALFDOOR);
+            content.add(JUNGLE_HALFDOOR);
+            content.add(ACACIA_HALFDOOR);
+            content.add(DARK_OAK_HALFDOOR);
+            content.add(MANGROVE_HALFDOOR);
+            content.add(CHERRY_HALFDOOR);
+            content.add(BAMBOO_HALFDOOR);
+            content.add(CRIMSON_HALFDOOR);
+            content.add(WARPED_HALFDOOR);
+            content.add(IRON_HALFDOOR);
+            content.add(IRON_FENCE_GATE);
+        }));
     }
 
     private static Block registerBlock(String name, Block block) {
         Registry.register(Registries.BLOCK, id(name), block);
         Registry.register(Registries.ITEM, id(name), new BlockItem(block, new FabricItemSettings()));
         return block;
+    }
+
+    public static ItemStack getRecipeKindIcon() {
+        return OAK_HALFDOOR.asItem().getDefaultStack();
     }
 
     public static Identifier id(String path) {
