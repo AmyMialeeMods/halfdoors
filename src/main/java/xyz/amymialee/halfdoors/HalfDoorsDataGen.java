@@ -45,6 +45,7 @@ public class HalfDoorsDataGen implements DataGeneratorEntrypoint {
         pack.addProvider(HalfDoorsModels::new);
         pack.addProvider(HalfDoorsLootTables::new);
         pack.addProvider(HalfDoorsRecipes::new);
+        pack.addProvider(HalfDoorsBlockTags::new);
     }
 
     private static class HalfDoorsTranslations extends FabricLanguageProvider {

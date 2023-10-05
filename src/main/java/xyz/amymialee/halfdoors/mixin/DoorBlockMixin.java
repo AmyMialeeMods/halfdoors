@@ -31,7 +31,7 @@ public class DoorBlockMixin {
     @Inject(method = "getStateForNeighborUpdate", at = @At("HEAD"), cancellable = true)
     public void halfDoors$openDoors(BlockState state, @NotNull Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos, CallbackInfoReturnable<BlockState> cir) {
         if (direction == Direction.UP && state.get(HALF) == DoubleBlockHalf.UPPER) {
-            if (neighborState.contains(HINGE) && state.get(FACING) == neighborState.get(FACING) && state.get(HINGE) == neighborState.get(HINGE) && state.get(OPEN) != neighborState.get(OPEN)) {
+            if (neighborState.contains(HINGE) && neighborState.contains(OPEN) && neighborState.contains(FACING) &&  state.get(FACING) == neighborState.get(FACING) && state.get(HINGE) == neighborState.get(HINGE) && state.get(OPEN) != neighborState.get(OPEN)) {
                 if (this.blockSetType.canOpenByHand() || neighborState.getBlock() instanceof HalfDoorBlock block && !block.blockSetType.canOpenByHand()) {
                     cir.setReturnValue(state.with(OPEN, neighborState.get(OPEN)));
                     return;
@@ -39,7 +39,7 @@ public class DoorBlockMixin {
             }
         }
         if (direction == (state.get(HINGE) == DoorHinge.LEFT ? state.get(FACING).rotateYClockwise() : state.get(FACING).rotateYCounterclockwise())) {
-            if (neighborState.contains(HINGE) && state.get(FACING) == neighborState.get(FACING) && state.get(HINGE) != neighborState.get(HINGE) && state.get(OPEN) != neighborState.get(OPEN)) {
+            if (neighborState.contains(HINGE) && neighborState.contains(OPEN) && neighborState.contains(FACING) && state.get(FACING) == neighborState.get(FACING) && state.get(HINGE) != neighborState.get(HINGE) && state.get(OPEN) != neighborState.get(OPEN)) {
                 if (this.blockSetType.canOpenByHand() || ((neighborState.getBlock() instanceof HalfDoorBlock block && !block.blockSetType.canOpenByHand()) || (neighborState.getBlock() instanceof DoorBlock door && !door.getBlockSetType().canOpenByHand()))) {
                     cir.setReturnValue(state.with(OPEN, neighborState.get(OPEN)));
                 }
