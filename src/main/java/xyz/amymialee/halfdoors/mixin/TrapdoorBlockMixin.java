@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(TrapdoorBlock.class)
-public class TrapdoorBlockMixin extends HorizontalFacingBlock {
+public abstract class TrapdoorBlockMixin extends HorizontalFacingBlock {
     @Shadow @Final public static BooleanProperty OPEN;
     @Shadow @Final public static EnumProperty<BlockHalf> HALF;
     @Shadow @Final private BlockSetType blockSetType;
