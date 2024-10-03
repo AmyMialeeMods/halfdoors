@@ -3,25 +3,11 @@ package xyz.amymialee.halfdoors;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.BlockTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.provider.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.enums.DoorHinge;
-import net.minecraft.data.client.BlockStateModelGenerator;
-import net.minecraft.data.client.BlockStateVariant;
-import net.minecraft.data.client.BlockStateVariantMap;
-import net.minecraft.data.client.ItemModelGenerator;
-import net.minecraft.data.client.Model;
-import net.minecraft.data.client.Models;
-import net.minecraft.data.client.TextureKey;
-import net.minecraft.data.client.TextureMap;
-import net.minecraft.data.client.VariantSettings;
-import net.minecraft.data.client.VariantsBlockStateSupplier;
-import net.minecraft.data.server.recipe.RecipeJsonProvider;
+import net.minecraft.data.client.*;
+import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
@@ -35,7 +21,6 @@ import xyz.amymialee.halfdoors.blocks.HalfDoorBlock;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
 
 public class HalfDoorsDataGen implements DataGeneratorEntrypoint {
     @Override
@@ -49,12 +34,12 @@ public class HalfDoorsDataGen implements DataGeneratorEntrypoint {
     }
 
     private static class HalfDoorsTranslations extends FabricLanguageProvider {
-        protected HalfDoorsTranslations(FabricDataOutput dataOutput) {
-            super(dataOutput);
+        protected HalfDoorsTranslations(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+            super(dataOutput, registryLookup);
         }
 
         @Override
-        public void generateTranslations(TranslationBuilder builder) {
+        public void generateTranslations(RegistryWrapper.WrapperLookup lookup, TranslationBuilder builder) {
             builder.add("itemGroup.%s.%s_group".formatted(HalfDoors.MOD_ID, HalfDoors.MOD_ID), "Halfdoors");
             builder.add(HalfDoors.OAK_HALFDOOR, "Oak Halfdoor");
             builder.add(HalfDoors.SPRUCE_HALFDOOR, "Spruce Halfdoor");
@@ -146,8 +131,8 @@ public class HalfDoorsDataGen implements DataGeneratorEntrypoint {
     }
 
     private static class HalfDoorsLootTables extends FabricBlockLootTableProvider {
-        protected HalfDoorsLootTables(FabricDataOutput dataOutput) {
-            super(dataOutput);
+        protected HalfDoorsLootTables(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+            super(dataOutput, registryLookup);
         }
 
         @Override
@@ -169,12 +154,12 @@ public class HalfDoorsDataGen implements DataGeneratorEntrypoint {
     }
 
     private static class HalfDoorsRecipes extends FabricRecipeProvider {
-        public HalfDoorsRecipes(FabricDataOutput output) {
-            super(output);
+        public HalfDoorsRecipes(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+            super(output, registriesFuture);
         }
 
         @Override
-        public void generate(Consumer<RecipeJsonProvider> exporter) {
+        public void generate(RecipeExporter exporter) {
             this.generateHalfDoor(exporter, Items.OAK_DOOR, HalfDoors.OAK_HALFDOOR);
             this.generateHalfDoor(exporter, Items.SPRUCE_DOOR, HalfDoors.SPRUCE_HALFDOOR);
             this.generateHalfDoor(exporter, Items.BIRCH_DOOR, HalfDoors.BIRCH_HALFDOOR);
@@ -190,11 +175,11 @@ public class HalfDoorsDataGen implements DataGeneratorEntrypoint {
             this.generateFenceGate(exporter, Items.IRON_NUGGET, Items.IRON_INGOT, HalfDoors.IRON_FENCE_GATE);
         }
 
-        private void generateHalfDoor(Consumer<RecipeJsonProvider> exporter, ItemConvertible door, ItemConvertible halfDoor) {
+        private void generateHalfDoor(RecipeExporter exporter, ItemConvertible door, ItemConvertible halfDoor) {
             ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, halfDoor, 6).input('d', door).pattern("ddd").criterion("has_door", conditionsFromItem(door)).offerTo(exporter);
         }
 
-        private void generateFenceGate(Consumer<RecipeJsonProvider> exporter, ItemConvertible sides, ItemConvertible gate, ItemConvertible fenceGate) {
+        private void generateFenceGate(RecipeExporter exporter, ItemConvertible sides, ItemConvertible gate, ItemConvertible fenceGate) {
             ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, fenceGate, 1).input('s', sides).input('g', gate).pattern("sgs").pattern("sgs").criterion("has_sides", conditionsFromItem(sides)).criterion("has_gate", conditionsFromItem(gate)).offerTo(exporter);
         }
     }

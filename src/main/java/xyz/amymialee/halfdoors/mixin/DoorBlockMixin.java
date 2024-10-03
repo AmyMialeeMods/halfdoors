@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.amymialee.halfdoors.blocks.HalfDoorBlock;
 
 @Mixin(DoorBlock.class)
-public class DoorBlockMixin {
+public abstract class DoorBlockMixin {
     @Shadow @Final public static EnumProperty<DoorHinge> HINGE;
     @Shadow @Final public static DirectionProperty FACING;
     @Shadow @Final public static BooleanProperty OPEN;

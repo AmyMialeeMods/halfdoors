@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.amymialee.halfdoors.blocks.IronFenceGateBlock;
 
 @Mixin(FenceGateBlock.class)
-public class FenceGateBlockMixin extends HorizontalFacingBlock {
+public abstract class FenceGateBlockMixin extends HorizontalFacingBlock {
     @Shadow @Final public static BooleanProperty OPEN;
 
     protected FenceGateBlockMixin(Settings settings) {

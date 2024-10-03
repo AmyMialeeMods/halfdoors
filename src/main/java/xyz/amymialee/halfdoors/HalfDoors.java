@@ -1,18 +1,14 @@
 package xyz.amymialee.halfdoors;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
@@ -24,19 +20,19 @@ import xyz.amymialee.halfdoors.blocks.IronFenceGateBlock;
 public class HalfDoors implements ModInitializer {
     public static final String MOD_ID = "halfdoors";
     public static final ItemGroup HALFDOORS_GROUP = FabricItemGroup.builder().displayName(Text.translatable("itemGroup.%s.%s_group".formatted(MOD_ID, MOD_ID))).icon(HalfDoors::getRecipeKindIcon).build();
-    public static final Block OAK_HALFDOOR = registerBlock("oak_halfdoor", new HalfDoorBlock(FabricBlockSettings.copyOf(Blocks.OAK_DOOR), BlockSetType.OAK));
-    public static final Block SPRUCE_HALFDOOR = registerBlock("spruce_halfdoor", new HalfDoorBlock(FabricBlockSettings.copyOf(Blocks.SPRUCE_DOOR), BlockSetType.SPRUCE));
-    public static final Block BIRCH_HALFDOOR = registerBlock("birch_halfdoor", new HalfDoorBlock(FabricBlockSettings.copyOf(Blocks.BIRCH_DOOR), BlockSetType.BIRCH));
-    public static final Block JUNGLE_HALFDOOR = registerBlock("jungle_halfdoor", new HalfDoorBlock(FabricBlockSettings.copyOf(Blocks.JUNGLE_DOOR), BlockSetType.JUNGLE));
-    public static final Block ACACIA_HALFDOOR = registerBlock("acacia_halfdoor", new HalfDoorBlock(FabricBlockSettings.copyOf(Blocks.ACACIA_DOOR), BlockSetType.ACACIA));
-    public static final Block DARK_OAK_HALFDOOR = registerBlock("dark_oak_halfdoor", new HalfDoorBlock(FabricBlockSettings.copyOf(Blocks.DARK_OAK_DOOR), BlockSetType.DARK_OAK));
-    public static final Block MANGROVE_HALFDOOR = registerBlock("mangrove_halfdoor", new HalfDoorBlock(FabricBlockSettings.copyOf(Blocks.MANGROVE_DOOR), BlockSetType.MANGROVE));
-    public static final Block CHERRY_HALFDOOR = registerBlock("cherry_halfdoor", new HalfDoorBlock(FabricBlockSettings.copyOf(Blocks.CHERRY_DOOR), BlockSetType.CHERRY));
-    public static final Block BAMBOO_HALFDOOR = registerBlock("bamboo_halfdoor", new HalfDoorBlock(FabricBlockSettings.copyOf(Blocks.BAMBOO_DOOR), BlockSetType.BAMBOO));
-    public static final Block CRIMSON_HALFDOOR = registerBlock("crimson_halfdoor", new HalfDoorBlock(FabricBlockSettings.copyOf(Blocks.CRIMSON_DOOR), BlockSetType.CRIMSON));
-    public static final Block WARPED_HALFDOOR = registerBlock("warped_halfdoor", new HalfDoorBlock(FabricBlockSettings.copyOf(Blocks.WARPED_DOOR), BlockSetType.WARPED));
-    public static final Block IRON_HALFDOOR = registerBlock("iron_halfdoor", new HalfDoorBlock(FabricBlockSettings.copyOf(Blocks.IRON_DOOR), BlockSetType.IRON));
-    public static final Block IRON_FENCE_GATE = registerBlock("iron_fence_gate", new IronFenceGateBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS).sounds(BlockSoundGroup.METAL)));
+    public static final Block OAK_HALFDOOR = registerBlock("oak_halfdoor", new HalfDoorBlock(AbstractBlock.Settings.copy(Blocks.OAK_DOOR), BlockSetType.OAK));
+    public static final Block SPRUCE_HALFDOOR = registerBlock("spruce_halfdoor", new HalfDoorBlock(AbstractBlock.Settings.copy(Blocks.SPRUCE_DOOR), BlockSetType.SPRUCE));
+    public static final Block BIRCH_HALFDOOR = registerBlock("birch_halfdoor", new HalfDoorBlock(AbstractBlock.Settings.copy(Blocks.BIRCH_DOOR), BlockSetType.BIRCH));
+    public static final Block JUNGLE_HALFDOOR = registerBlock("jungle_halfdoor", new HalfDoorBlock(AbstractBlock.Settings.copy(Blocks.JUNGLE_DOOR), BlockSetType.JUNGLE));
+    public static final Block ACACIA_HALFDOOR = registerBlock("acacia_halfdoor", new HalfDoorBlock(AbstractBlock.Settings.copy(Blocks.ACACIA_DOOR), BlockSetType.ACACIA));
+    public static final Block DARK_OAK_HALFDOOR = registerBlock("dark_oak_halfdoor", new HalfDoorBlock(AbstractBlock.Settings.copy(Blocks.DARK_OAK_DOOR), BlockSetType.DARK_OAK));
+    public static final Block MANGROVE_HALFDOOR = registerBlock("mangrove_halfdoor", new HalfDoorBlock(AbstractBlock.Settings.copy(Blocks.MANGROVE_DOOR), BlockSetType.MANGROVE));
+    public static final Block CHERRY_HALFDOOR = registerBlock("cherry_halfdoor", new HalfDoorBlock(AbstractBlock.Settings.copy(Blocks.CHERRY_DOOR), BlockSetType.CHERRY));
+    public static final Block BAMBOO_HALFDOOR = registerBlock("bamboo_halfdoor", new HalfDoorBlock(AbstractBlock.Settings.copy(Blocks.BAMBOO_DOOR), BlockSetType.BAMBOO));
+    public static final Block CRIMSON_HALFDOOR = registerBlock("crimson_halfdoor", new HalfDoorBlock(AbstractBlock.Settings.copy(Blocks.CRIMSON_DOOR), BlockSetType.CRIMSON));
+    public static final Block WARPED_HALFDOOR = registerBlock("warped_halfdoor", new HalfDoorBlock(AbstractBlock.Settings.copy(Blocks.WARPED_DOOR), BlockSetType.WARPED));
+    public static final Block IRON_HALFDOOR = registerBlock("iron_halfdoor", new HalfDoorBlock(AbstractBlock.Settings.copy(Blocks.IRON_DOOR), BlockSetType.IRON));
+    public static final Block IRON_FENCE_GATE = registerBlock("iron_fence_gate", new IronFenceGateBlock(AbstractBlock.Settings.copy(Blocks.IRON_BARS).sounds(BlockSoundGroup.METAL)));
 
     @Override
     public void onInitialize() {
@@ -80,7 +76,7 @@ public class HalfDoors implements ModInitializer {
 
     private static Block registerBlock(String name, Block block) {
         Registry.register(Registries.BLOCK, id(name), block);
-        Registry.register(Registries.ITEM, id(name), new BlockItem(block, new FabricItemSettings()));
+        Registry.register(Registries.ITEM, id(name), new BlockItem(block, new Item.Settings()));
         return block;
     }
 
@@ -89,6 +85,6 @@ public class HalfDoors implements ModInitializer {
     }
 
     public static Identifier id(String path) {
-        return new Identifier(MOD_ID, path);
+        return Identifier.of(MOD_ID, path);
     }
 }
