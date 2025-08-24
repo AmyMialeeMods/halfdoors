@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "d": {
+      "item": "minecraft:dark_oak_door"
+    }
+  },
+  "pattern": [
+    "ddd"
+  ],
+  "result": {
+    "count": 6,
+    "id": "halfdoors:dark_oak_halfdoor"
+  }
+}

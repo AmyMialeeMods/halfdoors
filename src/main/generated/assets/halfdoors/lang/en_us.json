@@ -1,0 +1,16 @@
+{
+  "block.halfdoors.acacia_halfdoor": "Acacia Halfdoor",
+  "block.halfdoors.bamboo_halfdoor": "Bamboo Halfdoor",
+  "block.halfdoors.birch_halfdoor": "Birch Halfdoor",
+  "block.halfdoors.cherry_halfdoor": "Cherry Halfdoor",
+  "block.halfdoors.crimson_halfdoor": "Crimson Halfdoor",
+  "block.halfdoors.dark_oak_halfdoor": "Dark Oak Halfdoor",
+  "block.halfdoors.iron_fence_gate": "Iron Fence Gate",
+  "block.halfdoors.iron_halfdoor": "Iron Halfdoor",
+  "block.halfdoors.jungle_halfdoor": "Jungle Halfdoor",
+  "block.halfdoors.mangrove_halfdoor": "Mangrove Halfdoor",
+  "block.halfdoors.oak_halfdoor": "Oak Halfdoor",
+  "block.halfdoors.spruce_halfdoor": "Spruce Halfdoor",
+  "block.halfdoors.warped_halfdoor": "Warped Halfdoor",
+  "itemGroup.halfdoors.halfdoors_group": "Halfdoors"
+}

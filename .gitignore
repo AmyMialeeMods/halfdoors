@@ -118,4 +118,3 @@ run/
 !gradle-wrapper.jar
 
 *.cache/
-*generated/
