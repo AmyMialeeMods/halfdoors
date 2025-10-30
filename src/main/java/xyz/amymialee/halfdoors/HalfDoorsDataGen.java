@@ -1,26 +1,49 @@
 package xyz.amymialee.halfdoors;
 
+import com.mojang.math.Quadrant;
+import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.*;
-import net.minecraft.block.Block;
-import net.minecraft.block.enums.DoorHinge;
-import net.minecraft.data.client.*;
-import net.minecraft.data.server.recipe.RecipeExporter;
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Direction;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.MultiVariant;
+import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
+import net.minecraft.client.data.models.blockstates.PropertyDispatch;
+import net.minecraft.client.data.models.model.ModelTemplate;
+import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TextureMapping;
+import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.client.model.Model;
+import net.minecraft.client.renderer.block.model.ItemModelGenerator;
+import net.minecraft.client.renderer.block.model.Variant;
+import net.minecraft.client.renderer.block.model.VariantMutator;
+import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.tags.TagAppender;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagBuilder;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DoorHingeSide;
 import xyz.amymialee.halfdoors.blocks.HalfDoorBlock;
-
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+
+import static net.minecraft.client.data.models.BlockModelGenerators.plainModel;
+import static net.minecraft.client.data.models.BlockModelGenerators.variant;
 
 public class HalfDoorsDataGen implements DataGeneratorEntrypoint {
     @Override
@@ -34,12 +57,12 @@ public class HalfDoorsDataGen implements DataGeneratorEntrypoint {
     }
 
     private static class HalfDoorsTranslations extends FabricLanguageProvider {
-        protected HalfDoorsTranslations(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+        protected HalfDoorsTranslations(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
             super(dataOutput, registryLookup);
         }
 
         @Override
-        public void generateTranslations(RegistryWrapper.WrapperLookup lookup, TranslationBuilder builder) {
+        public void generateTranslations(HolderLookup.Provider lookup, TranslationBuilder builder) {
             builder.add("itemGroup.%s.%s_group".formatted(HalfDoors.MOD_ID, HalfDoors.MOD_ID), "Halfdoors");
             builder.add(HalfDoors.OAK_HALFDOOR, "Oak Halfdoor");
             builder.add(HalfDoors.SPRUCE_HALFDOOR, "Spruce Halfdoor");
@@ -58,16 +81,16 @@ public class HalfDoorsDataGen implements DataGeneratorEntrypoint {
     }
 
     private static class HalfDoorsModels extends FabricModelProvider {
-        public static final TextureKey HALFDOOR = TextureKey.of("halfdoor");
-        public static final Model TEMPLATE_HALFDOOR_LEFT = new Model(Optional.of(HalfDoors.id("block/template_halfdoor_left")), Optional.of("_left"), HALFDOOR);
-        public static final Model TEMPLATE_HALFDOOR_RIGHT = new Model(Optional.of(HalfDoors.id("block/template_halfdoor_right")), Optional.of("_right"), HALFDOOR);
+        public static final TextureSlot HALFDOOR = TextureSlot.create("halfdoor");
+        public static final ModelTemplate TEMPLATE_HALFDOOR_LEFT = new ModelTemplate(Optional.of(HalfDoors.id("block/template_halfdoor_left")), Optional.of("_left"), HALFDOOR);
+        public static final ModelTemplate TEMPLATE_HALFDOOR_RIGHT = new ModelTemplate(Optional.of(HalfDoors.id("block/template_halfdoor_right")), Optional.of("_right"), HALFDOOR);
 
         public HalfDoorsModels(FabricDataOutput output) {
             super(output);
         }
 
         @Override
-        public void generateBlockStateModels(BlockStateModelGenerator generator) {
+        public void generateBlockStateModels(BlockModelGenerators generator) {
             this.generateHalfDoor(generator, HalfDoors.OAK_HALFDOOR);
             this.generateHalfDoor(generator, HalfDoors.SPRUCE_HALFDOOR);
             this.generateHalfDoor(generator, HalfDoors.BIRCH_HALFDOOR);
@@ -82,116 +105,128 @@ public class HalfDoorsDataGen implements DataGeneratorEntrypoint {
             this.generateHalfDoor(generator, HalfDoors.IRON_HALFDOOR);
         }
 
-        private void generateHalfDoor(BlockStateModelGenerator generator, Block block) {
-            TextureMap texture = new TextureMap().put(HALFDOOR, TextureMap.getId(block));
-            Identifier left = TEMPLATE_HALFDOOR_LEFT.upload(block, texture, generator.modelCollector);
-            Identifier right = TEMPLATE_HALFDOOR_RIGHT.upload(block, texture, generator.modelCollector);
-            generator.excludeFromSimpleItemModelGeneration(block);
-            generator.blockStateCollector.accept(VariantsBlockStateSupplier.create(block).coordinate(fillDoorVariantMap(left, right)));
+        private void generateHalfDoor(BlockModelGenerators generator, Block block) {
+            TextureMapping texture = new TextureMapping().put(HALFDOOR, TextureMapping.getBlockTexture(block));
+            ResourceLocation left = TEMPLATE_HALFDOOR_LEFT.create(block, texture, generator.modelOutput);
+            ResourceLocation right = TEMPLATE_HALFDOOR_RIGHT.create(block, texture, generator.modelOutput);
+            generator.blockStateOutput.accept(MultiVariantGenerator.dispatch(block).with(fillDoorVariantMap(left, right)));
         }
 
-        public static BlockStateVariantMap.QuadrupleProperty<Direction, HalfDoorBlock.HalfDoorSection, DoorHinge, Boolean> fillDoorVariantMap(Identifier leftModel, Identifier rightModel) {
-            BlockStateVariantMap.QuadrupleProperty<Direction, HalfDoorBlock.HalfDoorSection, DoorHinge, Boolean> variantMap = BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, HalfDoorBlock.SECTION, Properties.DOOR_HINGE, Properties.OPEN);
+        public static PropertyDispatch.C4<MultiVariant, Direction, HalfDoorBlock.HalfDoorSection, DoorHingeSide, Boolean> fillDoorVariantMap(ResourceLocation leftModel, ResourceLocation rightModel) {
+            PropertyDispatch.C4<MultiVariant, Direction, HalfDoorBlock.HalfDoorSection, DoorHingeSide, Boolean> variantMap = PropertyDispatch.initial(BlockStateProperties.HORIZONTAL_FACING, HalfDoorBlock.SECTION, BlockStateProperties.DOOR_HINGE, BlockStateProperties.OPEN);
             for (HalfDoorBlock.HalfDoorSection section : HalfDoorBlock.HalfDoorSection.values()) {
-                variantMap.register(Direction.EAST, section, DoorHinge.LEFT, false, BlockStateVariant.create().put(VariantSettings.MODEL, leftModel))
-                        .register(Direction.SOUTH, section, DoorHinge.LEFT, false, BlockStateVariant.create().put(VariantSettings.MODEL, leftModel).put(VariantSettings.Y, VariantSettings.Rotation.R90))
-                        .register(Direction.WEST, section, DoorHinge.LEFT, false, BlockStateVariant.create().put(VariantSettings.MODEL, leftModel).put(VariantSettings.Y, VariantSettings.Rotation.R180))
-                        .register(Direction.NORTH, section, DoorHinge.LEFT, false, BlockStateVariant.create().put(VariantSettings.MODEL, leftModel).put(VariantSettings.Y, VariantSettings.Rotation.R270))
-                        .register(Direction.EAST, section, DoorHinge.RIGHT, false, BlockStateVariant.create().put(VariantSettings.MODEL, rightModel))
-                        .register(Direction.SOUTH, section, DoorHinge.RIGHT, false, BlockStateVariant.create().put(VariantSettings.MODEL, rightModel).put(VariantSettings.Y, VariantSettings.Rotation.R90))
-                        .register(Direction.WEST, section, DoorHinge.RIGHT, false, BlockStateVariant.create().put(VariantSettings.MODEL, rightModel).put(VariantSettings.Y, VariantSettings.Rotation.R180))
-                        .register(Direction.NORTH, section, DoorHinge.RIGHT, false, BlockStateVariant.create().put(VariantSettings.MODEL, rightModel).put(VariantSettings.Y, VariantSettings.Rotation.R270))
-                        .register(Direction.EAST, section, DoorHinge.LEFT, true, BlockStateVariant.create().put(VariantSettings.MODEL, rightModel).put(VariantSettings.Y, VariantSettings.Rotation.R90))
-                        .register(Direction.SOUTH, section, DoorHinge.LEFT, true, BlockStateVariant.create().put(VariantSettings.MODEL, rightModel).put(VariantSettings.Y, VariantSettings.Rotation.R180))
-                        .register(Direction.WEST, section, DoorHinge.LEFT, true, BlockStateVariant.create().put(VariantSettings.MODEL, rightModel).put(VariantSettings.Y, VariantSettings.Rotation.R270))
-                        .register(Direction.NORTH, section, DoorHinge.LEFT, true, BlockStateVariant.create().put(VariantSettings.MODEL, rightModel))
-                        .register(Direction.EAST, section, DoorHinge.RIGHT, true, BlockStateVariant.create().put(VariantSettings.MODEL, leftModel).put(VariantSettings.Y, VariantSettings.Rotation.R270))
-                        .register(Direction.SOUTH, section, DoorHinge.RIGHT, true, BlockStateVariant.create().put(VariantSettings.MODEL, leftModel))
-                        .register(Direction.WEST, section, DoorHinge.RIGHT, true, BlockStateVariant.create().put(VariantSettings.MODEL, leftModel).put(VariantSettings.Y, VariantSettings.Rotation.R90))
-                        .register(Direction.NORTH, section, DoorHinge.RIGHT, true, BlockStateVariant.create().put(VariantSettings.MODEL, leftModel).put(VariantSettings.Y, VariantSettings.Rotation.R180));
+                variantMap
+                        .select(Direction.EAST, section, DoorHingeSide.LEFT, false, variant(plainModel(leftModel)))
+                        .select(Direction.SOUTH, section, DoorHingeSide.LEFT, false, variant(plainModel(leftModel)).with(VariantMutator.Y_ROT.withValue(Quadrant.R90)))
+                        .select(Direction.WEST, section, DoorHingeSide.LEFT, false, variant(plainModel(leftModel)).with(VariantMutator.Y_ROT.withValue(Quadrant.R180)))
+                        .select(Direction.NORTH, section, DoorHingeSide.LEFT, false, variant(plainModel(leftModel)).with(VariantMutator.Y_ROT.withValue(Quadrant.R270)))
+                        .select(Direction.EAST, section, DoorHingeSide.RIGHT, false, variant(plainModel(rightModel)))
+                        .select(Direction.SOUTH, section, DoorHingeSide.RIGHT, false, variant(plainModel(rightModel)).with(VariantMutator.Y_ROT.withValue(Quadrant.R90)))
+                        .select(Direction.WEST, section, DoorHingeSide.RIGHT, false, variant(plainModel(rightModel)).with(VariantMutator.Y_ROT.withValue(Quadrant.R180)))
+                        .select(Direction.NORTH, section, DoorHingeSide.RIGHT, false, variant(plainModel(rightModel)).with(VariantMutator.Y_ROT.withValue(Quadrant.R270)))
+                        .select(Direction.EAST, section, DoorHingeSide.LEFT, true, variant(plainModel(rightModel)).with(VariantMutator.Y_ROT.withValue(Quadrant.R90)))
+                        .select(Direction.SOUTH, section, DoorHingeSide.LEFT, true, variant(plainModel(rightModel)).with(VariantMutator.Y_ROT.withValue(Quadrant.R180)))
+                        .select(Direction.WEST, section, DoorHingeSide.LEFT, true, variant(plainModel(rightModel)).with(VariantMutator.Y_ROT.withValue(Quadrant.R270)))
+                        .select(Direction.NORTH, section, DoorHingeSide.LEFT, true, variant(plainModel(rightModel)))
+                        .select(Direction.EAST, section, DoorHingeSide.RIGHT, true, variant(plainModel(leftModel)).with(VariantMutator.Y_ROT.withValue(Quadrant.R270)))
+                        .select(Direction.SOUTH, section, DoorHingeSide.RIGHT, true, variant(plainModel(leftModel)))
+                        .select(Direction.WEST, section, DoorHingeSide.RIGHT, true, variant(plainModel(leftModel)).with(VariantMutator.Y_ROT.withValue(Quadrant.R90)))
+                        .select(Direction.NORTH, section, DoorHingeSide.RIGHT, true, variant(plainModel(leftModel)).with(VariantMutator.Y_ROT.withValue(Quadrant.R180)));
             }
             return variantMap;
         }
 
         @Override
-        public void generateItemModels(ItemModelGenerator generator) {
-            generator.register(HalfDoors.OAK_HALFDOOR.asItem(), Models.GENERATED);
-            generator.register(HalfDoors.SPRUCE_HALFDOOR.asItem(), Models.GENERATED);
-            generator.register(HalfDoors.BIRCH_HALFDOOR.asItem(), Models.GENERATED);
-            generator.register(HalfDoors.JUNGLE_HALFDOOR.asItem(), Models.GENERATED);
-            generator.register(HalfDoors.ACACIA_HALFDOOR.asItem(), Models.GENERATED);
-            generator.register(HalfDoors.DARK_OAK_HALFDOOR.asItem(), Models.GENERATED);
-            generator.register(HalfDoors.MANGROVE_HALFDOOR.asItem(), Models.GENERATED);
-            generator.register(HalfDoors.CHERRY_HALFDOOR.asItem(), Models.GENERATED);
-            generator.register(HalfDoors.BAMBOO_HALFDOOR.asItem(), Models.GENERATED);
-            generator.register(HalfDoors.CRIMSON_HALFDOOR.asItem(), Models.GENERATED);
-            generator.register(HalfDoors.WARPED_HALFDOOR.asItem(), Models.GENERATED);
-            generator.register(HalfDoors.IRON_HALFDOOR.asItem(), Models.GENERATED);
+        public void generateItemModels(ItemModelGenerators generator) {
+            generator.generateFlatItem(HalfDoors.OAK_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
+            generator.generateFlatItem(HalfDoors.SPRUCE_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
+            generator.generateFlatItem(HalfDoors.BIRCH_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
+            generator.generateFlatItem(HalfDoors.JUNGLE_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
+            generator.generateFlatItem(HalfDoors.ACACIA_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
+            generator.generateFlatItem(HalfDoors.DARK_OAK_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
+            generator.generateFlatItem(HalfDoors.MANGROVE_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
+            generator.generateFlatItem(HalfDoors.CHERRY_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
+            generator.generateFlatItem(HalfDoors.BAMBOO_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
+            generator.generateFlatItem(HalfDoors.CRIMSON_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
+            generator.generateFlatItem(HalfDoors.WARPED_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
+            generator.generateFlatItem(HalfDoors.IRON_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
         }
     }
 
     private static class HalfDoorsLootTables extends FabricBlockLootTableProvider {
-        protected HalfDoorsLootTables(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+        protected HalfDoorsLootTables(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
             super(dataOutput, registryLookup);
         }
 
         @Override
         public void generate() {
-            this.addDrop(HalfDoors.OAK_HALFDOOR);
-            this.addDrop(HalfDoors.SPRUCE_HALFDOOR);
-            this.addDrop(HalfDoors.BIRCH_HALFDOOR);
-            this.addDrop(HalfDoors.JUNGLE_HALFDOOR);
-            this.addDrop(HalfDoors.ACACIA_HALFDOOR);
-            this.addDrop(HalfDoors.DARK_OAK_HALFDOOR);
-            this.addDrop(HalfDoors.MANGROVE_HALFDOOR);
-            this.addDrop(HalfDoors.CHERRY_HALFDOOR);
-            this.addDrop(HalfDoors.BAMBOO_HALFDOOR);
-            this.addDrop(HalfDoors.CRIMSON_HALFDOOR);
-            this.addDrop(HalfDoors.WARPED_HALFDOOR);
-            this.addDrop(HalfDoors.IRON_HALFDOOR);
-            this.addDrop(HalfDoors.IRON_FENCE_GATE);
+            this.dropSelf(HalfDoors.OAK_HALFDOOR);
+            this.dropSelf(HalfDoors.SPRUCE_HALFDOOR);
+            this.dropSelf(HalfDoors.BIRCH_HALFDOOR);
+            this.dropSelf(HalfDoors.JUNGLE_HALFDOOR);
+            this.dropSelf(HalfDoors.ACACIA_HALFDOOR);
+            this.dropSelf(HalfDoors.DARK_OAK_HALFDOOR);
+            this.dropSelf(HalfDoors.MANGROVE_HALFDOOR);
+            this.dropSelf(HalfDoors.CHERRY_HALFDOOR);
+            this.dropSelf(HalfDoors.BAMBOO_HALFDOOR);
+            this.dropSelf(HalfDoors.CRIMSON_HALFDOOR);
+            this.dropSelf(HalfDoors.WARPED_HALFDOOR);
+            this.dropSelf(HalfDoors.IRON_HALFDOOR);
+            this.dropSelf(HalfDoors.IRON_FENCE_GATE);
         }
     }
 
     private static class HalfDoorsRecipes extends FabricRecipeProvider {
-        public HalfDoorsRecipes(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+        public HalfDoorsRecipes(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
             super(output, registriesFuture);
         }
 
         @Override
-        public void generate(RecipeExporter exporter) {
-            this.generateHalfDoor(exporter, Items.OAK_DOOR, HalfDoors.OAK_HALFDOOR);
-            this.generateHalfDoor(exporter, Items.SPRUCE_DOOR, HalfDoors.SPRUCE_HALFDOOR);
-            this.generateHalfDoor(exporter, Items.BIRCH_DOOR, HalfDoors.BIRCH_HALFDOOR);
-            this.generateHalfDoor(exporter, Items.JUNGLE_DOOR, HalfDoors.JUNGLE_HALFDOOR);
-            this.generateHalfDoor(exporter, Items.ACACIA_DOOR, HalfDoors.ACACIA_HALFDOOR);
-            this.generateHalfDoor(exporter, Items.DARK_OAK_DOOR, HalfDoors.DARK_OAK_HALFDOOR);
-            this.generateHalfDoor(exporter, Items.MANGROVE_DOOR, HalfDoors.MANGROVE_HALFDOOR);
-            this.generateHalfDoor(exporter, Items.CHERRY_DOOR, HalfDoors.CHERRY_HALFDOOR);
-            this.generateHalfDoor(exporter, Items.BAMBOO_DOOR, HalfDoors.BAMBOO_HALFDOOR);
-            this.generateHalfDoor(exporter, Items.CRIMSON_DOOR, HalfDoors.CRIMSON_HALFDOOR);
-            this.generateHalfDoor(exporter, Items.WARPED_DOOR, HalfDoors.WARPED_HALFDOOR);
-            this.generateHalfDoor(exporter, Items.IRON_DOOR, HalfDoors.IRON_HALFDOOR);
-            this.generateFenceGate(exporter, Items.IRON_NUGGET, Items.IRON_INGOT, HalfDoors.IRON_FENCE_GATE);
+        protected RecipeProvider createRecipeProvider(HolderLookup.Provider registryLookup, RecipeOutput exporter) {
+            return new RecipeProvider(registryLookup, exporter) {
+                private final HolderLookup.RegistryLookup<Item> items = registryLookup.lookupOrThrow(Registries.ITEM);
+
+                private void generateHalfDoor(ItemLike door, ItemLike halfDoor) {
+                    ShapedRecipeBuilder.shaped(this.items, RecipeCategory.REDSTONE, halfDoor, 6).define('d', door).pattern("ddd").unlockedBy("has_door", this.has(door)).save(exporter);
+                }
+
+                private void generateFenceGate(ItemLike sides, ItemLike gate, ItemLike fenceGate) {
+                    ShapedRecipeBuilder.shaped(this.items, RecipeCategory.REDSTONE, fenceGate, 1).define('s', sides).define('g', gate).pattern("sgs").pattern("sgs").unlockedBy("has_sides", this.has(sides)).unlockedBy("has_gate", this.has(gate)).save(exporter);
+                }
+
+                @Override
+                public void buildRecipes() {
+                    this.generateHalfDoor(Items.OAK_DOOR, HalfDoors.OAK_HALFDOOR);
+                    this.generateHalfDoor(Items.SPRUCE_DOOR, HalfDoors.SPRUCE_HALFDOOR);
+                    this.generateHalfDoor(Items.BIRCH_DOOR, HalfDoors.BIRCH_HALFDOOR);
+                    this.generateHalfDoor(Items.JUNGLE_DOOR, HalfDoors.JUNGLE_HALFDOOR);
+                    this.generateHalfDoor(Items.ACACIA_DOOR, HalfDoors.ACACIA_HALFDOOR);
+                    this.generateHalfDoor(Items.DARK_OAK_DOOR, HalfDoors.DARK_OAK_HALFDOOR);
+                    this.generateHalfDoor(Items.MANGROVE_DOOR, HalfDoors.MANGROVE_HALFDOOR);
+                    this.generateHalfDoor(Items.CHERRY_DOOR, HalfDoors.CHERRY_HALFDOOR);
+                    this.generateHalfDoor(Items.BAMBOO_DOOR, HalfDoors.BAMBOO_HALFDOOR);
+                    this.generateHalfDoor(Items.CRIMSON_DOOR, HalfDoors.CRIMSON_HALFDOOR);
+                    this.generateHalfDoor(Items.WARPED_DOOR, HalfDoors.WARPED_HALFDOOR);
+                    this.generateHalfDoor(Items.IRON_DOOR, HalfDoors.IRON_HALFDOOR);
+                    this.generateFenceGate(Items.IRON_NUGGET, Items.IRON_INGOT, HalfDoors.IRON_FENCE_GATE);
+                }
+            };
         }
 
-        private void generateHalfDoor(RecipeExporter exporter, ItemConvertible door, ItemConvertible halfDoor) {
-            ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, halfDoor, 6).input('d', door).pattern("ddd").criterion("has_door", conditionsFromItem(door)).offerTo(exporter);
-        }
-
-        private void generateFenceGate(RecipeExporter exporter, ItemConvertible sides, ItemConvertible gate, ItemConvertible fenceGate) {
-            ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, fenceGate, 1).input('s', sides).input('g', gate).pattern("sgs").pattern("sgs").criterion("has_sides", conditionsFromItem(sides)).criterion("has_gate", conditionsFromItem(gate)).offerTo(exporter);
+        @Override
+        public String getName() {
+            return "halfdoor recipes";
         }
     }
 
     private static class HalfDoorsBlockTags extends FabricTagProvider.BlockTagProvider {
-        public HalfDoorsBlockTags(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+        public HalfDoorsBlockTags(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
             super(output, registriesFuture);
         }
 
         @Override
-        protected void configure(RegistryWrapper.WrapperLookup arg) {
-            this.getOrCreateTagBuilder(BlockTags.WOODEN_DOORS).add(
+        protected void addTags(HolderLookup.Provider arg) {
+            this.valueLookupBuilder(BlockTags.WOODEN_DOORS).add(
                     HalfDoors.OAK_HALFDOOR,
                     HalfDoors.SPRUCE_HALFDOOR,
                     HalfDoors.BIRCH_HALFDOOR,
@@ -204,13 +239,13 @@ public class HalfDoorsDataGen implements DataGeneratorEntrypoint {
                     HalfDoors.CRIMSON_HALFDOOR,
                     HalfDoors.WARPED_HALFDOOR
             );
-            this.getOrCreateTagBuilder(BlockTags.DOORS).add(
+            this.valueLookupBuilder(BlockTags.DOORS).add(
                     HalfDoors.IRON_HALFDOOR
             );
-            this.getOrCreateTagBuilder(BlockTags.FENCE_GATES).add(
+            this.valueLookupBuilder(BlockTags.FENCE_GATES).add(
                     HalfDoors.IRON_FENCE_GATE
             );
-            this.getOrCreateTagBuilder(BlockTags.AXE_MINEABLE).add(
+            this.valueLookupBuilder(BlockTags.MINEABLE_WITH_AXE).add(
                     HalfDoors.OAK_HALFDOOR,
                     HalfDoors.SPRUCE_HALFDOOR,
                     HalfDoors.BIRCH_HALFDOOR,
@@ -223,7 +258,7 @@ public class HalfDoorsDataGen implements DataGeneratorEntrypoint {
                     HalfDoors.CRIMSON_HALFDOOR,
                     HalfDoors.WARPED_HALFDOOR
             );
-            this.getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE).add(
+            this.valueLookupBuilder(BlockTags.MINEABLE_WITH_PICKAXE).add(
                     HalfDoors.IRON_HALFDOOR,
                     HalfDoors.IRON_FENCE_GATE
             );
