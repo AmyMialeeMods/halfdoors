@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "d": "minecraft:exposed_copper_door"
+  },
+  "pattern": [
+    "ddd"
+  ],
+  "result": {
+    "count": 6,
+    "id": "halfdoors:exposed_copper_halfdoor"
+  }
+}

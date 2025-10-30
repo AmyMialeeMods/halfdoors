@@ -1,0 +1,25 @@
+{
+  "values": [
+    "halfdoors:oak_halfdoor",
+    "halfdoors:spruce_halfdoor",
+    "halfdoors:birch_halfdoor",
+    "halfdoors:jungle_halfdoor",
+    "halfdoors:acacia_halfdoor",
+    "halfdoors:dark_oak_halfdoor",
+    "halfdoors:mangrove_halfdoor",
+    "halfdoors:cherry_halfdoor",
+    "halfdoors:bamboo_halfdoor",
+    "halfdoors:crimson_halfdoor",
+    "halfdoors:warped_halfdoor",
+    "halfdoors:iron_halfdoor",
+    "halfdoors:pale_oak_halfdoor",
+    "halfdoors:copper_halfdoor",
+    "halfdoors:exposed_copper_halfdoor",
+    "halfdoors:weathered_copper_halfdoor",
+    "halfdoors:oxidized_copper_halfdoor",
+    "halfdoors:waxed_copper_halfdoor",
+    "halfdoors:waxed_exposed_copper_halfdoor",
+    "halfdoors:waxed_weathered_copper_halfdoor",
+    "halfdoors:waxed_oxidized_copper_halfdoor"
+  ]
+}

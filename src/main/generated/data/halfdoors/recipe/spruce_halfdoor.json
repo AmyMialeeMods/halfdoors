@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "d": "minecraft:spruce_door"
+  },
+  "pattern": [
+    "ddd"
+  ],
+  "result": {
+    "count": 6,
+    "id": "halfdoors:spruce_halfdoor"
+  }
+}

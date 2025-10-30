@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "d": "minecraft:birch_door"
+  },
+  "pattern": [
+    "ddd"
+  ],
+  "result": {
+    "count": 6,
+    "id": "halfdoors:birch_halfdoor"
+  }
+}

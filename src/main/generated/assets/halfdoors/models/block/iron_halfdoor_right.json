@@ -1,0 +1,6 @@
+{
+  "parent": "halfdoors:block/template_halfdoor_right",
+  "textures": {
+    "halfdoor": "halfdoors:block/iron_halfdoor"
+  }
+}

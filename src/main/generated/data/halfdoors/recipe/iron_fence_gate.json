@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "g": "minecraft:iron_ingot",
+    "s": "minecraft:iron_nugget"
+  },
+  "pattern": [
+    "sgs",
+    "sgs"
+  ],
+  "result": {
+    "count": 1,
+    "id": "halfdoors:iron_fence_gate"
+  }
+}
