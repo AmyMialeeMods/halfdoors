@@ -38,6 +38,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoorHingeSide;
+import net.minecraft.world.level.block.state.properties.Half;
 import xyz.amymialee.halfdoors.blocks.HalfDoorBlock;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -76,6 +77,15 @@ public class HalfDoorsDataGen implements DataGeneratorEntrypoint {
             builder.add(HalfDoors.CRIMSON_HALFDOOR, "Crimson Halfdoor");
             builder.add(HalfDoors.WARPED_HALFDOOR, "Warped Halfdoor");
             builder.add(HalfDoors.IRON_HALFDOOR, "Iron Halfdoor");
+            builder.add(HalfDoors.PALE_OAK_HALFDOOR, "Pale Oak Halfdoor");
+            builder.add(HalfDoors.COPPER_HALFDOOR, "Copper Halfdoor");
+            builder.add(HalfDoors.EXPOSED_COPPER_HALFDOOR, "Exposed Copper Halfdoor");
+            builder.add(HalfDoors.WEATHERED_COPPER_HALFDOOR, "Weathered Copper Halfdoor");
+            builder.add(HalfDoors.OXIDIZED_COPPER_HALFDOOR, "Oxidized Copper Halfdoor");
+            builder.add(HalfDoors.WAXED_COPPER_HALFDOOR, "Waxed Copper Halfdoor");
+            builder.add(HalfDoors.WAXED_EXPOSED_COPPER_HALFDOOR, "Waxed Exposed Copper Halfdoor");
+            builder.add(HalfDoors.WAXED_WEATHERED_COPPER_HALFDOOR, "Waxed Weathered Copper Halfdoor");
+            builder.add(HalfDoors.WAXED_OXIDIZED_COPPER_HALFDOOR, "Waxed Oxidized Copper Halfdoor");
             builder.add(HalfDoors.IRON_FENCE_GATE, "Iron Fence Gate");
         }
     }
@@ -91,18 +101,9 @@ public class HalfDoorsDataGen implements DataGeneratorEntrypoint {
 
         @Override
         public void generateBlockStateModels(BlockModelGenerators generator) {
-            this.generateHalfDoor(generator, HalfDoors.OAK_HALFDOOR);
-            this.generateHalfDoor(generator, HalfDoors.SPRUCE_HALFDOOR);
-            this.generateHalfDoor(generator, HalfDoors.BIRCH_HALFDOOR);
-            this.generateHalfDoor(generator, HalfDoors.JUNGLE_HALFDOOR);
-            this.generateHalfDoor(generator, HalfDoors.ACACIA_HALFDOOR);
-            this.generateHalfDoor(generator, HalfDoors.DARK_OAK_HALFDOOR);
-            this.generateHalfDoor(generator, HalfDoors.MANGROVE_HALFDOOR);
-            this.generateHalfDoor(generator, HalfDoors.CHERRY_HALFDOOR);
-            this.generateHalfDoor(generator, HalfDoors.BAMBOO_HALFDOOR);
-            this.generateHalfDoor(generator, HalfDoors.CRIMSON_HALFDOOR);
-            this.generateHalfDoor(generator, HalfDoors.WARPED_HALFDOOR);
-            this.generateHalfDoor(generator, HalfDoors.IRON_HALFDOOR);
+            for (var block : HalfDoors.ALL_HALFDOORS) {
+                this.generateHalfDoor(generator, block);
+            }
         }
 
         private void generateHalfDoor(BlockModelGenerators generator, Block block) {
@@ -138,18 +139,9 @@ public class HalfDoorsDataGen implements DataGeneratorEntrypoint {
 
         @Override
         public void generateItemModels(ItemModelGenerators generator) {
-            generator.generateFlatItem(HalfDoors.OAK_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
-            generator.generateFlatItem(HalfDoors.SPRUCE_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
-            generator.generateFlatItem(HalfDoors.BIRCH_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
-            generator.generateFlatItem(HalfDoors.JUNGLE_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
-            generator.generateFlatItem(HalfDoors.ACACIA_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
-            generator.generateFlatItem(HalfDoors.DARK_OAK_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
-            generator.generateFlatItem(HalfDoors.MANGROVE_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
-            generator.generateFlatItem(HalfDoors.CHERRY_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
-            generator.generateFlatItem(HalfDoors.BAMBOO_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
-            generator.generateFlatItem(HalfDoors.CRIMSON_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
-            generator.generateFlatItem(HalfDoors.WARPED_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
-            generator.generateFlatItem(HalfDoors.IRON_HALFDOOR.asItem(), ModelTemplates.FLAT_ITEM);
+            for (var block : HalfDoors.ALL_HALFDOORS) {
+                generator.generateFlatItem(block.asItem(), ModelTemplates.FLAT_ITEM);
+            }
         }
     }
 
@@ -160,19 +152,9 @@ public class HalfDoorsDataGen implements DataGeneratorEntrypoint {
 
         @Override
         public void generate() {
-            this.dropSelf(HalfDoors.OAK_HALFDOOR);
-            this.dropSelf(HalfDoors.SPRUCE_HALFDOOR);
-            this.dropSelf(HalfDoors.BIRCH_HALFDOOR);
-            this.dropSelf(HalfDoors.JUNGLE_HALFDOOR);
-            this.dropSelf(HalfDoors.ACACIA_HALFDOOR);
-            this.dropSelf(HalfDoors.DARK_OAK_HALFDOOR);
-            this.dropSelf(HalfDoors.MANGROVE_HALFDOOR);
-            this.dropSelf(HalfDoors.CHERRY_HALFDOOR);
-            this.dropSelf(HalfDoors.BAMBOO_HALFDOOR);
-            this.dropSelf(HalfDoors.CRIMSON_HALFDOOR);
-            this.dropSelf(HalfDoors.WARPED_HALFDOOR);
-            this.dropSelf(HalfDoors.IRON_HALFDOOR);
-            this.dropSelf(HalfDoors.IRON_FENCE_GATE);
+            for (var block : HalfDoors.ALL_BLOCKS) {
+                this.dropSelf(block);
+            }
         }
     }
 
@@ -208,6 +190,15 @@ public class HalfDoorsDataGen implements DataGeneratorEntrypoint {
                     this.generateHalfDoor(Items.CRIMSON_DOOR, HalfDoors.CRIMSON_HALFDOOR);
                     this.generateHalfDoor(Items.WARPED_DOOR, HalfDoors.WARPED_HALFDOOR);
                     this.generateHalfDoor(Items.IRON_DOOR, HalfDoors.IRON_HALFDOOR);
+                    this.generateHalfDoor(Items.PALE_OAK_DOOR, HalfDoors.PALE_OAK_HALFDOOR);
+                    this.generateHalfDoor(Items.COPPER_DOOR, HalfDoors.COPPER_HALFDOOR);
+                    this.generateHalfDoor(Items.EXPOSED_COPPER_DOOR, HalfDoors.EXPOSED_COPPER_HALFDOOR);
+                    this.generateHalfDoor(Items.WEATHERED_COPPER_DOOR, HalfDoors.WEATHERED_COPPER_HALFDOOR);
+                    this.generateHalfDoor(Items.OXIDIZED_COPPER_DOOR, HalfDoors.OXIDIZED_COPPER_HALFDOOR);
+                    this.generateHalfDoor(Items.WAXED_COPPER_DOOR, HalfDoors.WAXED_COPPER_HALFDOOR);
+                    this.generateHalfDoor(Items.WAXED_EXPOSED_COPPER_DOOR, HalfDoors.WAXED_EXPOSED_COPPER_HALFDOOR);
+                    this.generateHalfDoor(Items.WAXED_WEATHERED_COPPER_DOOR, HalfDoors.WAXED_WEATHERED_COPPER_HALFDOOR);
+                    this.generateHalfDoor(Items.WAXED_OXIDIZED_COPPER_DOOR, HalfDoors.WAXED_OXIDIZED_COPPER_HALFDOOR);
                     this.generateFenceGate(Items.IRON_NUGGET, Items.IRON_INGOT, HalfDoors.IRON_FENCE_GATE);
                 }
             };
@@ -227,17 +218,7 @@ public class HalfDoorsDataGen implements DataGeneratorEntrypoint {
         @Override
         protected void addTags(HolderLookup.Provider arg) {
             this.valueLookupBuilder(BlockTags.WOODEN_DOORS).add(
-                    HalfDoors.OAK_HALFDOOR,
-                    HalfDoors.SPRUCE_HALFDOOR,
-                    HalfDoors.BIRCH_HALFDOOR,
-                    HalfDoors.JUNGLE_HALFDOOR,
-                    HalfDoors.ACACIA_HALFDOOR,
-                    HalfDoors.DARK_OAK_HALFDOOR,
-                    HalfDoors.MANGROVE_HALFDOOR,
-                    HalfDoors.CHERRY_HALFDOOR,
-                    HalfDoors.BAMBOO_HALFDOOR,
-                    HalfDoors.CRIMSON_HALFDOOR,
-                    HalfDoors.WARPED_HALFDOOR
+                    HalfDoors.ALL_HALFDOORS.toArray(Block[]::new)
             );
             this.valueLookupBuilder(BlockTags.DOORS).add(
                     HalfDoors.IRON_HALFDOOR
@@ -256,10 +237,19 @@ public class HalfDoorsDataGen implements DataGeneratorEntrypoint {
                     HalfDoors.CHERRY_HALFDOOR,
                     HalfDoors.BAMBOO_HALFDOOR,
                     HalfDoors.CRIMSON_HALFDOOR,
-                    HalfDoors.WARPED_HALFDOOR
+                    HalfDoors.WARPED_HALFDOOR,
+                    HalfDoors.PALE_OAK_HALFDOOR
             );
             this.valueLookupBuilder(BlockTags.MINEABLE_WITH_PICKAXE).add(
                     HalfDoors.IRON_HALFDOOR,
+                    HalfDoors.COPPER_HALFDOOR,
+                    HalfDoors.EXPOSED_COPPER_HALFDOOR,
+                    HalfDoors.WEATHERED_COPPER_HALFDOOR,
+                    HalfDoors.OXIDIZED_COPPER_HALFDOOR,
+                    HalfDoors.WAXED_COPPER_HALFDOOR,
+                    HalfDoors.WAXED_EXPOSED_COPPER_HALFDOOR,
+                    HalfDoors.WAXED_WEATHERED_COPPER_HALFDOOR,
+                    HalfDoors.WAXED_OXIDIZED_COPPER_HALFDOOR,
                     HalfDoors.IRON_FENCE_GATE
             );
         }
