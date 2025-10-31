@@ -1,16 +1,18 @@
 package xyz.amymialee.halfdoors.mixin;
 
-import net.minecraft.block.BlockSetType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.DoorBlock;
-import net.minecraft.block.enums.DoorHinge;
-import net.minecraft.block.enums.DoubleBlockHalf;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.DirectionProperty;
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.WorldAccess;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DoorHingeSide;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,26 +24,26 @@ import xyz.amymialee.halfdoors.blocks.HalfDoorBlock;
 
 @Mixin(DoorBlock.class)
 public abstract class DoorBlockMixin {
-    @Shadow @Final public static EnumProperty<DoorHinge> HINGE;
-    @Shadow @Final public static DirectionProperty FACING;
+    @Shadow @Final public static EnumProperty<DoorHingeSide> HINGE;
+    @Shadow @Final public static EnumProperty<Direction> FACING;
     @Shadow @Final public static BooleanProperty OPEN;
-    @Shadow @Final private BlockSetType blockSetType;
+    @Shadow @Final private BlockSetType type;
     @Shadow @Final public static EnumProperty<DoubleBlockHalf> HALF;
 
-    @Inject(method = "getStateForNeighborUpdate", at = @At("HEAD"), cancellable = true)
-    public void halfDoors$openDoors(BlockState state, @NotNull Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos, CallbackInfoReturnable<BlockState> cir) {
-        if (direction == Direction.UP && state.get(HALF) == DoubleBlockHalf.UPPER) {
-            if (neighborState.contains(HINGE) && neighborState.contains(OPEN) && neighborState.contains(FACING) &&  state.get(FACING) == neighborState.get(FACING) && state.get(HINGE) == neighborState.get(HINGE) && state.get(OPEN) != neighborState.get(OPEN)) {
-                if (this.blockSetType.canOpenByHand() || neighborState.getBlock() instanceof HalfDoorBlock block && !block.blockSetType.canOpenByHand()) {
-                    cir.setReturnValue(state.with(OPEN, neighborState.get(OPEN)));
+    @Inject(method = "updateShape", at = @At("HEAD"), cancellable = true)
+    public void halfDoors$openDoors(BlockState state, LevelReader levelReader, ScheduledTickAccess scheduledTickAccess, BlockPos blockPos, Direction direction, BlockPos blockPos2, BlockState neighborState, RandomSource randomSource, CallbackInfoReturnable<BlockState> cir) {
+        if (direction == Direction.UP && state.getValue(HALF) == DoubleBlockHalf.UPPER) {
+            if (neighborState.hasProperty(HINGE) && neighborState.hasProperty(OPEN) && neighborState.hasProperty(FACING) &&  state.getValue(FACING) == neighborState.getValue(FACING) && state.getValue(HINGE) == neighborState.getValue(HINGE) && state.getValue(OPEN) != neighborState.getValue(OPEN)) {
+                if (this.type.canOpenByHand() || neighborState.getBlock() instanceof HalfDoorBlock block && !block.blockSetType.canOpenByHand()) {
+                    cir.setReturnValue(state.setValue(OPEN, neighborState.getValue(OPEN)));
                     return;
                 }
             }
         }
-        if (direction == (state.get(HINGE) == DoorHinge.LEFT ? state.get(FACING).rotateYClockwise() : state.get(FACING).rotateYCounterclockwise())) {
-            if (neighborState.contains(HINGE) && neighborState.contains(OPEN) && neighborState.contains(FACING) && state.get(FACING) == neighborState.get(FACING) && state.get(HINGE) != neighborState.get(HINGE) && state.get(OPEN) != neighborState.get(OPEN)) {
-                if (this.blockSetType.canOpenByHand() || ((neighborState.getBlock() instanceof HalfDoorBlock block && !block.blockSetType.canOpenByHand()) || (neighborState.getBlock() instanceof DoorBlock door && !door.getBlockSetType().canOpenByHand()))) {
-                    cir.setReturnValue(state.with(OPEN, neighborState.get(OPEN)));
+        if (direction == (state.getValue(HINGE) == DoorHingeSide.LEFT ? state.getValue(FACING).getClockWise() : state.getValue(FACING).getCounterClockWise())) {
+            if (neighborState.hasProperty(HINGE) && neighborState.hasProperty(OPEN) && neighborState.hasProperty(FACING) && state.getValue(FACING) == neighborState.getValue(FACING) && state.getValue(HINGE) != neighborState.getValue(HINGE) && state.getValue(OPEN) != neighborState.getValue(OPEN)) {
+                if (this.type.canOpenByHand() || ((neighborState.getBlock() instanceof HalfDoorBlock block && !block.blockSetType.canOpenByHand()) || (neighborState.getBlock() instanceof DoorBlock door && !door.type().canOpenByHand()))) {
+                    cir.setReturnValue(state.setValue(OPEN, neighborState.getValue(OPEN)));
                 }
             }
         }

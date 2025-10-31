@@ -1,0 +1,6 @@
+{
+  "parent": "halfdoors:block/template_halfdoor_left",
+  "textures": {
+    "halfdoor": "halfdoors:block/waxed_oxidized_copper_halfdoor"
+  }
+}

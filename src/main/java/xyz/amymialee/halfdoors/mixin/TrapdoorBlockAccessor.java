@@ -1,12 +1,12 @@
 package xyz.amymialee.halfdoors.mixin;
 
-import net.minecraft.block.BlockSetType;
-import net.minecraft.block.TrapdoorBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(TrapdoorBlock.class)
+@Mixin(TrapDoorBlock.class)
 public interface TrapdoorBlockAccessor {
-    @Accessor("blockSetType")
-    BlockSetType getBlockSetType();
+    @Accessor("type")
+    BlockSetType getType();
 }

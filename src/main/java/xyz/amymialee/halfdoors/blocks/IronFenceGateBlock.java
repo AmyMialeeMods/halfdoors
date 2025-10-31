@@ -1,33 +1,38 @@
 package xyz.amymialee.halfdoors.blocks;
 
-import net.minecraft.block.*;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.redstone.Orientation;
+import net.minecraft.world.phys.BlockHitResult;
 
 public class IronFenceGateBlock extends FenceGateBlock {
-    public IronFenceGateBlock(Settings settings) {
+    public IronFenceGateBlock(Properties settings) {
         super(WoodType.OAK, settings);
     }
 
     @Override
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        return ActionResult.PASS;
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        return InteractionResult.PASS;
     }
 
     @Override
-    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
-        if (!world.isClient) {
-            boolean bl = world.isReceivingRedstonePower(pos);
-            if (state.get(POWERED) != bl) {
-                world.setBlockState(pos, state.with(POWERED, bl).with(OPEN, bl), Block.NOTIFY_LISTENERS);
-                if (state.get(OPEN) != bl) {
-                    world.playSound(null, pos, bl ? BlockSetType.IRON.doorOpen() : BlockSetType.IRON.doorClose(), SoundCategory.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.1F + 0.9F);
-                    world.emitGameEvent(null, bl ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
+    public void neighborChanged(BlockState state, Level world, BlockPos pos, Block sourceBlock, Orientation orientation, boolean notify) {
+        if (!world.isClientSide()) {
+            boolean bl = world.hasNeighborSignal(pos);
+            if (state.getValue(POWERED) != bl) {
+                world.setBlock(pos, state.setValue(POWERED, bl).setValue(OPEN, bl), Block.UPDATE_CLIENTS);
+                if (state.getValue(OPEN) != bl) {
+                    world.playSound(null, pos, bl ? BlockSetType.IRON.doorOpen() : BlockSetType.IRON.doorClose(), SoundSource.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.1F + 0.9F);
+                    world.gameEvent(null, bl ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
                 }
             }
         }

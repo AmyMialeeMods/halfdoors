@@ -1,55 +1,60 @@
 package xyz.amymialee.halfdoors.blocks;
 
-import net.minecraft.block.*;
-import net.minecraft.block.enums.DoorHinge;
-import net.minecraft.entity.ai.pathing.NavigationType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.DirectionProperty;
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.BlockMirror;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.StringIdentifiable;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.event.GameEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DoorHingeSide;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.level.redstone.Orientation;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class HalfDoorBlock extends Block {
-    protected static final VoxelShape NORTH_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 3.0);
-    protected static final VoxelShape SOUTH_SHAPE = Block.createCuboidShape(0.0, 0.0, 13.0, 16.0, 16.0, 16.0);
-    protected static final VoxelShape EAST_SHAPE = Block.createCuboidShape(13.0, 0.0, 0.0, 16.0, 16.0, 16.0);
-    protected static final VoxelShape WEST_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 3.0, 16.0, 16.0);
-    public static final EnumProperty<HalfDoorSection> SECTION = EnumProperty.of("section", HalfDoorSection.class);
-    public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
-    public static final EnumProperty<DoorHinge> HINGE = Properties.DOOR_HINGE;
-    public static final BooleanProperty POWERED = Properties.POWERED;
-    public static final BooleanProperty OPEN = Properties.OPEN;
+    protected static final VoxelShape NORTH_SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 3.0);
+    protected static final VoxelShape SOUTH_SHAPE = Block.box(0.0, 0.0, 13.0, 16.0, 16.0, 16.0);
+    protected static final VoxelShape EAST_SHAPE = Block.box(13.0, 0.0, 0.0, 16.0, 16.0, 16.0);
+    protected static final VoxelShape WEST_SHAPE = Block.box(0.0, 0.0, 0.0, 3.0, 16.0, 16.0);
+    public static final EnumProperty<HalfDoorSection> SECTION = EnumProperty.create("section", HalfDoorSection.class);
+    public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
+    public static final EnumProperty<DoorHingeSide> HINGE = BlockStateProperties.DOOR_HINGE;
+    public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
+    public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
     public final BlockSetType blockSetType;
 
-    public HalfDoorBlock(AbstractBlock.@NotNull Settings settings, @NotNull BlockSetType blockSetType) {
-        super(settings.sounds(blockSetType.soundType()));
+    public HalfDoorBlock(BlockBehaviour.@NotNull Properties settings, @NotNull BlockSetType blockSetType) {
+        super(settings.sound(blockSetType.soundType()));
         this.blockSetType = blockSetType;
-        this.setDefaultState(this.stateManager.getDefaultState().with(SECTION, HalfDoorSection.ISOLATED).with(FACING, Direction.NORTH).with(HINGE, DoorHinge.LEFT).with(POWERED, Boolean.FALSE).with(OPEN, Boolean.FALSE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(SECTION, HalfDoorSection.ISOLATED).setValue(FACING, Direction.NORTH).setValue(HINGE, DoorHingeSide.LEFT).setValue(POWERED, Boolean.FALSE).setValue(OPEN, Boolean.FALSE));
     }
 
     @Override
-    public VoxelShape getOutlineShape(@NotNull BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        Direction direction = state.get(FACING);
-        boolean closed = !state.get(OPEN);
-        boolean hingeRight = state.get(HINGE) == DoorHinge.RIGHT;
+    public VoxelShape getShape(@NotNull BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        Direction direction = state.getValue(FACING);
+        boolean closed = !state.getValue(OPEN);
+        boolean hingeRight = state.getValue(HINGE) == DoorHingeSide.RIGHT;
         return switch (direction) {
             default -> closed ? WEST_SHAPE : (hingeRight ? SOUTH_SHAPE : NORTH_SHAPE);
             case SOUTH -> closed ? NORTH_SHAPE : (hingeRight ? WEST_SHAPE : EAST_SHAPE);
@@ -59,20 +64,20 @@ public class HalfDoorBlock extends Block {
     }
 
     @Override
-    public BlockState getStateForNeighborUpdate(@NotNull BlockState state, @NotNull Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+    public BlockState updateShape(BlockState state, LevelReader world, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos blockPos2, BlockState neighborState, RandomSource randomSource) {
         if (direction.getAxis() == Direction.Axis.Y) {
-            if (neighborState.contains(HINGE) && state.get(FACING) == neighborState.get(FACING) && state.get(HINGE) == neighborState.get(HINGE) && state.get(OPEN) != neighborState.get(OPEN)) {
-                if (this.blockSetType.canOpenByHand() || ((neighborState.getBlock() instanceof HalfDoorBlock block && !block.blockSetType.canOpenByHand()) || (neighborState.getBlock() instanceof DoorBlock door && !door.getBlockSetType().canOpenByHand()))) {
-                    return state.with(OPEN, neighborState.get(OPEN)).with(SECTION, this.getSection(world, pos, state.get(HINGE), state.get(FACING), state.get(OPEN)));
+            if (neighborState.hasProperty(HINGE) && state.getValue(FACING) == neighborState.getValue(FACING) && state.getValue(HINGE) == neighborState.getValue(HINGE) && state.getValue(OPEN) != neighborState.getValue(OPEN)) {
+                if (this.blockSetType.canOpenByHand() || ((neighborState.getBlock() instanceof HalfDoorBlock block && !block.blockSetType.canOpenByHand()) || (neighborState.getBlock() instanceof DoorBlock door && !door.type().canOpenByHand()))) {
+                    return state.setValue(OPEN, neighborState.getValue(OPEN)).setValue(SECTION, this.getSection(world, pos, state.getValue(HINGE), state.getValue(FACING), state.getValue(OPEN)));
                 }
             }
-            HalfDoorSection section = this.getSection(world, pos, state.get(HINGE), state.get(FACING), state.get(OPEN));
-            if (section != state.get(SECTION)) return state.with(SECTION, section);
+            HalfDoorSection section = this.getSection(world, pos, state.getValue(HINGE), state.getValue(FACING), state.getValue(OPEN));
+            if (section != state.getValue(SECTION)) return state.setValue(SECTION, section);
         }
-        if (direction == (state.get(HINGE) == DoorHinge.LEFT ? state.get(FACING).rotateYClockwise() : state.get(FACING).rotateYCounterclockwise())) {
-            if (neighborState.contains(HINGE) && state.get(FACING) == neighborState.get(FACING) && state.get(HINGE) != neighborState.get(HINGE) && state.get(OPEN) != neighborState.get(OPEN)) {
-                if (this.blockSetType.canOpenByHand() || ((neighborState.getBlock() instanceof HalfDoorBlock block && !block.blockSetType.canOpenByHand()) || (neighborState.getBlock() instanceof DoorBlock door && !door.getBlockSetType().canOpenByHand()))) {
-                    return state.with(OPEN, neighborState.get(OPEN)).with(SECTION, this.getSection(world, pos, state.get(HINGE), state.get(FACING), state.get(OPEN)));
+        if (direction == (state.getValue(HINGE) == DoorHingeSide.LEFT ? state.getValue(FACING).getClockWise() : state.getValue(FACING).getCounterClockWise())) {
+            if (neighborState.hasProperty(HINGE) && state.getValue(FACING) == neighborState.getValue(FACING) && state.getValue(HINGE) != neighborState.getValue(HINGE) && state.getValue(OPEN) != neighborState.getValue(OPEN)) {
+                if (this.blockSetType.canOpenByHand() || ((neighborState.getBlock() instanceof HalfDoorBlock block && !block.blockSetType.canOpenByHand()) || (neighborState.getBlock() instanceof DoorBlock door && !door.type().canOpenByHand()))) {
+                    return state.setValue(OPEN, neighborState.getValue(OPEN)).setValue(SECTION, this.getSection(world, pos, state.getValue(HINGE), state.getValue(FACING), state.getValue(OPEN)));
                 }
             }
         }
@@ -80,55 +85,55 @@ public class HalfDoorBlock extends Block {
     }
 
     @Override
-    protected boolean canPathfindThrough(BlockState state, NavigationType type) {
+    protected boolean isPathfindable(BlockState state, PathComputationType type) {
         return switch (type) {
-            case LAND, AIR -> state.get(OPEN);
+            case LAND, AIR -> state.getValue(OPEN);
             default -> false;
         };
     }
 
     @Nullable @Override
-    public BlockState getPlacementState(@NotNull ItemPlacementContext ctx) {
-        World world = ctx.getWorld();
-        BlockPos pos = ctx.getBlockPos();
-        boolean powered = world.isReceivingRedstonePower(pos);
-        DoorHinge hinge = this.getHinge(ctx);
-        Direction facing = ctx.getHorizontalPlayerFacing();
-        return this.getDefaultState().with(SECTION, this.getSection(world, pos, hinge, facing, false)).with(FACING, facing).with(HINGE, hinge).with(POWERED, powered).with(OPEN, powered);
+    public BlockState getStateForPlacement(@NotNull BlockPlaceContext ctx) {
+        Level world = ctx.getLevel();
+        BlockPos pos = ctx.getClickedPos();
+        boolean powered = world.hasNeighborSignal(pos);
+        DoorHingeSide hinge = this.getHinge(ctx);
+        Direction facing = ctx.getHorizontalDirection();
+        return this.defaultBlockState().setValue(SECTION, this.getSection(world, pos, hinge, facing, false)).setValue(FACING, facing).setValue(HINGE, hinge).setValue(POWERED, powered).setValue(OPEN, powered);
     }
 
-    private DoorHinge getHinge(@NotNull ItemPlacementContext ctx) {
-        BlockView world = ctx.getWorld();
-        BlockPos pos = ctx.getBlockPos();
-        Direction direction = ctx.getHorizontalPlayerFacing();
-        Direction counterClock = direction.rotateYCounterclockwise();
-        BlockPos counterPos = pos.offset(counterClock);
+    private DoorHingeSide getHinge(@NotNull BlockPlaceContext ctx) {
+        BlockGetter world = ctx.getLevel();
+        BlockPos pos = ctx.getClickedPos();
+        Direction direction = ctx.getHorizontalDirection();
+        Direction counterClock = direction.getCounterClockWise();
+        BlockPos counterPos = pos.relative(counterClock);
         BlockState counterState = world.getBlockState(counterPos);
-        Direction clock = direction.rotateYClockwise();
-        BlockPos clockPos = pos.offset(clock);
+        Direction clock = direction.getClockWise();
+        BlockPos clockPos = pos.relative(clock);
         BlockState clockState = world.getBlockState(clockPos);
-        int rotationBias = (counterState.isFullCube(world, counterPos) ? -1 : 0) + (clockState.isFullCube(world, clockPos) ? 1 : 0);
-        boolean counterSame = counterState.isOf(this);
-        boolean clockSame = clockState.isOf(this);
+        int rotationBias = (counterState.isCollisionShapeFullBlock(world, counterPos) ? -1 : 0) + (clockState.isCollisionShapeFullBlock(world, clockPos) ? 1 : 0);
+        boolean counterSame = counterState.is(this);
+        boolean clockSame = clockState.is(this);
         if ((!counterSame || clockSame) && rotationBias <= 0) {
             if ((!clockSame || counterSame) && rotationBias == 0) {
-                int offsetX = direction.getOffsetX();
-                int offsetZ = direction.getOffsetZ();
-                Vec3d hitPos = ctx.getHitPos();
+                int offsetX = direction.getStepX();
+                int offsetZ = direction.getStepZ();
+                Vec3 hitPos = ctx.getClickLocation();
                 double sidedX = hitPos.x - (double) pos.getX();
                 double sidedZ = hitPos.z - (double) pos.getZ();
-                return (offsetX >= 0 || !(sidedZ < 0.5)) && (offsetX <= 0 || !(sidedZ > 0.5)) && (offsetZ >= 0 || !(sidedX > 0.5)) && (offsetZ <= 0 || !(sidedX < 0.5)) ? DoorHinge.LEFT : DoorHinge.RIGHT;
+                return (offsetX >= 0 || !(sidedZ < 0.5)) && (offsetX <= 0 || !(sidedZ > 0.5)) && (offsetZ >= 0 || !(sidedX > 0.5)) && (offsetZ <= 0 || !(sidedX < 0.5)) ? DoorHingeSide.LEFT : DoorHingeSide.RIGHT;
             }
-            return DoorHinge.LEFT;
+            return DoorHingeSide.LEFT;
         }
-        return DoorHinge.RIGHT;
+        return DoorHingeSide.RIGHT;
     }
 
-    private HalfDoorSection getSection(@NotNull BlockView world, @NotNull BlockPos pos, DoorHinge hinge, Direction facing, boolean open) {
-        BlockState aboveState = world.getBlockState(pos.up());
-        BlockState belowState = world.getBlockState(pos.down());
-        boolean above = aboveState.getBlock() == this && hinge == aboveState.get(HINGE) && facing == aboveState.get(FACING) && open == aboveState.get(OPEN);
-        boolean below = belowState.getBlock() == this && hinge == belowState.get(HINGE) && facing == belowState.get(FACING) && open == belowState.get(OPEN);
+    private HalfDoorSection getSection(@NotNull BlockGetter world, @NotNull BlockPos pos, DoorHingeSide hinge, Direction facing, boolean open) {
+        BlockState aboveState = world.getBlockState(pos.above());
+        BlockState belowState = world.getBlockState(pos.below());
+        boolean above = aboveState.getBlock() == this && hinge == aboveState.getValue(HINGE) && facing == aboveState.getValue(FACING) && open == aboveState.getValue(OPEN);
+        boolean below = belowState.getBlock() == this && hinge == belowState.getValue(HINGE) && facing == belowState.getValue(FACING) && open == belowState.getValue(OPEN);
         if (above || below) {
             if (above && below) {
                 return HalfDoorSection.CENTER;
@@ -139,56 +144,56 @@ public class HalfDoorBlock extends Block {
     }
 
     @Override
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
         if (!this.blockSetType.canOpenByHand()) {
-            return ActionResult.PASS;
+            return InteractionResult.PASS;
         }
         state = state.cycle(OPEN);
-        world.setBlockState(pos, state, Block.NOTIFY_LISTENERS | Block.REDRAW_ON_MAIN_THREAD);
-        world.playSound(player, pos, state.get(OPEN) ? this.blockSetType.doorOpen() : this.blockSetType.doorClose(), SoundCategory.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.1F + 0.9F);
-        world.emitGameEvent(player, state.get(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
-        return ActionResult.success(world.isClient);
+        world.setBlock(pos, state, Block.UPDATE_CLIENTS | Block.UPDATE_IMMEDIATE);
+        world.playSound(player, pos, state.getValue(OPEN) ? this.blockSetType.doorOpen() : this.blockSetType.doorClose(), SoundSource.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.1F + 0.9F);
+        world.gameEvent(player, state.getValue(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
+        return InteractionResult.SUCCESS_SERVER;
     }
 
     @Override
-    public void neighborUpdate(BlockState state, @NotNull World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
-        boolean powered = world.isReceivingRedstonePower(pos);
-        if (!this.getDefaultState().isOf(sourceBlock) && powered != state.get(POWERED)) {
-            if (powered != state.get(OPEN)) {
-                world.playSound(null, pos, powered ? this.blockSetType.doorOpen() : this.blockSetType.doorClose(), SoundCategory.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.1F + 0.9F);
-                world.emitGameEvent(null, powered ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
+    public void neighborChanged(BlockState state, @NotNull Level world, BlockPos pos, Block sourceBlock, Orientation orientation, boolean notify) {
+        boolean powered = world.hasNeighborSignal(pos);
+        if (!this.defaultBlockState().is(sourceBlock) && powered != state.getValue(POWERED)) {
+            if (powered != state.getValue(OPEN)) {
+                world.playSound(null, pos, powered ? this.blockSetType.doorOpen() : this.blockSetType.doorClose(), SoundSource.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.1F + 0.9F);
+                world.gameEvent(null, powered ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
             }
-            world.setBlockState(pos, state.with(POWERED, powered).with(OPEN, powered), Block.NOTIFY_LISTENERS);
+            world.setBlock(pos, state.setValue(POWERED, powered).setValue(OPEN, powered), Block.UPDATE_CLIENTS);
         }
     }
 
     @Override
-    public BlockState rotate(@NotNull BlockState state, @NotNull BlockRotation rotation) {
-        return state.with(FACING, rotation.rotate(state.get(FACING)));
+    public BlockState rotate(@NotNull BlockState state, @NotNull Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
     @Override
-    public BlockState mirror(BlockState state, BlockMirror mirror) {
-        return mirror == BlockMirror.NONE ? state : state.rotate(mirror.getRotation(state.get(FACING))).cycle(HINGE);
+    public BlockState mirror(BlockState state, Mirror mirror) {
+        return mirror == Mirror.NONE ? state : state.rotate(mirror.getRotation(state.getValue(FACING))).cycle(HINGE);
     }
 
     @Override
-    protected void appendProperties(StateManager.@NotNull Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder) {
         builder.add(SECTION, FACING, OPEN, HINGE, POWERED);
     }
 
-    public enum HalfDoorSection implements StringIdentifiable {
+    public enum HalfDoorSection implements StringRepresentable {
         ISOLATED,
         UPPER,
         CENTER,
         LOWER;
 
         public String toString() {
-            return this.asString();
+            return this.getSerializedName();
         }
 
         @Override
-        public String asString() {
+        public String getSerializedName() {
             return switch (this) {
                 case ISOLATED -> "isolated";
                 case UPPER -> "upper";
